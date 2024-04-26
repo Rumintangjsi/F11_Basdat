@@ -14,6 +14,13 @@
     padding: 20px;
   }
 
+  .podcast-info {
+    display: flex; /* Use flexbox to align items side by side */
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: start; /* Aligns content to the start of the flex container */
+    padding: 20px;
+  }
+
   .podcast-header {
     background-color: #C48B5F; /* Maroon color */
     color: #ffffff; /* White color for text */
@@ -57,35 +64,6 @@
     border-bottom: 1px solid #f0f0f0;
   }
 
-  .episode-list th {
-    text-align: left;
-    background-color: #FECAE1; /* Light pink color */
-    color: #1E1E1E; /* Dark text color */
-  }
-
-  .episode-list td {
-    background-color: #FFFFFF; /* White color for the box */
-    color: #1E1E1E; /* Dark text color */
-  }
-
-  .episode-list tr:hover td {
-    background-color: #fff3f8; /* Light pink color on hover */
-  }
-
-  .episode-title-cell {
-    max-width: 150px; /* Adjust the width as needed */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .episode-title-cell:hover {
-    overflow: visible;
-    white-space: normal;
-    height: auto;
-    background-color: #FECAE1; /* Light pink color */
-  }
-
   .back-button {
     font-weight: 600;
     padding: 10px 20px;
@@ -104,12 +82,70 @@
     background-color: #A5694F;
   }
 
+  .podcast-text {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+  }
+
   .podcast-logo {
     background-image: url('https://i.pinimg.com/736x/2a/00/cc/2a00cc3276a3241324db4bd13744716c.jpg'); /* Path to the marmut logo image */
     height: 200px; /* Adjust as per your image's aspect ratio */
     width: 200px; /* Adjust as per your image's aspect ratio */
     background-size: cover;
+    margin-right: 20px;
   }
+
+  .podcast-author {
+    margin-top: 10px; /* Add space between title and author's name */
+  }
+
+  .episode-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #d3d3d3;
+  }
+
+  .episode-image {
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    background-size: cover;
+    margin-right: 20px;
+  }
+
+  .episode-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .episode-title {
+    font-weight: 600;
+    color: #1E1E1E;
+    margin: 0;
+  }
+
+  .episode-podcast-title {
+    font-size: 14px;
+    color: #666;
+    margin: 2px 0;
+  }
+
+  .episode-synopsis {
+    font-size: 12px;
+    color: #666;
+    margin: 2px 0;
+  }
+
+  .episode-date-duration {
+    font-size: 12px;
+    color: #666;
+    margin: 2px 0;
+  }
+
+  .episode-item:hover {
+    background-color: #ffdceb;
+  }
+
 </style>
 </head>
 <body></body>
@@ -117,18 +153,17 @@
 <div class="podcast-header">
     <p class="podcast-title">Podcast Detail</p>
   </div>
-
+  <div class="podcast-info">
+    <div class="podcast-logo"></div>
+    <div class="podcast-text">
+      <p class="podcast-title">Podcast1</p>
+      <p class="podcast-author">author 1</p>
+    </div>
+  </div>
 <div class="podcast-details">
   <table>
-    <div class="podcast-logo"></div>
-    <tr>
-      <td><strong>Judul:</strong> Podcast1</td>
-    </tr>
     <tr>
       <td><strong>Genre:</strong><br> - Genre1<br> - Genre2</td>
-    </tr>
-    <tr>
-      <td><strong>Podcaster:</strong> Artist1</td>
     </tr>
     <tr>
       <td><strong>Total Durasi:</strong> 8 jam 20 menit</td>
@@ -147,32 +182,25 @@
 <div class="header">Daftar Episode</div>
 
 <div class="episode-list">
-  <table>
-    <thead>
-      <tr>
-        <th>Judul Episode</th>
-        <th>Deskripsi</th>
-        <th>Durasi</th>
-        <th>Tanggal</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>SubJudul1</td>
-        <td>Lorem Ipsum ....</td>
-        <td>59 menit</td>
-        <td>18/03/2024</td>
-      </tr>
-      <tr>
-        <td>SubJudul2</td>
-        <td>Lorem Ipsum ....</td>
-        <td>1 jam 2 menit</td>
-        <td>25/03/2024</td>
-      </tr>
-      <!-- More rows can be added here -->
-    </tbody>
-  </table>
+    <div class="episode-item">
+        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');"></div>
+        <div class="episode-content">
+          <p class="episode-title">Episode Title Here</p>
+          <p class="episode-podcast-title">Podcast Title Here</p>
+          <p class="episode-synopsis">Brief synopsis here...</p>
+          <p class="episode-date-duration">Date • Duration</p>
+        </div>
+        </div>
+    <div class="episode-item">
+        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/20/ca/5b/20ca5bfc8b6cff6d632b56d4fb71a0cd.jpg');"></div>
+        <div class="episode-content">
+        <p class="episode-title">Episode Title Here</p>
+        <p class="episode-podcast-title">Podcast Title Here</p>
+        <p class="episode-synopsis">Brief synopsis here...</p>
+        <p class="episode-date-duration">Date • Duration</p>
+        </div>
+        </div>
+    </div>
 </div>
-
 </body>
 </html>
