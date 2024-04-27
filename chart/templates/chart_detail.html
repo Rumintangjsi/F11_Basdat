@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chart Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f8f8; /* Light background */
+    color: #333; /* Dark text for better readability */
+    margin: 0;
+    padding: 20px;
+  }
+
+  .chart-detail-header {
+    background-color: #C48B5F; /* Maroon color for header background */
+    color: #ffffff; /* White text color */
+    padding: 1em;
+    border-radius: 8px;
+    margin-bottom: 2em;
+    text-align: center;
+  }
+
+  .chart-title {
+    font-size: 2em;
+    margin: 0;
+  }
+
+  .chart-type {
+    margin-top: 0.5em;
+  }
+
+  .back-button {
+    padding: 10px 20px;
+    background-color: #A5694F; /* Slightly darker maroon for the button */
+    color: #FFFFFF; /* White text */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1em;
+  }
+
+  .back-button:hover {
+    background-color: #8A4B3F; /* Even darker maroon for hover state */
+  }
+
+  .chart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+    background-color: #fff; /* White background for table */
+  }
+
+  .chart-table th, .chart-table td {
+    padding: 10px;
+    border-bottom: 1px solid #d3d3d3; /* Lighter border for table rows */
+    color: #333; /* Dark text for readability */
+  }
+
+  .chart-table th {
+    background-color: #C48B5F; /* Maroon background for headers */
+  }
+
+  .chart-table tbody tr:hover {
+    background-color: #ececec; /* Light grey for hover state */
+  }
+
+  .number-column {
+    width: 50px; /* Fixed width for the number column */
+  }
+
+  .cover-image {
+    width: 40px; /* Adjust the size as needed */
+    height: 40px;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .song-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .song-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .action-button {
+    padding: 5px 15px;
+    background-color: #A5694F;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .action-button:hover {
+    background-color: #c0915f;
+  }
+</style>
+</head>
+<body>
+
+<div class="chart-detail-header">
+  <p class="chart-title">Daily Mix 1</p>
+  <p class="chart-type">Tip: Daily Top 20</p>
+  <button onclick="history.back()" class="back-button">Kembali</button>
+</div>
+
+<table class="chart-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Judul Lagu</th>
+      <th>Oleh</th>
+      <th>Tanggal Rilis</th>
+      <th>Total Plays</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Example row with dummy data -->
+    <tr>
+      <td class="number-column">
+        <div class="song-row">
+          <img src="https://i.pinimg.com/474x/a6/a5/bb/a6a5bba86743c42b1b587384a57e0487.jpg" alt="Album Cover" class="cover-image">
+        </div>
+      </td>
+      <td>Song Title 1</td>
+      <td>Artist Name 1</td>
+      <td>01/01/2024</td>
+      <td>15,000</td>
+      <td>
+        <button class="action-button">Lihat</button>
+      </td>
+    </tr>
+    <!-- Repeat rows for more dummy data -->
+  </tbody>
+</table>
+
+</body>
+</html>
+
+ <!-- This part should be dynamically generated using Django template tags
+    {% for song in chart_songs %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ song.title }}</td>
+      <td>{{ song.artist }}</td>
+      <td>{{ song.release_date }}</td>
+      <td>{{ song.total_plays }}</td>
+      <td>
+        <a href="{% url 'song_detail' song.id %}" class="action-button">Lihat</a>
+      </td>
+    </tr>
+    {% endfor %} -->

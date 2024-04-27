@@ -8,22 +8,10 @@
 <style>
   body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f8f8f8;
-    color: #333;
+    background-color: #f8f8f8; /* Light background */
+    color: #333; /* Dark text for better readability */
     margin: 0;
     padding: 20px;
-  }
-
-  .chart-container {
-    background-color: #FFFFFF; /* White color for the box */
-    border: 1px solid #d3d3d3;
-    border-radius: 4px;
-    padding: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 
   .chart-header {
@@ -32,6 +20,8 @@
     text-align: center;
     padding: 20px;
     position: relative;
+    border-radius: 8px; /* Added rounded corners */
+    margin-bottom: 32px; /* Space between header and grid */
   }
 
   .chart-title {
@@ -40,49 +30,45 @@
     margin: 0;
   }
 
-  .chart-list table {
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust minmax for card size */
+    gap: 20px; /* Space between cards */
+  }
+
+  .card {
+    background-color: #FFFFFF; /* White card background */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Softer shadow */
+    position: relative;
+    color: #333; /* Dark text color */
+  }
+
+  .card-image {
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    margin: 0 auto;
-    border-radius: 10px; /* This gives a rounder edge */
-    overflow: hidden; 
+    height: 200px;
+    object-fit: cover;
   }
 
-  .chart-list th,
-  .chart-list td {
-    padding: 8px;
-    border-bottom: 1px solid #f0f0f0;
-    text-align: left;
-    color: #1E1E1E;
-    border-radius: 10px;
+  .card-content {
+    padding: 16px;
   }
 
-  .chart-list th {
-    background-color: #C48B5F; /* Maroon color */
-    color: #ffffff; /* White color for text */
+  .card-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #333; /* Dark text color */
+    margin: 0;
   }
 
-  .chart-list td {
-    color: #1E1E1E; /* Dark text color */
+  .card-subtitle {
+    font-size: 0.9rem;
+    color: #666; /* Light grey text color */
   }
 
   .action-button {
-    padding: 10px 20px;
-    background-color: #C48B5F; /* Maroon background */
-    color: #FFFFFF; /* White text */
-    text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .action-button:hover {
-    background-color: #A5694F;
-  }
-
-  .back-button {
-    font-weight: 600;
+    display: inline-block; /* Allows padding and width to be applied like a button */
     padding: 10px 20px;
     background-color: #C48B5F; /* Maroon background */
     color: #FFFFFF; /* White text */
@@ -90,43 +76,54 @@
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    display: block;
-    width: 100px;
-    margin: 20px auto; /* Centers the button */
+    margin-top: 8px; /* Space between subtitle and button */
   }
 
-  .back-button:hover {
-    background-color: #A5694F;
+  .action-button:hover {
+    background-color: #A5694F; /* Darker maroon on hover */
   }
 </style>
 </head>
 <body>
 
-  <div class="chart-header">
-    <p class="chart-title">Chart List</p>
+<div class="chart-header">
+  <p class="chart-title">Chart List</p>
+</div>
+
+<div class="chart-grid">
+  <!-- Dynamic content would be loaded here using a loop in Django template -->
+  <!-- Example static content: -->
+  <div class="card">
+    <img class="card-image" src="https://i.pinimg.com/564x/42/7a/35/427a35a48404f15420cc23d15ee3d556.jpg" alt="Daily Mix 1" />
+    <div class="card-content">
+      <p class="card-title">Daily Mix 1</p>
+      <p class="card-subtitle">Ardhito Pramono, HiVi!, Sal Priadi and more</p>
+      <!-- The URL needs to be dynamically generated using Django URL templating -->
+      <a href="{% url 'chart:chart_detail' %}" class="action-button">Lihat Daftar Lagu</a>
+    </div>
   </div>
-<div class="chart-container">
-  <table class="chart-list">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Daily Top 20</td>
-        <td><button class="action-button">Lihat Daftar Lagu</button></td>
-      </tr>
-      <tr>
-        <td>Weekly Top 20</td>
-        <td><button class="action-button">Lihat Daftar Lagu</button></td>
-      </tr>
-      <!-- More rows as needed -->
-    </tbody>
-  </table>
-  <button class="back-button" onclick="history.back()">Kembali</button>
+  <!-- End Example static content -->
+  <div class="card">
+    <img class="card-image" src="https://i.pinimg.com/564x/b7/af/b9/b7afb9bd3d0120b56122f364c93f03f2.jpg" alt="Daily Mix 2" />
+    <div class="card-content">
+      <p class="card-title">Daily Mix 2</p>
+      <p class="card-subtitle">New Jeans, Blackpink, Twice and more</p>
+      <!-- The URL needs to be dynamically generated using Django URL templating -->
+      <a href="{% url 'chart:chart_detail' %}" class="action-button">Lihat Daftar Lagu</a>
+    </div>
+  </div>
 </div>
 
 </body>
 </html>
+
+    <!-- {% for chart_item in chart_items %}
+    <div class="card">
+      <img class="card-image" src="{{ chart_item.image_url }}" alt="{{ chart_item.title }}" />
+      <div class="card-content">
+        <p class="card-title">{{ chart_item.title }}</p>
+        <p class="card-subtitle">{{ chart_item.subtitle }}</p>
+        <a href="{% url 'chart_detail' chart_item.id %}" class="action-button">Lihat Daftar Lagu</a>
+      </div>
+    </div>
+    {% endfor %} -->
