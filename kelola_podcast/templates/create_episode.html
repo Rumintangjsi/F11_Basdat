@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Create Podcast</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f8f8;
+  }
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 50px;
+  }
+  .header {
+    background-color: #C48B5F;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    border-radius: 8px;
+    margin-bottom: 32px;
+    font-weight: 600;
+    font-size: 36px;
+    margin: 0;
+  }
+  .form-group {
+    margin: 20px 0;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    background-color: #C48B5F; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #916841;
+  }
+
+  .podcast_name{
+    font-weight: 400;
+    font-size: 25px;
+  }
+</style>
+</head>
+<body>
+    <div class="header">
+        Create Episode
+      </div>
+<div class="container">
+  <form action="/submit-podcast" method="post" onsubmit="return validateForm()">
+    
+    <div class="podcast_name">
+        <label for="type">Podcast: Podcast1</label>
+      </div>
+    <div class="form-group">
+      <label for="title">Judul:</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Deskripsi</label>
+        <input type="text" id="description" name="description" required>
+      </div>
+    <div class="form-group">
+      <label for="duration">Durasi:</label>
+      <input type="text" id="duration" name="duration" required>
+    </div>
+    <button type="submit">SUBMIT</button>
+  </form>
+</div>
+
+<!-- <script>
+    function validateForm() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+      if (!checkedOne) {
+        alert('Please select at least one genre.');
+        return false;
+      }
+      return true;
+    }
+  </script> -->
+
+</body>
+</html>

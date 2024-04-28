@@ -82,6 +82,27 @@
   .action-button:hover {
     background-color: #A5694F; /* Darker maroon on hover */
   }
+
+  .back-button {
+  position: fixed; /* Fixed position */
+  left: 50%; /* Center the button horizontally */
+  bottom: 20px; /* 20px from the bottom */
+  transform: translateX(-50%); /* Align center correctly */
+  padding: 10px 20px;
+  background-color: #C48B5F; /* Maroon background */
+  color: #ffffff; /* White text color */
+  border: none;
+  border-radius: 20px; /* Rounded corners */
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif; /* Poppins font */
+  font-size: 1rem; /* Font size */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Box shadow for a subtle lift effect */
+}
+
+.back-button:hover {
+  background-color: #A5694F; /* Darker maroon on hover */
+}
 </style>
 </head>
 <body>
@@ -113,7 +134,7 @@
     </div>
   </div>
 </div>
-
+<button id="back-button" class="back-button" onclick="history.back()">Kembali</button>
 </body>
 </html>
 

@@ -23,6 +23,8 @@ urlpatterns = [
     path('main/', include('main.urls')),
     path('play_podcast/', include('play_podcast.urls')),
     path('chart/', include('chart.urls')),
-    path('chart/chart_detail/', include('chart.urls')),
-    path('kelola_podcast/', include('kelola_podcast.urls')),
+    path('chart_detail/', include('chart.urls')),
+    path('', include('kelola_podcast.urls')),
+    path('podcast_list/', include('kelola_podcast.urls')),
+    path('', include('kelola_podcast.urls')),
 ]
