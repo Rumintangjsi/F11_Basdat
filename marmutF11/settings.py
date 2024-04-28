@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'main',
     'play_podcast',
     'chart',
+    'kelola_podcast',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
