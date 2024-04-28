@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podcast Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .podcast-info {
+    display: flex; /* Use flexbox to align items side by side */
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: start; /* Aligns content to the start of the flex container */
+    padding: 20px;
+  }
+
+  .podcast-header {
+    background-color: #C48B5F; /* Maroon color */
+    color: #ffffff; /* White color for text */
+    text-align: center;
+    padding: 20px;
+    position: relative;
+  }
+
+  .podcast-title {
+    font-weight: 600;
+    font-size: 36px;
+    margin: 0;
+  }
+
+  .header {
+    font-weight: 600;
+    font-size: 24px;
+    color: #1E1E1E;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .podcast-details, .episode-list {
+    background-color: #FFFFFF; /* White color for the box */
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .podcast-details table,
+  .episode-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .podcast-details td,
+  .episode-list th,
+  .episode-list td {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .back-button {
+    font-weight: 600;
+    padding: 10px 20px;
+    background-color: #C48B5F; /* Maroon background */
+    color: #FFFFFF; /* White text */
+    text-decoration: none;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    display: block;
+    width: 100px;
+    margin: 20px auto; /* Centers the button */
+  }
+
+  .back-button:hover {
+    background-color: #A5694F;
+  }
+
+  .podcast-text {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+  }
+
+  .podcast-logo {
+    background-image: url('https://i.pinimg.com/736x/2a/00/cc/2a00cc3276a3241324db4bd13744716c.jpg'); /* Path to the marmut logo image */
+    height: 200px; /* Adjust as per your image's aspect ratio */
+    width: 200px; /* Adjust as per your image's aspect ratio */
+    background-size: cover;
+    margin-right: 20px;
+  }
+
+  .podcast-author {
+    margin-top: 10px; /* Add space between title and author's name */
+  }
+
+  .episode-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #d3d3d3;
+  }
+
+  .episode-image {
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    background-size: cover;
+    margin-right: 20px;
+  }
+
+  .episode-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .episode-title {
+    font-weight: 600;
+    color: #1E1E1E;
+    margin: 0;
+  }
+
+  .episode-podcast-title {
+    font-size: 14px;
+    color: #666;
+    margin: 2px 0;
+  }
+
+  .episode-synopsis {
+    font-size: 12px;
+    color: #666;
+    margin: 2px 0;
+  }
+
+  .episode-date-duration {
+    font-size: 12px;
+    color: #666;
+    margin: 2px 0;
+  }
+
+  .episode-item:hover {
+    background-color: #ffdceb;
+  }
+
+  .gg-trash {
+    color: #A5694F;
+    margin-left: 27cm;
+  }
+  
+</style>
+</head>
+<body></body>
+
+<div class="podcast-header">
+    <p class="podcast-title">Podcast Detail</p>
+  </div>
+  <div class="podcast-info">
+    <div class="podcast-logo"></div>
+    <div class="podcast-text">
+      <p class="podcast-title">Podcast1</p>
+      <p class="podcast-author">author 1</p>
+    </div>
+  </div>
+<div class="podcast-details">
+  <table>
+    <tr>
+      <td><strong>Genre:</strong><br> - Genre1<br> - Genre2</td>
+    </tr>
+    <tr>
+      <td><strong>Total Durasi:</strong> 8 jam 20 menit</td>
+    </tr>
+    <tr>
+      <td><strong>Tanggal Rilis:</strong> 18/03/24</td>
+    </tr>
+    <tr>
+      <td><strong>Tahun:</strong> 2024</td>
+    </tr>
+  </table>
+</div>
+
+<button class="back-button" onclick="history.back()">Kembali</button>
+
+<div class="header">Daftar Episode</div>
+
+<div class="episode-list">
+    <div class="episode-item">
+        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');"></div>
+        <div class="episode-content">
+          <p class="episode-title">Episode Title Here</p>
+          <p class="episode-podcast-title">Podcast Title Here</p>
+          <p class="episode-synopsis">Brief synopsis here...</p>
+          <p class="episode-date-duration">Date • Duration</p>
+        </div>
+        <div class="podcast-actions">
+          <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+        </div>
+        </div>
+    <div class="episode-item">
+        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/20/ca/5b/20ca5bfc8b6cff6d632b56d4fb71a0cd.jpg');"></div>
+        <div class="episode-content">
+        <p class="episode-title">Episode Title Here</p>
+        <p class="episode-podcast-title">Podcast Title Here</p>
+        <p class="episode-synopsis">Brief synopsis here...</p>
+        <p class="episode-date-duration">Date • Duration</p>
+        </div>
+        <div class="podcast-actions">
+          <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+        </div>
+      </div>
+    </div>
+</div>
+</body>
+</html>

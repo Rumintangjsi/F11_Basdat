@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chart List</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3e9dc;
+    color: #333; /* Dark text for better readability */
+    margin: 0;
+    padding: 20px;
+  }
+
+  .chart-header {
+    background-color: #C48B5F; /* Maroon color */
+    color: #ffffff; /* White color for text */
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    border-radius: 8px; /* Added rounded corners */
+    margin-bottom: 32px; /* Space between header and grid */
+  }
+
+  .chart-title {
+    font-weight: 600;
+    font-size: 36px;
+    margin: 0;
+  }
+
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust minmax for card size */
+    gap: 20px; /* Space between cards */
+  }
+
+  .card {
+    background-color: #FFFFFF; /* White card background */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Softer shadow */
+    position: relative;
+    color: #333; /* Dark text color */
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .card-content {
+    padding: 16px;
+  }
+
+  .card-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #333; /* Dark text color */
+    margin: 0;
+  }
+
+  .card-subtitle {
+    font-size: 0.9rem;
+    color: #666; /* Light grey text color */
+  }
+
+  .action-button {
+    display: inline-block; /* Allows padding and width to be applied like a button */
+    padding: 10px 20px;
+    background-color: #C48B5F; /* Maroon background */
+    color: #FFFFFF; /* White text */
+    text-decoration: none;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 8px; /* Space between subtitle and button */
+  }
+
+  .action-button:hover {
+    background-color: #A5694F; /* Darker maroon on hover */
+  }
+
+  .back-button {
+  position: fixed; /* Fixed position */
+  left: 50%; /* Center the button horizontally */
+  bottom: 20px; /* 20px from the bottom */
+  transform: translateX(-50%); /* Align center correctly */
+  padding: 10px 20px;
+  background-color: #C48B5F; /* Maroon background */
+  color: #ffffff; /* White text color */
+  border: none;
+  border-radius: 20px; /* Rounded corners */
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif; /* Poppins font */
+  font-size: 1rem; /* Font size */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Box shadow for a subtle lift effect */
+}
+
+.back-button:hover {
+  background-color: #A5694F; /* Darker maroon on hover */
+}
+</style>
+</head>
+<body>
+
+<div class="chart-header">
+  <p class="chart-title">Chart List</p>
+</div>
+
+<div class="chart-grid">
+  <!-- Dynamic content would be loaded here using a loop in Django template -->
+  <!-- Example static content: -->
+  <div class="card">
+    <img class="card-image" src="https://i.pinimg.com/564x/42/7a/35/427a35a48404f15420cc23d15ee3d556.jpg" alt="Daily Mix 1" />
+    <div class="card-content">
+      <p class="card-title">Daily Mix 1</p>
+      <p class="card-subtitle">Ardhito Pramono, HiVi!, Sal Priadi and more</p>
+      <!-- The URL needs to be dynamically generated using Django URL templating -->
+      <a href="{% url 'chart:chart_detail' %}" class="action-button">Lihat Daftar Lagu</a>
+    </div>
+  </div>
+  <!-- End Example static content -->
+  <div class="card">
+    <img class="card-image" src="https://i.pinimg.com/564x/b7/af/b9/b7afb9bd3d0120b56122f364c93f03f2.jpg" alt="Daily Mix 2" />
+    <div class="card-content">
+      <p class="card-title">Daily Mix 2</p>
+      <p class="card-subtitle">New Jeans, Blackpink, Twice and more</p>
+      <!-- The URL needs to be dynamically generated using Django URL templating -->
+      <a href="{% url 'chart:chart_detail' %}" class="action-button">Lihat Daftar Lagu</a>
+    </div>
+  </div>
+</div>
+<button id="back-button" class="back-button" onclick="history.back()">Kembali</button>
+</body>
+</html>
+
+    <!-- {% for chart_item in chart_items %}
+    <div class="card">
+      <img class="card-image" src="{{ chart_item.image_url }}" alt="{{ chart_item.title }}" />
+      <div class="card-content">
+        <p class="card-title">{{ chart_item.title }}</p>
+        <p class="card-subtitle">{{ chart_item.subtitle }}</p>
+        <a href="{% url 'chart_detail' chart_item.id %}" class="action-button">Lihat Daftar Lagu</a>
+      </div>
+    </div>
+    {% endfor %} -->
