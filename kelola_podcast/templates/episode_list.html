@@ -5,19 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Podcast Details</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
 <style>
   body {
     font-family: 'Poppins', sans-serif;
     background-color: #f8f8f8;
     color: #333;
     margin: 0;
-    padding: 20px;
-  }
-
-  .podcast-info {
-    display: flex; /* Use flexbox to align items side by side */
-    align-items: center; /* Aligns items vertically in the center */
-    justify-content: start; /* Aligns content to the start of the flex container */
     padding: 20px;
   }
 
@@ -145,6 +139,14 @@
   .episode-item:hover {
     background-color: #ffdceb;
   }
+
+  .gg-trash {
+    cursor: pointer;
+      display: inline-flex; /* Use inline-flex to keep the link inline */
+      align-items: right;
+      text-decoration: none; /* Remove underline from links */
+      color: #A5694F; /* Color of the icon */
+  }
   
 </style>
 </head>
@@ -160,22 +162,6 @@
       <p class="podcast-author">author 1</p>
     </div>
   </div>
-<div class="podcast-details">
-  <table>
-    <tr>
-      <td><strong>Genre:</strong><br> - Genre1<br> - Genre2</td>
-    </tr>
-    <tr>
-      <td><strong>Total Durasi:</strong> 8 jam 20 menit</td>
-    </tr>
-    <tr>
-      <td><strong>Tanggal Rilis:</strong> 18/03/24</td>
-    </tr>
-    <tr>
-      <td><strong>Tahun:</strong> 2024</td>
-    </tr>
-  </table>
-</div>
 
 <button class="back-button" onclick="history.back()">Kembali</button>
 
@@ -201,6 +187,9 @@
         <p class="episode-podcast-title">Podcast Title Here</p>
         <p class="episode-synopsis">Brief synopsis here...</p>
         <p class="episode-date-duration">Date • Duration</p>
+        </div>
+        <div class="podcast-actions">
+          <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
         </div>
       </div>
     </div>

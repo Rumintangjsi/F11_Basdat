@@ -15,3 +15,8 @@ def create_episode(request):
     context = {
     }
     return render(request, "create_episode.html", context)
+
+def episode_list(request):
+    context = {
+    }
+    return render(request, "episode_list.html", context)
