@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Pembayaran Paket - Marmut</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #C48B5F;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #7D4D28;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #C48B5F;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #C48B5F;
+            color: white;
+        }
+
+        isi {
+            padding:10px;
+        }
+
+        label {
+            padding:20px;
+        }
+
+        #metode_pembayaran {
+            margin-top:0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PEMBAYARAN PAKET</h1>
+        <div class="isi">
+            <table>
+                <tr>
+                    <th rowspan="1">Informasi Paket yang Ingin Dibeli:</th>
+                </tr>
+            </table>
+            <table>
+                
+                <tr>
+                    <td>Jenis</td>
+                    <td>Harga</td>
+                </tr>
+                <tr>
+                    <td>1 Bulan</td>
+                    <td>Rp54.900</td>
+                </tr>
+            </table>
+            <form method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="metode_pembayaran">Metode Pembayaran:</label>
+                    <select name="metode_pembayaran" id="metode_pembayaran">
+                        <option value="transfer_bank">Transfer Bank</option>
+                        <option value="kartu_kredit">Kartu Kredit</option>
+                        <option value="e_wallet">E-Wallet</option>
+                    </select>
+                </div>
+                <button type="submit"> SUBMIT</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
