@@ -1,0 +1,331 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Albums and Songs</title>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    }
+
+    button, input[type="submit"], input[type="reset"] {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+}
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+
+  .album-container {
+    display: flex;
+    margin-top: 128px;
+    width: 768px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    padding: 32px;
+  }
+
+  .album-wrapper {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 32px;
+    align-self: stretch;
+    flex-wrap: wrap;
+  }
+
+  .title-container {
+    display: flex;
+    width: 766px;
+    justify-content: space-between;
+    align-items: center;    
+  }
+
+  .title {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .album-card {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    width: 234px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .album-card:hover .buttons-container {
+    opacity: 1;
+    transition: opacity .2s ease;
+  }
+
+  .buttons-container {
+    display: flex;
+    opacity: 0;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 20px;
+    backdrop-filter: blur(2px);
+    transition: opacity .2s ease;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    gap: 8px;
+  }
+
+  .action-button {
+    transition: transform .3s ease;
+    cursor: pointer;
+  }
+
+  .action-button:hover {
+    transform: scale(1.05);
+    transition: transform .3s ease;
+  }
+
+  .album-cover {
+    display: flex;
+    width: 235px;
+    height: 235px;
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .album-title {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 233px;
+  }
+
+  .album-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .album-label {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .songs-duration {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;    
+  }
+  
+  .modal-container {
+    display: none;
+    position: fixed;
+    width: 1440px;
+    height: 1024px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    z-index: 1;
+  }
+
+  .modal-overlay {
+    display: flex;
+    position: fixed;
+    width: 1440px;
+    height: 1024px;
+    z-index: -1;
+  }
+
+  .modal-card {
+    display: inline-flex;
+    padding: 56px;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    border-radius: 40px;
+    background: #FFF;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+  }
+
+  .modal-title {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .input-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .input-label {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  input {
+    border-radius: 20px;
+    border: 1px solid #C48B5F;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05) inset;
+    width: 439px;
+    height: 54px;
+    padding-left: 24px;
+  }
+
+  button {
+    display: flex;
+    padding: 14px 64px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 44.883px;
+    background: #C48B5F;    
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+</style>
+</head>
+
+<body>
+    <div class="modal-container" id="add-album-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-card">
+            <h1 class="modal-tilte">New Album</h1>
+            <div class="input-div">
+                <p class="input-label">Title</p>
+                <input></input>
+            </div>
+            <div class="input-div">
+                <p class="input-label">Label</p>
+                <input></input>
+            </div>
+            <button>Create Album</button>
+        </div> 
+    </div>
+
+    <div class="modal-container" id="edit-album-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-card">
+            <h1 class="modal-tilte">Edit Album</h1>
+            <div class="input-div">
+                <p class="input-label">Title</p>
+                <input></input>
+            </div>
+            <div class="input-div">
+                <p class="input-label">Label</p>
+                <input></input>
+            </div>
+            <button>Update Album</button>
+        </div> 
+    </div>
+
+
+    <div class="album-container">
+        <div class="title-container">
+            <h1 class="title">Albums</h1>
+            <img class="action-button" id="add-album" src="{% static 'svg/add-icon.svg' %}">
+        </div>
+
+        <div class="album-wrapper">
+            {% for album in albums %}
+            <div class="album-card">
+                <div class="album-cover">
+                    <img style="position: absolute;" src="{% static 'svg/cover-dummy.svg' %}">
+                    <div class="buttons-container">
+                        <div class="buttons-wrapper">
+                            <img class="action-button" src="{% static 'svg/delete-icon.svg' %}">
+                            <img class="action-button edit-album" src="{% static 'svg/edit-icon.svg' %}">
+                        </div>
+                    </div>
+                </div>
+                <div class="album-info">
+                    <p class="album-title">{{album.title}}</p>
+                    <div class="album-details">
+                        <p class="album-label">{{album.label}}</p>
+                        <p class="songs-duration">{{album.song_count}} Songs, {{album.duration}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        document.getElementById("add-album").addEventListener("click", () => {
+            document.getElementById("add-album-modal").style.display = "flex";
+        });
+
+        document.querySelectorAll(".edit-album").forEach(button => {
+            button.addEventListener("click", () => {
+                document.getElementById("edit-album-modal").style.display = "flex";
+            });
+        });
+
+        document.querySelectorAll(".modal-overlay").forEach(overlay => {
+        overlay.addEventListener("click", () => {
+            document.querySelectorAll(".modal-container").forEach(modal => {
+                modal.style.display = "none";
+            });
+        });
+    });
+    </script>    
+</body> 
+
+</html>
