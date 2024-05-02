@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #ffffff;
+            background-color: #f8f8f8;
             color: #000000;
             margin: 0;
             padding: 0;
@@ -82,7 +82,6 @@
             <form action="search_results.html" method="get">
                 <label for="query">Query:</label>
                 <input type="text" id="query" name="query" class="search-input" value="love" readonly>
-                <!-- Nilai field pencarian diatur secara default menjadi "love" -->
                 <button type="submit" class="search-button">CARI</button>
             </form>
         </div>
@@ -97,7 +96,8 @@
                 <td>SONG</td>
                 <td>Love is in the air</td>
                 <td>Artist1</td>
-                <td><a href="song_details.html" class="action-button">Lihat</a></td>
+                <td><button class="action-button" onclick="location.href='/search_bar/song_details'">Lihat</button></td>
+                
             </tr>
             <tr>
                 <td>PODCAST</td>
