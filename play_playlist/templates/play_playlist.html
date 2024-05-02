@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>playlist Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .playlist-info {
+            display: flex;
+            /* Use flexbox to align items side by side */
+            align-items: center;
+            /* Aligns items vertically in the center */
+            justify-content: start;
+            /* Aligns content to the start of the flex container */
+            padding: 20px;
+        }
+
+        .playlist-header {
+            background-color: #C48B5F;
+            /* Maroon color */
+            color: #ffffff;
+            /* White color for text */
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .playlist-title {
+            font-weight: 600;
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header {
+            font-weight: 600;
+            font-size: 24px;
+            color: #1E1E1E;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .playlist-details,
+        .song-list {
+            background-color: #FFFFFF;
+            /* White color for the box */
+            border: 1px solid #d3d3d3;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .playlist-details table,
+        .song-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .playlist-details td,
+        .song-list th,
+        .song-list td {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .back-button {
+            font-weight: 600;
+            padding: 10px 20px;
+            background-color: #C48B5F;
+            /* Maroon background */
+            color: #FFFFFF;
+            /* White text */
+            text-decoration: none;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: block;
+            width: 100px;
+            margin: 20px auto;
+            /* Centers the button */
+        }
+
+        .back-button:hover {
+            background-color: #A5694F;
+        }
+
+        .playlist-text {
+            display: flex;
+            flex-direction: column;
+            /* Stack items vertically */
+        }
+
+        .playlist-logo {
+            background-image: url('https://i.pinimg.com/736x/2a/00/cc/2a00cc3276a3241324db4bd13744716c.jpg');
+            /* Path to the marmut logo image */
+            height: 200px;
+            /* Adjust as per your image's aspect ratio */
+            width: 200px;
+            /* Adjust as per your image's aspect ratio */
+            background-size: cover;
+            margin-right: 20px;
+        }
+
+        .playlist-author {
+            margin-top: 10px;
+            /* Add space between title and author's name */
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #d3d3d3;
+        }
+
+        .song-image {
+            width: 100px;
+            /* Adjust as needed */
+            height: 100px;
+            /* Adjust as needed */
+            background-size: cover;
+            margin-right: 20px;
+        }
+
+        .song-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .song-title {
+            font-weight: 600;
+            color: #1E1E1E;
+            margin: 0;
+        }
+
+        .song-playlist-title {
+            font-size: 14px;
+            color: #666;
+            margin: 2px 0;
+        }
+
+        .song-synopsis {
+            font-size: 12px;
+            color: #666;
+            margin: 2px 0;
+        }
+
+        .song-date-duration {
+            font-size: 12px;
+            color: #666;
+            margin: 2px 0;
+        }
+
+        .song-item:hover {
+            background-color: #ffdceb;
+        }
+
+        .gg-trash {
+            color: #A5694F;
+            margin-left: 27cm;
+        }
+    </style>
+</head>
+
+<body></body>
+
+<div class="playlist-header">
+    <p class="playlist-title">playlist Detail</p>
+</div>
+<div class="playlist-info">
+    <div class="playlist-logo"></div>
+    <div class="playlist-text">
+        <p class="playlist-title">playlist1</p>
+        <p class="playlist-author">author 1</p>
+    </div>
+</div>
+<div class="playlist-details">
+    <table>
+        <tr>
+            <td><strong>Judul:</strong> playlist1</td>
+        </tr>
+        <tr>
+            <td><strong>Pembuat:</strong> Pembuat1</td>
+        </tr>
+        <tr>
+            <td><strong>Song(s):</strong><br>- Song1<br>- Song2</td>
+        </tr>
+        <tr>
+            <td><strong>Total Durasi:</strong> 8 jam 20 menit</td>
+        </tr>
+        <tr>
+            <td><strong>Tanggal Dibuat:</strong> 18/03/24</td>
+        </tr>
+        <tr>
+            <td><strong>Deskripsi:</strong> Lorem ipsum dolor sit amet ....</td>
+        </tr>
+    </table>
+</div>
+
+<button class="back-button" onclick="history.back()">Shuffle Play</button>
+<button class="back-button" onclick="history.back()">يرخع</button>
+
+<div class="header">Daftar song</div>
+
+<div class="song-list">
+    <div class="song-item">
+        <div class="song-image"
+            style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');">
+        </div>
+        <div class="song-content">
+            <p class="song-title">song Title Here</p>
+            <p class="song-by">Song By</p>
+            <p class="song-year-duration">Year • Duration</p>
+        </div>
+        <div class="playlist-actions">
+            <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+        </div>
+    </div>
+    <div class="song-item">
+        <div class="song-image"
+            style="background-image: url('https://i.pinimg.com/564x/20/ca/5b/20ca5bfc8b6cff6d632b56d4fb71a0cd.jpg');">
+        </div>
+        <div class="song-content">
+            <p class="song-title">song Title Here</p>
+            <p class="song-playlist-title">playlist Title Here</p>
+            <p class="song-year-duration">Year • Duration</p>
+        </div>
+        <div class="playlist-actions">
+            <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+</html>
