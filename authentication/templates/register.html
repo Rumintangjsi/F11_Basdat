@@ -7,6 +7,7 @@
 <title>Welcome to Marmut - F11</title>
 <style>
     .login-container{
+        font-family: 'Poppins', sans-serif;
         position: absolute;
         display: flex;
         flex-direction: column;
@@ -19,36 +20,26 @@
         padding:20px;
     }
 
-    .login_btn {
-        width: 436px;
-        height: 68px;
-        flex-shrink: 0;
-        border-radius: 44.883px;
-        background: #C48B5F;
-        border: none;
-    }
-    
-    .login_btn:hover {
-        background-color: #7D4D28;
-    }
-
     .buttonRegister {
         display: inline-block;
         text-align: center;
-        height:40px;
-        width:140px;
-        padding-top: 10px;
+        width: 436px;
+        height: 68px;
+        flex-shrink: 0;
         background-color: #E49C9C; 
-        color: white; 
         border: none; 
-        border-radius: 5px; 
-        text-decoration: none; 
-        font-size: 14px; 
-        font-weight: bold; 
         cursor: pointer;
         margin-right: 20px;
         margin-top: 10px;
-        
+        color: #FFF;
+        font-family: Poppins;
+        font-size: 25.932px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        border-radius: 44.883px;
+        background: #C48B5F;
+        margin-bottom: 30px;
     }
     
     .buttonRegister:hover {
@@ -104,6 +95,9 @@
         margin-left: 20px;
     }
 
+    td {
+      margin-left: 30px;
+    }
 </style>
 <div class = "login-container">
 
@@ -164,7 +158,7 @@
         </tr>
 
             <tr>
-                <td><input class="login_btn" type="submit" value="Register"></td>
+                <td><input class="buttonRegister" type="submit" value="Register"></td>
             </tr>
         </table>
     </form>

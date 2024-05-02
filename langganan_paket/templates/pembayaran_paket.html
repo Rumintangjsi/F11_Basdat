@@ -15,19 +15,97 @@
         .container {
             width: 80%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 7px;
             background-color: #ffffff;
             border-radius: 8px;
-            margin-top: 50px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         h1 {
-            color: #333333;
-            text-align: center;
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            color: #1E1E1E;
+            font-family: Poppins;
+            font-size: 36px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
         }
+
+        h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            color: #1E1E1E;
+            font-family: Poppins;
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+
+        .package {
+            width: 335px;
+            height: 220px;
+            flex-shrink: 0;
+            border-radius: 25.082px;
+            background: #C48B5F;
+            box-shadow: -16.722px 16.722px 66.887px 0px rgba(66, 45, 51, 0.20);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-package {
+            width: 82px; 
+            color: #FFF;
+            font-family: Poppins;
+            font-size: 20.5px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+
+        .harga-package {
+            width: 219px;
+            color: #FFF;
+            font-family: Poppins;
+            font-size: 33px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .metode-pembayaran {
+            width: 370px;
+            height: 196px;
+            flex-shrink: 0;
+            border-radius: 25.082px;
+            border: 5px solid #C48B5F;
+            box-shadow: -16.722px 16.722px 66.887px 0px rgba(66, 45, 51, 0.20);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+
         form {
             max-width: 400px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+      
         }
         label {
             font-weight: bold;
@@ -44,68 +122,42 @@
             box-sizing: border-box;
         }
         button {
-            background-color: #C48B5F;
+            width: 280px;
+            height: 62.367px;
+            flex-shrink: 0;
+            border-radius: 19.49px;
+            background: #C48B5F;
             color: white;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
+            text-align: center;
+            margin: auto;
+            margin-top: 20px;
         }
         button:hover {
             background-color: #7D4D28;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        element.style {
             margin-top: 20px;
         }
-        th, td {
-            border: 1px solid #C48B5F;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #C48B5F;
-            color: white;
-        }
-
-        isi {
-            padding:10px;
-        }
-
-        label {
-            padding:20px;
-        }
-
         #metode_pembayaran {
             margin-top:0px;
+            width:80%;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>PEMBAYARAN PAKET</h1>
+        <h2>Informasi paket yang ingin dibeli:</h2>
+        <div class="package">
+            <p class="header-package">1 Bulan</p>
+            <p class="harga-package">Rp54.900</p>
+        </div>
         <div class="isi">
-            <table>
-                <tr>
-                    <th rowspan="1">Informasi Paket yang Ingin Dibeli:</th>
-                </tr>
-            </table>
-            <table>
-                
-                <tr>
-                    <td>Jenis</td>
-                    <td>Harga</td>
-                </tr>
-                <tr>
-                    <td>1 Bulan</td>
-                    <td>Rp54.900</td>
-                </tr>
-            </table>
             <form method="post">
                 {% csrf_token %}
-                <div>
-                    <label for="metode_pembayaran">Metode Pembayaran:</label>
+                <div class="metode-pembayaran">
+                    <h2>Metode Pembayaran:</h2>
                     <select name="metode_pembayaran" id="metode_pembayaran">
                         <option value="transfer_bank">Transfer Bank</option>
                         <option value="kartu_kredit">Kartu Kredit</option>
