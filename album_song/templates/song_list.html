@@ -1,0 +1,308 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Albums and Songs</title>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    }
+
+    button, input {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+}
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+
+.song-container {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0px;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 39px 28px;
+    flex-wrap: wrap;
+}
+
+.song-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    flex-shrink: 0;
+}
+
+.title-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    align-self: stretch;  
+  }
+
+  .title {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .album-display {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .album-text {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .album-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .album-name {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .album-label {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  
+  .table-header {
+    display: flex;
+    padding: 0px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+    align-self: stretch;
+  }
+
+  .header-title {
+    color: #000;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .header-layout {
+    display: flex;
+    width: 220px;
+    padding: 0px 124px;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-layout-2 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 92px;
+  }
+
+  .table {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+  }
+
+  .album-detail {
+    display: flex;
+    padding: 20px 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .song-card {
+    display: flex;
+    width: 909px;
+    align-items: center;
+    gap: 28px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .song-card:hover {
+    background-color: #FFF6EF;
+    transition: .3s ease;
+  }
+
+  .song-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .song-info-layout {
+    display: flex;
+    width: 439px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .song-info-layout-2 {
+    display: flex;
+    width: 323px;
+    align-items: center;
+  }
+
+  .action-button {
+    transition: transform .3s ease;
+    cursor: pointer;
+  }
+
+  .action-button:hover {
+    transform: scale(1.05);
+    transition: transform .3s ease;
+  }
+
+  .add-song-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+  }
+
+</style>
+</head>
+
+<body>
+    
+    <div class="song-container">
+
+        <div class="title-container">
+            <h1 class="title">Songs</h1>
+        </div>
+
+        <div class="song-wrapper">
+            <div class="album-display">
+                <img src="{% static 'svg/cover-dummy.svg' %}">
+                <div class="album-detail">
+                    <p class="album-text">Album</p>
+                    <div class="album-info">
+                        <p class="album-name">The Tortured Poets Department</p>
+                        <p class="album-label">Republic Records · <span style="font-weight: 500;">31 Songs, 2 hr 2 m</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table">
+            <div class="table-header">
+                <div class="header-layout">
+                    <p class="header-title">Title</p>
+                </div>
+                <div class="header-layout-2">
+                    <p class="header-title">Duration</p>
+                    <p class="header-title">Plays</p>
+                    <img src="{% static 'svg/download-icon.svg' %}">
+                </div>
+            </div>
+            <hr style="height:1px; width:100% ;background-color:#1E1E1E;;" noshade />
+        </div>
+
+        {% for song in songs %}
+
+        <div class="song-card">
+            <img src="{% static 'svg/song-cover.svg' %}">
+            <div class="song-info">
+                <div class="song-info-layout">
+                    <p style="color: #1E1E1E;
+                    font-family: Poppins;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: normal;">{{song.title}}</p>
+
+                    <p style="color: #1E1E1E;
+                    font-family: Poppins;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;">{{song.artist}}</p>
+                </div>
+                <div class="song-info-layout-2">
+                    <div style="display: flex;
+                    width: 68px;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-end;
+                    flex-shrink: 0;">
+                        <p class="header-title"> {{song.duration}}</p>
+                    </div>
+                    <div style="display: flex;
+                    width: 143px;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-end;
+                    flex-shrink: 0;">
+                        <p class="header-title">{{song.plays}}</p>
+
+                    </div>
+                    <div style="display: flex;
+                    width: 120px;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-end;
+                    flex-shrink: 0;">
+                        <p class="header-title">{{song.downloads}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+        <div class="add-song-container">
+            <img class="action-button" src="{% static 'svg/add-icon.svg' %}">
+        </div>
+
+    </div>
+       
+</body> 
+
+</html>
