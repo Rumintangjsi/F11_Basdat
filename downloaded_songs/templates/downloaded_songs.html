@@ -10,10 +10,13 @@
             background-color: #f8f8f8;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
             width: 80%;
-            margin: 0 auto;
             padding: 20px;
         }
         h1 {
@@ -68,12 +71,31 @@
         .action-button:hover {
             background-color: #8A4B3F;
         }
-        .gg-trash {
-            background-image: url('https://cdn-icons-png.flaticon.com/512/1214/1214428.png');
-            background-size: cover;
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 10% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 8px;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -89,10 +111,7 @@
                 </div>
                 <div class="action-icons">
                     <a href="song_details.html" class="action-button">Lihat</a>
-                    <a href="/delete/1" class="action-button">
-                        <img class="gg-trash" src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Hapus">
-                        Hapus
-                    </a>
+                    <button class="action-button delete-button" data-title="Song1">Hapus</button>
                 </div>
             </li>
             <li class="song-entry">
@@ -103,15 +122,41 @@
                 </div>
                 <div class="action-icons">
                     <a href="song_details.html" class="action-button">Lihat</a>
-                    <a href="/delete/2" class="action-button">
-                        <img class="gg-trash" src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Hapus">
-                        Hapus
-                    </a>
+                    <button class="action-button delete-button" data-title="Song2">Hapus</button>
                 </div>
             </li>
-            <!-- Additional song entries go here -->
         </ul>
-        <a href="#" class="action-button" style="display: block; text-align: center; margin-top: 20px;">Kembali</a>
     </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="modal-text"></p>
+            <button onclick="closeModal()" class="action-button">Kembali</button>
+        </div>
+    </div>
+
+    <script>
+        var deleteButtons = document.querySelectorAll('.delete-button');
+
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var songTitle = this.getAttribute('data-title');
+                var modalText = document.getElementById('modal-text');
+                modalText.textContent = 'Berhasil menghapus Lagu dengan judul \'' + songTitle + '\' dari daftar unduhan!';
+                openModal();
+            });
+        });
+
+        function openModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+    </script>
 </body>
 </html>
