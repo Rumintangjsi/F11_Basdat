@@ -30,4 +30,8 @@ urlpatterns = [
     path('episode_list/', include('kelola_podcast.urls')),
     path('album_song/', include('album_song.urls')),
     path('royalti/', include('royalti.urls')),
+    path('authentication/', include('authentication.urls')),
+    path('langganan_paket/', include('langganan_paket.urls')),
+    path('search_bar/', include('search_bar.urls')),
+    path('downloaded_songs/', include('downloaded_songs.urls')),
 ]
