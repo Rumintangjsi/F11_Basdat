@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Welcome to Marmut - F11</title>
+<style>
+    .login-container{
+        font-family: 'Poppins', sans-serif;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        gap:50px;
+        align-items: center;
+        justify-content: center;
+        width: 100% !important;
+        height: 100%;
+        margin-bottom:0px !important;
+    }
+
+    .login_btn {
+        display: inline-block;
+        text-align: center;
+        width: 436px;
+        height: 68px;
+        flex-shrink: 0;
+        background-color: #E49C9C; 
+        border: none; 
+        cursor: pointer;
+        color: #FFF;
+        font-family: Poppins;
+        font-size: 25.932px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        border-radius: 44.883px;
+        background: #C48B5F;
+        margin: auto;
+        text-align: center;
+    }
+    
+    .login_btn:hover {
+        background-color: #7D4D28;
+    }
+
+
+    .inputBar{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 745.801px;
+      height: 443px;
+      flex-shrink: 0;
+      background-color: white;
+      border-radius: 40px;
+      background: #FFF;
+      box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+      text-align: center; /* Menyelaraskan konten secara horizontal ke tengah */
+      vertical-align: middle;
+      
+    }
+
+      .logo{
+        justify-content: left;
+        left:0;
+        margin-right: 30px;
+
+      }
+      
+      .form-control {
+        width: 439px;
+        height: 54px;
+        flex-shrink: 0;
+        border-radius: 20px;
+        border: 1px solid #C48B5F;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05) inset;
+    }
+
+      
+
+    .fotokucing td{
+        padding:20px;
+    }
+
+    .Podcaster {
+      /* setting the checkbox input HTML element accent color to `green` */
+      accent-color: green;
+    }
+
+    .logo {
+        margin-left: 20px;
+    }
+
+</style>
+<div class = "login-container">
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table class="inputBar">
+        
+          <tr>
+              <td>
+                <p> Email <p>
+                <input type="text" name="Email" placeholder="Email" class="form-control"></td>
+          </tr>
+          
+          <tr>
+              <td>
+                <p> Password <p>
+                <input type="password" name="password" placeholder="Password" class="form-control"></td>
+          </tr>
+
+            <tr>
+                <td><input class="login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}      
+  </div>
+
+</div>
+</html>

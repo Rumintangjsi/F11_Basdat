@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Langganan Paket - Marmut</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: flex-start;
+            align-items: stretch;
+
+        }
+        .header h1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            color: #1E1E1E;
+            font-family: Poppins;
+            font-size: 36px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+       
+        .package {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-inline: auto;
+            gap: 36px;
+            margin-top: 80px;
+        }
+
+        .package-1 {
+            width: 240.792px;
+            height: 352.827px;
+            flex-shrink: 0;
+            border-radius: 25.082px;
+            background: #FFF;
+            box-shadow: -16.722px 16.722px 66.887px 0px rgba(66, 45, 51, 0.20);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left:30px;
+            margin-right:10px;
+        }
+
+        .header-package {
+            width: 81px;
+            color: #1E1E1E;
+            font-family: Poppins;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            text-align: center;
+        }
+
+        .harga-package {
+            width: 154px;
+            color: #422D33;
+            font-family: Poppins;
+            font-size: 31.596px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            margin-top: 70px;
+        }
+
+        .berlangganan-button {
+            width: 170px;
+            height: 43px;
+            flex-shrink: 0;
+            border-radius: 20px;
+            background: #C48B5F;
+            text-align: center;
+            color: #FFF;
+            border: none;
+            margin-top: 60px;
+        }
+
+        .berlangganan-button:hover{
+            background-color: #7D4D28;
+        }
+       
+
+        .riwayat-transaksi-button {
+            width: 260px;
+            height: 52.367px;
+            flex-shrink: 0;
+            border-radius: 19.49px;
+            background: #C48B5F;
+            color: #FFF;
+            font-family: Poppins;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            border:none;
+            margin-left: 80px;
+            margin-left: auto;
+            margin-top: 60px;
+        }
+
+        .riwayat-transaksi-button:hover {
+            background-color: #7D4D28;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Langganan Paket</h1>
+        </div>
+        <div class="package">
+            <div class="package-1">
+                <p class="header-package">1 Bulan</p>
+                <p class="harga-package">Rp54.900</p>
+                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
+            </div>
+
+            <div class="package-1">
+                <p class="header-package">3 Bulan</p>
+                <p class="harga-package">Rp74.900</p>
+                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
+            </div>
+
+            <div class="package-1">
+                <p class="header-package">6 Bulan</p>
+                <p class="harga-package">Rp104.900</p>
+                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
+            </div>
+
+            <div class="package-1">
+                <p class="header-package">12 Bulan</p>
+                <p class="harga-package">Rp144.900</p>
+                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
+            </div>
+        </div>
+        <button class="riwayat-transaksi-button" onclick="location.href='/langganan_paket/riwayat_transaksi'">Riwayat Transaksi</button>
+    </div>
+</body>
+</html>

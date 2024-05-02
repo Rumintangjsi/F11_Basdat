@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Riwayat Transaksi Paket - Marmut</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #C48B5F;
+            text-align: center;
+        }
+        .back-button {
+            background-color: #C48B5F;
+            color: #ffffff;
+            border: none;
+            width:90px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .back-button:hover {
+            background-color:#7D4D28;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .transaction-table th, .transaction-table td {
+            border: 1px solid #C48B5F;
+            padding: 8px;
+            text-align: left;
+        }
+        .transaction-table th {
+            background-color: #C48B5F;
+            color: #ffffff;
+        }
+        .transaction-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Riwayat Transaksi Paket</h1>
+       
+        <table class="transaction-table">
+            <tr>
+                <th>Jenis</th>
+                <th>Tanggal Dimulai</th>
+                <th>Tanggal Berakhir</th>
+                <th>Metode Pembayaran</th>
+                <th>Nominal</th>
+            </tr>
+            <tr>
+                <td>1 Bulan</td>
+                <td>8 April 2024, 23:00</td>
+                <td>8 Mei 2024, 23:00</td>
+                <td>E-Wallet</td>
+                <td>Rp54.900</td>
+            </tr>
+            <!-- Tambahkan baris-baris transaksi lainnya di sini -->
+        </table>
+
+        <button class="back-button" onclick="location.href='/langganan_paket/langganan_paket'">Kembali</button>
+    </div>
+</body>
+</html>

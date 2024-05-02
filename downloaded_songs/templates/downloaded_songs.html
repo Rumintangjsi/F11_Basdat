@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Lagu - Marmut</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #C48B5F;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .song-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .song-entry {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .song-details {
+            flex-grow: 1;
+        }
+        .song-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 0;
+        }
+        .song-artist {
+            margin: 5px 0;
+            color: #333333;
+        }
+        .song-date {
+            margin: 5px 0;
+        }
+        .action-icons {
+            display: flex;
+            align-items: center;
+        }
+        .action-button {
+            background-color: #A5694F;
+            color: white;
+            border: none;
+            margin-left: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .action-button:hover {
+            background-color: #8A4B3F;
+        }
+        .gg-trash {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/1214/1214428.png');
+            background-size: cover;
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DAFTAR LAGU</h1>
+        <ul class="song-list">
+            <li class="song-entry">
+                <div class="song-details">
+                    <p class="song-title">Song1</p>
+                    <p class="song-artist">Artist1</p>
+                    <p class="song-date">20/02/2024</p>
+                </div>
+                <div class="action-icons">
+                    <a href="song_details.html" class="action-button">Lihat</a>
+                    <a href="/delete/1" class="action-button">
+                        <img class="gg-trash" src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Hapus">
+                        Hapus
+                    </a>
+                </div>
+            </li>
+            <li class="song-entry">
+                <div class="song-details">
+                    <p class="song-title">Song2</p>
+                    <p class="song-artist">Artist2</p>
+                    <p class="song-date">21/03/2024</p>
+                </div>
+                <div class="action-icons">
+                    <a href="song_details.html" class="action-button">Lihat</a>
+                    <a href="/delete/2" class="action-button">
+                        <img class="gg-trash" src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Hapus">
+                        Hapus
+                    </a>
+                </div>
+            </li>
+            <!-- Additional song entries go here -->
+        </ul>
+        <a href="#" class="action-button" style="display: block; text-align: center; margin-top: 20px;">Kembali</a>
+    </div>
+</body>
+</html>
