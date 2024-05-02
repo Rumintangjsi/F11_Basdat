@@ -63,7 +63,82 @@ def album_list(request):
     return render(request, "album_list.html", context)
 
 def song_list(request, album_id):
-    context = {}
+    context = {
+        'songs' : [
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+            {
+                'title' : 'Fortnight',
+                'artist' : 'Taylor Swift',
+                'songwriter' : 'Taylor Swift',
+                'genre' : 'Pop',
+                'duration' : '4:03',
+                'plays' : '47.378.923',
+                'downloads' : '378.222'
+            },
+        ]
+    }
     
     return render(request, "song_list.html", context)
 
