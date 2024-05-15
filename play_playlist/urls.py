@@ -4,5 +4,5 @@ from play_playlist.views import play_playlist
 app_name = 'play_playlist'
 
 urlpatterns = [
-    path('', play_playlist, name='play_playlist'),
+    path('<str:playlist_id>/', play_playlist, name='play_playlist'),
 ]
