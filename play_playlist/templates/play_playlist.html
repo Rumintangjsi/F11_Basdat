@@ -240,93 +240,86 @@
     </style>
 </head>
 
-<body></body>
+<body>
 
-<div class="playlist-header">
-    <p class="playlist-title">playlist Detail</p>
-</div>
-<div class="playlist-info">
-    <div class="playlist-logo"></div>
-    <div class="playlist-text">
-        <p class="playlist-title">playlist1</p>
-        <p class="playlist-author">author 1</p>
+    <div class="navbar">
+        <ul>
+            <li><a href="/play_song">Songs</a></li>
+            <li><a href="/play_playlist"></a></li>
+            <li><a href="/kelola_playlist">Playlists</a></li>
+        </ul>
     </div>
-</div>
-<div class="playlist-details">
-    <table>
-        <tr>
-            <td><strong>Judul:</strong> playlist1</td>
-        </tr>
-        <tr>
-            <td><strong>Pembuat:</strong> Pembuat1</td>
-        </tr>
-        <tr>
-            <td><strong>Song(s):</strong><br>- Song1<br>- Song2</td>
-        </tr>
-        <tr>
-            <td><strong>Total Durasi:</strong> 8 jam 20 menit</td>
-        </tr>
-        <tr>
-            <td><strong>Tanggal Dibuat:</strong> 18/03/24</td>
-        </tr>
-        <tr>
-            <td><strong>Deskripsi:</strong> Lorem ipsum dolor sit amet ....</td>
-        </tr>
-    </table>
-</div>
 
-<button class="back-button" onclick="history.back()">Shuffle Play</button>
-<button class="back-button" onclick="history.back()">يرخع</button>
-
-<div class="header">Daftar song</div>
-
-<div class="song-list">
-    <div class="song-item">
-        <div class="song-image"
-            style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');">
-        </div>
-        <div class="song-content">
-            <p class="song-title">song Title Here</p>
-            <p class="song-by">Song By</p>
-            <p class="song-year-duration">Year • Duration</p>
-        </div>
-        <div class="playlist-actions">
-            <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+    {% if playlist %}
+    <div class="playlist-header">
+        <p class="playlist-title">Playlist Detail</p>
+    </div>
+    <div class="playlist-info">
+        <div class="playlist-logo"></div>
+        <div class="playlist-text">
+            <p class="playlist-title">{{ playlist.judul }}</p>
+            <p class="playlist-author">{{ playlist.email_pembuat }}</p>
         </div>
     </div>
-    <div class="song-item">
-        <div class="song-image"
-            style="background-image: url('https://i.pinimg.com/564x/20/ca/5b/20ca5bfc8b6cff6d632b56d4fb71a0cd.jpg');">
-        </div>
-        <div class="song-content">
-            <p class="song-title">song Title Here</p>
-            <p class="song-playlist-title">playlist Title Here</p>
-            <p class="song-year-duration">Year • Duration</p>
-        </div>
-        <div class="playlist-actions">
-            <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+    <div class="playlist-details">
+        <table>
+            <tr>
+                <td><strong>Jumlah Lagu: </strong>{{ playlist.jumlah_lagu }}</td>
+            </tr>
+            <tr>
+                <td><strong>Total Durasi: </strong>{{ playlist.total_durasi }}</td>
+            </tr>
+            <tr>
+                <td><strong>Tanggal Dibuat: </strong>{{ playlist.tanggal_dibuat }}</td>
+            </tr>
+            <tr>
+                <td><strong>Deskripsi: </strong>{{ playlist.deskripsi }}</td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+
+    <button class="back-button" onclick="history.back()">Shuffle Play</button>
+    <button class="back-button" onclick="history.back()">يرخع</button>
+
+    <div class="header">Daftar song</div>
+
+    {% for song in songs %}
+    <div class="song-list">
+        <div class="song-item">
+            <div class="song-image"
+                style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');">
+            </div>
+            <div class="song-content">
+                <p class="song-title">{{ song.judul }}</p>
+                <p class="song-by">Song By: {{ song.penyanyi }}</p>
+                <p class="song-year-duration">{{ song.tahun }} • {{ song.durasi }}</p>
+            </div>
+            <div class="playlist-actions">
+                <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+            </div>
         </div>
     </div>
-</div>
+    {% endfor %}
 
-<div class="overlay" id="overlay">
-    <div class="popup">
-        <h2>TAMBAH LAGU</h2>
-        <form id="add-song-form">
-            <label for="song-dropdown">Lagu:</label><br>
-            <select id="song-dropdown" name="song-dropdown">
-                <!-- Dropdown options will be dynamically populated here -->
-                <option value="song1">Song 1 - Artist 1</option>
-                <option value="song2">Song 2 - Artist 2</option>
-                <option value="song3">Song 3 - Artist 3</option>
-                <!-- Add more options as needed -->
-            </select><br><br>
-            <button type="submit" onclick="closePopup()">SUBMIT</button>
-        </form>
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <h2>TAMBAH LAGU</h2>
+            <form id="add-song-form">
+                <label for="song-dropdown">Lagu:</label><br>
+                <select id="song-dropdown" name="song-dropdown">
+                    <!-- Dropdown options will be dynamically populated here -->
+                    <option value="song1">Song 1 - Artist 1</option>
+                    <option value="song2">Song 2 - Artist 2</option>
+                    <option value="song3">Song 3 - Artist 3</option>
+                    <!-- Add more options as needed -->
+                </select><br><br>
+                <button type="submit" onclick="closePopup()">SUBMIT</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<button class="add-new-song-button" onclick="openPopup()">Tambah Lagu Baru</button>
+    <button class="add-new-song-button" onclick="openPopup()">Tambah Lagu Baru</button>
 
 </body>
 
