@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1500px;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table {
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            background-color: #f0f0f0;
+            padding: 10px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header-item {
+            padding: 10px;
+        }
+
+        .table-content {
+            display: grid;
+            grid-auto-rows: minmax(50px, auto);
+            max-height: 500px;
+            /* Adjust the height as needed */
+            overflow-y: auto;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* .table-item {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        } */
+
+        .table-item {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            white-space: nowrap;
+            /* Prevents text from wrapping */
+            overflow: hidden;
+            /* Hides overflow */
+            text-overflow: ellipsis;
+            /* Displays ellipsis for overflowed text */
+            width: 150px;
+            /* Adjust width as needed */
+        }
+
+        .number {
+            max-width: 50px;
+            /* Adjust width as needed */
+        }
+
+
+
+
+        .table-row:nth-child(odd) {
+            background-color: #fafafa;
+        }
+
+        .table-row:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Optional scrollbar styling for better appearance */
+        .table-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .table-content::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .table-content::-webkit-scrollbar-thumb:hover {
+            background-color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="table">
+            <div class="table-header">
+                <div class="header-item number">No</div>
+                <div class="header-item">Judul</div>
+                <div class="header-item">Tanggal Rilis</div>
+                <div class="header-item">Tahun</div>
+                <div class="header-item">Durasi</div>
+                <div class="header-item">Penyanyi</div>
+            </div>
+            <div class="table-content">
+                {% for song in songs %}
+                <div class="table-row">
+                    <div class="table-item number">{{ forloop.counter }}</div>
+                    <div class="table-item title">{{ song.judul }}</div>
+                    <div class="table-item">{{ song.tanggal_rilis }}</div>
+                    <div class="table-item">{{ song.tahun }}</div>
+                    <div class="table-item">{{ song.durasi }}</div>
+                    <div class="table-item">{{ song.penyanyi }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Script for handling buttons and interactions (if any)
+    </script>
+</body>
+
+</html>
