@@ -34,4 +34,7 @@ urlpatterns = [
     path('langganan_paket/', include('langganan_paket.urls')),
     path('search_bar/', include('search_bar.urls')),
     path('downloaded_songs/', include('downloaded_songs.urls')),
+    path('play_song/', include('play_song.urls')),
+    path('play_playlist/', include('play_playlist.urls')),
+    path('kelola_playlist/', include('kelola_playlist.urls')),
 ]
