@@ -70,7 +70,7 @@
             color: #333;
         }
 
-        .playlist-total-duration {
+        .playlist-item {
             margin: 5px 0;
         }
 
@@ -123,40 +123,39 @@
 
     <div class="playlist-container">
         <!-- Dummy content for playlist 1 -->
-        <div class="playlist-entry">
+        {% for playlist in playlists %}
+        <div class="playlist-entry" data-playlist-id='{{ playlist.id_playlist }}'>
             <div class="playlist-image"
                 style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');">
             </div>
             <div class="playlist-details">
-                <p class="playlist-title">Title1</p>
-                <a href="{% url 'play_playlist:play_playlist' %}" class="playlist-songs">songs: 3</a>
+                <p class="playlist-title">{{ playlist.judul }}</p>
+                <p class="playlist-item">by: {{ playlist.email_pembuat }}</p>
+                <p class="playlist-item">id : {{ playlist.id_playlist }}</p>
                 <!-- Clickable number of songs -->
-                <p class="playlist-total-duration">Total Duration: 90 min</p>
+                <p class="playlist-item">Songs: {{ playlist.jumlah_lagu }}</p>
+                <p class="playlist-item">Total Duration: {{ playlist.total_durasi }} minute(s)</p>
             </div>
             <div class="playlist-actions">
-                <a href="/add/1" class="gg-add action-icon"></a> <!-- Clickable add icon -->
-                <a href="/delete/1" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+                <a href="/add/{{ playlist.id_playlist }}" class="gg-add action-icon"></a> <!-- Clickable add icon -->
+                <a href="/delete/{{ playlist.id_playlist }}" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
             </div>
         </div>
-
-        <!-- Dummy content for playlist 2 -->
-        <div class="playlist-entry">
-            <div class="playlist-image"
-                style="background-image: url('https://i.pinimg.com/474x/8b/fd/30/8bfd305e9d53f8b84151538ff41f2e00.jpg');">
-            </div>
-            <div class="playlist-details">
-                <p class="playlist-title">Title2</p>
-                <a href="{% url 'play_playlist:play_playlist' %}" class="playlist-songs">songs: 5</a>
-                <!-- Clickable number of songs -->
-                <p class="playlist-total-duration">Total Duration: 120 min</p>
-            </div>
-            <div class="playlist-actions">
-                <a href="/add/2" class="gg-add action-icon"></a> <!-- Clickable add icon -->
-                <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
 </body>
+
+<script>
+    // Add event listener to each playlist entry to redirect to the playlist detail page
+    const playlistEntries = document.querySelectorAll('.playlist-entry');
+    playlistEntries.forEach(entry => {
+        entry.addEventListener('click', () => {
+            const playlist_id = entry.dataset.playlistId;
+            const url = '/play_playlist/' + playlist_id;
+            window.location.href = url;
+        });
+    });
+</script>
 
 </html>
