@@ -1,9 +1,11 @@
 from django.urls import path
-from kelola_playlist.views import kelola_playlist, create_playlist
+from kelola_playlist.views import create_playlist_post, kelola_playlist, create_playlist_page, delete_playlist
 
 app_name = 'kelola_playlist'
 
 urlpatterns = [
     path('', kelola_playlist, name='kelola_playlist'),
-    path('create_playlist/', create_playlist, name='create_playlist'),
+    path('create_playlist/', create_playlist_page, name='create_playlist'),
+    path('create_playlist_post/', create_playlist_post, name='create_playlist_post'),
+    path('delete_playlist/<uuid:id_playlist>', delete_playlist, name='delete_playlist')
 ]
