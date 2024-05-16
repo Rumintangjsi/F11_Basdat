@@ -87,13 +87,6 @@ def add_song_playlist(request):
 
     return render(request, "add_song_playlist.html", context)
 
-def download_song(request):
-    context = {
-
-    }
-
-    return render(request, "download_song.html", context)
-
 def songs(request):
     songs = []
     with connection.cursor() as cursor:
