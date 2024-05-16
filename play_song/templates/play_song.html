@@ -47,18 +47,42 @@
             padding: 20px;
         }
 
+        .song-header {
+            background-color: #C48B5F;
+            border-radius: 20px;
+            /* Maroon color */
+            color: #ffffff;
+            /* White color for text */
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
         .song-title {
             font-weight: 600;
             font-size: 36px;
             margin: 0;
         }
 
-        /* Song detail section */
+        .header {
+            font-weight: 600;
+            font-size: 24px;
+            color: #1E1E1E;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
         .song-details {
+            background-color: #FFFFFF;
+            /* White color for the box */
+            border: 1px solid #d3d3d3;
+            border-radius: 4px;
+            padding: 20px;
             margin-bottom: 20px;
         }
 
         /* ================= Play progress bar ================= */
+
         .play-progress {
             width: 100%;
             height: 10px;
@@ -66,29 +90,38 @@
             margin-bottom: 20px;
         }
 
-        /* Style for the progress bar */
-        progress {
-            width: 100%;
-            height: 100%;
+        input[type=range] {
+            background: linear-gradient(to right, #C48B5F 0%, #C48B5F var(--progress), #ddd var(--progress), #ddd 100%);
             appearance: none;
-            -webkit-appearance: none;
-            border: none;
-            background-color: #f8f8f8;
-            /* Light gray background */
-            border-radius: 10px;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            outline: none;
         }
 
-        /* Style for the progress bar value */
-        progress::-webkit-progress-value {
-            background-color: #C48B5F;
-            /* Maroon background */
-            border-radius: 10px;
+        input[type=range]::-webkit-slider-thumb {
+            appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #C48B5F;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
         }
 
-        progress::-moz-progress-bar {
-            background-color: #C48B5F;
-            /* Maroon background */
-            border-radius: 10px;
+        input[type=range]::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #C48B5F;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        #progressValue {
+            margin-left: 10px;
+            font-weight: 600;
         }
 
         /* ================= Buttons ================= */
@@ -101,7 +134,7 @@
             margin-bottom: 10px;
             cursor: pointer;
             border: none;
-            border-radius: 20px;
+            border-radius: 10px;
             display: inline-block;
         }
 
@@ -158,7 +191,7 @@
             margin-bottom: 10px;
             cursor: pointer;
             border: none;
-            border-radius: 20px;
+            border-radius: 10px;
             display: inline-block;
             background-color: #C48B5F;
             /* Maroon background */
@@ -179,40 +212,67 @@
     <div class="song-header">
         <p class="page-title">Play Song</p>
     </div>
+
     {% if song %}
     <div class="song-info">
         <div class="song-logo"></div>
         <div class="song-text">
             <p class="song-title">{{ song.judul }}</p>
-            <p class="song-genre">Genre(s):<br>
-                {% for genre in genres %}
-                - {{ genre }}<br>
-                {% endfor %}
-            </p>
-            <p class="song-singer">Artist: {{ song.penyanyi }}</p>
-            <p class="song-songwriter">Songwriter(s):<br>
-                {% for songwriter in songwriters %}
-                - {{ songwriter }}<br>
-                {% endfor %}
-            </p>
+            <p class="song-author">{{ song.penyanyi }}</p>
         </div>
     </div>
     <div class="song-details">
-        <p>Durasi: {{ song.durasi }} menit</p>
-        <p>Tanggal Rilis: {{ song.tanggal_rilis }}</p>
-        <p>Tahun: {{ song.tahun }}</p>
-        <p>TotalPlay: {{ song.total_play }}</p>
-        <p>TotalDownloads: {{ song.total_download }}</p>
-        {% for album in albums %}
-        <p>Album: {{ album }}</p>
-        {% endfor %}
+        <table>
+            <tr>
+                <td><strong>Genre Lagu: </strong><br>
+                    {% for genre in genres %}
+                    - {{ genre }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Penulis Lagu: </strong><br>
+                    {% for songwriter in songwriters %}
+                    - {{ songwriter }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Durasi: </strong>{{ song.durasi }}</td>
+            </tr>
+            <tr>
+                <td><strong>Tanggal Rilis: </strong>{{ song.tanggal_rilis }}</td>
+            </tr>
+            <tr>
+                <td><strong>Tahun: </strong>{{ song.tahun }}</td>
+            </tr>
+            <tr>
+                <td><strong>Total Dimainkan: </strong>
+                    <div class="total-play">{{ song.total_play }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Total Downloaded: </strong>{{ song.total_download }}</td>
+            </tr>
+            <tr>
+                <td><strong>Album: </strong><br>
+                    {% for album in albums %}
+                    - {{ album }}
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
     </div>
     {% endif %}
 
     <!-- Play progress bar -->
     <div class="play-progress">
-        <progress id="play-progress-bar" value="0" max="100"></progress>
+        <div class="slider-container">
+            <input type="range" id="progress" min="0" max="100" value="0">
+            <span id="progressValue">0</span>%
+        </div>
     </div>
+    <br>
 
     <!-- Buttons -->
     <button class="play-button">Play</button>
@@ -251,128 +311,35 @@
     </div>
 
 
-
-
-
     <!-- Script -->
     <script>
-        // ================= PLAY BUTTON =================
-        const playButton = document.querySelector('.play-button');
+        // Update the displayed progress value when the slider is moved
+        document.getElementById('progress').addEventListener('input', function () {
+            var progressValue = this.value;
+            document.getElementById('progressValue').innerText = progressValue;
+            this.style.setProperty('--progress', progressValue + '%');
+        });
 
-        const progressBar = document.getElementById('play-progress-bar');
-
-        let playProgress = 0;
-
-        function updatePlayProgress() {
-            if (progressBar.value >= 100) {
-                // Reset the play progress value to 0 if it reaches 100%
-                progressBar.value = 0;
+        function playSong() {
+            var progress = document.getElementById('progress').value;
+            if (progress > 70) {
+                addPlaySongEntry();
+                updateTotalPlay();
+                alert("Lagu dimainkan dan entri AKUN_PLAY_SONG ditambahkan.");
             } else {
-                progressBar.value += 10;
+                alert("Progress kurang dari 70%, tidak ada aksi yang diambil.");
             }
         }
 
-        function handlePlayButtonClick() {
-            playProgress = progressBar.value;
-
-            updatePlayProgress();
-
-            if (playProgress > 70) {
-                console.log('Play progress is greater than 70%. Perform action here.');
-
-                const totalPlayCountElement = document.querySelector('.song-details td:first-child');
-                // let totalPlayCount = parseInt(totalPlayCountElement.textContent);
-                // totalPlayCount++;
-                // totalPlayCountElement.textContent = totalPlayCount;
-            } else {
-                console.log('Play progress is not greater than 70%.');
-            }
+        function addPlaySongEntry() {
+            console.log("Entry AKUN_PLAY_SONG ditambahkan.");
         }
 
-        playButton.addEventListener('click', handlePlayButtonClick);
-
-        // ================= ADD TO PLAYLIST BUTTON =================
-        const addToPlaylistButton = document.querySelector('.add-to-playlist-button');
-
-        const addToPlaylistForm = document.querySelector('.add-to-playlist-form');
-
-        function handleAddToPlaylistButtonClick() {
-            addToPlaylistForm.style.display = 'block';
-            // hide DOWNLOAD FORM
-            successDownloadMessage.style.display = 'none';
+        function updateTotalPlay() {
+            var totalPlayElement = document.querySelector('.total-play');
+            var totalPlay = parseInt(totalPlayElement.innerText) + 1;
+            totalPlayElement.innerText = totalPlay;
         }
-
-        addToPlaylistButton.addEventListener('click', handleAddToPlaylistButtonClick);
-
-        function handlePlaylistFormSubmission(event) {
-            event.preventDefault();
-
-            const selectedPlaylist = document.getElementById('playlist-dropdown').value;
-
-            // Check if a playlist is selected
-            if (selectedPlaylist !== '') {
-                // Hide the form
-                addToPlaylistForm.style.display = 'none';
-
-                const successMessage = document.querySelector('.success-add-to-playlist-message');
-                successMessage.textContent = `Berhasil menambahkan Lagu dengan judul ‘Song1’ ke ‘${selectedPlaylist}’!`;
-                successMessage.style.display = 'block';
-
-                // TODO: Add to playlist logic
-
-            } else {
-                alert('Playlist harus dipilih!');
-            }
-        }
-
-        addToPlaylistForm.addEventListener('submit', handlePlaylistFormSubmission);
-
-        function handleBackToSongDetailButtonClick() {
-            addToPlaylistForm.style.display = 'none';
-
-            const successMessage = document.querySelector('.success-add-to-playlist-message');
-            successMessage.style.display = 'none';
-        }
-
-        const backToSongDetailButtonInForm = document.querySelector('.back-to-song-details');
-
-        backToSongDetailButtonInForm.addEventListener('click', handleBackToSongDetailButtonClick);
-
-
-        // ================= DOWNLOAD BUTTON =================
-        const downloadButton = document.querySelector('.download-button');
-
-        const successDownloadMessage = document.querySelector('.success-download-message');
-
-        function handleDownloadButtonClick() {
-            successDownloadMessage.style.display = 'block';
-            // hide the plalist form
-            addToPlaylistForm.style.display = 'none';
-
-            const totalDownloadsCountElement = document.querySelector('.song-details td:nth-child(2)');
-            // let totalDownloadsCount = parseInt(totalDownloadsCountElement.textContent);
-            // totalDownloadsCount++;
-            // totalDownloadsCountElement.textContent = totalDownloadsCount;
-        }
-
-        downloadButton.addEventListener('click', handleDownloadButtonClick);
-
-        function handleGoToDownloadListButtonClick() {
-            window.location.href = '/play_song/download/list';
-        }
-
-        const goToDownloadListButton = document.querySelector('.go-to-download-list');
-
-        goToDownloadListButton.addEventListener('click', handleGoToDownloadListButtonClick);
-
-        function handleBackToSongDetailButtonClick() {
-            successDownloadMessage.style.display = 'none';
-        }
-
-        const backToSongDetailButton = document.querySelector('.back-to-song-details');
-
-        backToSongDetailButton.addEventListener('click', handleBackToSongDetailButtonClick);
-
     </script>
 
 </body>
