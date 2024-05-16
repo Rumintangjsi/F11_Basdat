@@ -6,7 +6,7 @@ from django.db import connection
 # Create your views here.
 
 def play_song(request, song_id):
-    print(song_id)
+    # print(song_id)
     with connection.cursor() as cursor:
         url = f'''
                 SELECT judul, AKUN.nama as penyanyi, durasi, tanggal_rilis, tahun, total_play, total_download
@@ -80,13 +80,6 @@ def play_song(request, song_id):
 
     return render(request, "play_song.html", context)
 
-def add_song_playlist(request):
-    context = {
-
-    }
-
-    return render(request, "add_song_playlist.html", context)
-
 def songs(request):
     songs = []
     with connection.cursor() as cursor:
@@ -109,5 +102,5 @@ def songs(request):
         }
         songs_data.append(data)
 
-    print(songs_data)
+    # print(songs_data)
     return render(request, "songs.html", {"songs": songs_data})

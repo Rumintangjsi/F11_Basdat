@@ -1,5 +1,8 @@
+from datetime import datetime
+import uuid
 from django.db import connection
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -25,7 +28,7 @@ def kelola_playlist(request):
         }
         playlists_data.append(data)
     
-    print(playlists_data)
+    # print(playlists_data)
     
     context = {
         'playlists': playlists_data
@@ -57,7 +60,7 @@ def kelola_playlist_depracated(request):
         }
         playlists_data.append(data)
     
-    print(playlists_data)
+    # print(playlists_data)
     
     context = {
         'playlists': playlists_data
@@ -65,9 +68,41 @@ def kelola_playlist_depracated(request):
     
     return render(request, "playlists.html", context)
 
-def create_playlist(request):
-    context = {
+def create_playlist_page(request):
+    return render(request, "create_playlist.html", {})
 
-    }
+@csrf_exempt
+def create_playlist_post(request):
+    judul = ''
+    deskripsi = ''
+    if request.method == 'POST':
+        judul = request.POST['title']
+        deskripsi = request.POST['description']
+        # print(f'Judul: {judul}')
+        # print(f'Deskripsi: {deskripsi}')
+    akun = request.session.get('akun', None)
+    # print('nicole50@example.com')
+    uuid1 = str(uuid.uuid4())
 
-    return render(request, "create_playlist.html", context)
+    query_str = f"""INSERT INTO playlist 
+    VALUES ('{uuid1}')"""
+    with connection.cursor() as cursor:
+        e = cursor.execute(query_str)
+        # print(e)
+
+    uuid2 = str(uuid.uuid4())
+    tanggal = datetime.now().strftime("%Y-%m-%d")
+
+    query_str = f"""INSERT INTO user_playlist 
+    VALUES ('nicole50@example.com', '{uuid2}', '{judul}', '{deskripsi}', '{int(0)}', '{tanggal}', '{uuid1}', '{int(0)}');"""
+    with connection.cursor() as cursor:
+        e = cursor.execute(query_str)
+        # print(e)
+    return redirect('kelola_playlist:kelola_playlist')
+
+def delete_playlist(request, id_playlist):
+    query_str = f"""DELETE FROM USER_PLAYLIST WHERE id_playlist = '{id_playlist}';"""
+    with connection.cursor() as cursor:
+        e = cursor.execute(query_str)
+        # print(e)
+    return redirect('kelola_playlist:kelola_playlist')

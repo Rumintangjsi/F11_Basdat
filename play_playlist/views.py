@@ -1,10 +1,11 @@
 from django.db import connection
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
 def play_playlist(request, playlist_id):
-    print(playlist_id)
+    # print(playlist_id)
     playlist = {}
     with connection.cursor() as cursor:
         cursor.execute(f'''
@@ -24,7 +25,7 @@ def play_playlist(request, playlist_id):
         'total_durasi'  : playlist[6]
     }
 
-    songs = []
+    songs_on_playlist = []
     playlist_id = playlist[5]
     with connection.cursor() as cursor:
         cursor.execute(f'''
@@ -36,9 +37,10 @@ def play_playlist(request, playlist_id):
                         JOIN AKUN ON AKUN.email = ARTIST.email_akun
                         WHERE PLAYLIST_SONG.id_playlist = '{playlist_id}';
                     ''')
-        songs = cursor.fetchall()
-    songs_data = []
-    for song in songs:
+        songs_on_playlist = cursor.fetchall()
+    # print(songs_on_playlist)
+    songs_on_playlist_data = []
+    for song in songs_on_playlist:
         data = {
             'judul': song[0],
             'tanggal_rilis': song[1],
@@ -47,11 +49,55 @@ def play_playlist(request, playlist_id):
             'penyanyi': song[4],
             'id': song[5]
         }
-        songs_data.append(data)
+        songs_on_playlist_data.append(data)
     
+    all_songs = []
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                        SELECT KONTEN.judul, KONTEN.id
+                        FROM SONG
+                        JOIN KONTEN ON SONG.id_konten = KONTEN.id;
+                    ''')
+        all_songs = cursor.fetchall()
+    all_songs_data = []
+    for song in all_songs:
+        data = {
+            'judul': song[0],
+            'id_konten': str(song[1])
+        }
+        all_songs_data.append(data)
+
     context = {
         'playlist': playlist_data,
-        'songs': songs_data
+        'songs': songs_on_playlist_data,
+        'all_songs': all_songs_data,
+        'playlist_id': playlist_id,
     }
+    # print(songs_on_playlist_data)
+    # print(f'======================{all_songs_data}')
     
     return render(request, "play_playlist.html", context)
+
+@csrf_exempt
+def add_song_playlist(request, playlist_id):
+    if request.method == 'POST':
+        song_id = request.POST.get('song-dropdown')
+        # print('=================================')
+        # print(request.POST)
+        # print(song_id)
+        # print(playlist_id)
+        # print('=================================')
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                        INSERT INTO PLAYLIST_SONG (id_playlist, id_song)
+                        VALUES ('{playlist_id}', '{song_id}');
+                    ''')
+    return redirect('play_playlist:play_playlist', playlist_id=playlist_id)
+
+def delete_song_playlist(request, playlist_id, song_id):
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                        DELETE FROM PLAYLIST_SONG
+                        WHERE id_playlist = '{playlist_id}' AND id_song = '{song_id}';
+                    ''')
+    return redirect('play_playlist:play_playlist', playlist_id=playlist_id)

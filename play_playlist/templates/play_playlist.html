@@ -17,6 +17,7 @@
         }
 
         .playlist-info {
+            border-radius: 20px;
             display: flex;
             /* Use flexbox to align items side by side */
             align-items: center;
@@ -28,6 +29,7 @@
 
         .playlist-header {
             background-color: #C48B5F;
+            border-radius: 20px;
             /* Maroon color */
             color: #ffffff;
             /* White color for text */
@@ -50,7 +52,15 @@
             margin-bottom: 20px;
         }
 
-        .playlist-details,
+        .playlist-details {
+            background-color: #FFFFFF;
+            /* White color for the box */
+            border: 1px solid #d3d3d3;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
         .song-list {
             background-color: #FFFFFF;
             /* White color for the box */
@@ -82,10 +92,10 @@
             /* White text */
             text-decoration: none;
             border: none;
-            border-radius: 20px;
+            border-radius: 10px;
             cursor: pointer;
             display: block;
-            width: 100px;
+            width: 150px;
             margin: 20px auto;
             /* Centers the button */
         }
@@ -101,6 +111,7 @@
         }
 
         .playlist-logo {
+            border-radius: 15px;
             background-image: url('https://i.pinimg.com/736x/2a/00/cc/2a00cc3276a3241324db4bd13744716c.jpg');
             /* Path to the marmut logo image */
             height: 200px;
@@ -228,7 +239,7 @@
             color: #FFFFFF;
             text-decoration: none;
             border: none;
-            border-radius: 20px;
+            border-radius: 10px;
             cursor: pointer;
             display: inline-block;
             margin-bottom: 20px;
@@ -296,7 +307,7 @@
                 <p class="song-year-duration">{{ song.tahun }} • {{ song.durasi }}</p>
             </div>
             <div class="playlist-actions">
-                <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+                <a href="/play_playlist/delete-song-playlist/{{ playlist_id }}/{{ song.id }}" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
             </div>
         </div>
     </div>
@@ -305,13 +316,13 @@
     <div class="overlay" id="overlay">
         <div class="popup">
             <h2>TAMBAH LAGU</h2>
-            <form id="add-song-form">
+            <form method="POST" id="add-song-form"  action="{% url 'play_playlist:add_song_playlist' playlist_id %}">
                 <label for="song-dropdown">Lagu:</label><br>
-                <select id="song-dropdown" name="song-dropdown">
+                <select id="song-dropdown" class="song-dropdown" name="song-dropdown">
                     <!-- Dropdown options will be dynamically populated here -->
-                    <option value="song1">Song 1 - Artist 1</option>
-                    <option value="song2">Song 2 - Artist 2</option>
-                    <option value="song3">Song 3 - Artist 3</option>
+                    {% for song in all_songs %}
+                        <option value="{{ song.id_konten }}">{{ song.judul }}</option>
+                    {% endfor %}
                     <!-- Add more options as needed -->
                 </select><br><br>
                 <button type="submit" onclick="closePopup()">SUBMIT</button>
