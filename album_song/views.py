@@ -1,72 +1,94 @@
+import json
+import uuid
+from django.http import JsonResponse
 from django.shortcuts import render
 import psycopg2 
 
-conn = psycopg2.connect( 
-    database="railway", 
-    user='postgres', 
-    password='pCIIFIIJGgOGhPBgjASGQVjzXEOYPumt', 
-    host='viaduct.proxy.rlwy.net', 
-    port='59310'
-)
+# conn = psycopg2.connect( 
+#     database="railway", 
+#     user='postgres', 
+#     password='pCIIFIIJGgOGhPBgjASGQVjzXEOYPumt', 
+#     host='viaduct.proxy.rlwy.net', 
+#     port='59310'
+# )
+
+conn = psycopg2.connect(
+        database="postgres",
+        user='postgres',
+        password='A7c11i27',
+        host='localhost',  
+        port='5432'
+    )
 
 conn.autocommit = True
 
 def album_list(request):
+    return render(request, "album_list.html")
 
+def song_list(request, album_id):
+    context = {
+        'album_id' : album_id
+    }
+    return render(request, "song_list.html", context)
+
+def fetch_album(request):
     albums = []
 
     cursor = conn.cursor() 
-
-    # Fetch Album
+   
     sql = """ SELECT al.id, al.judul, la.nama, al.jumlah_lagu, al.total_durasi 
-              FROM album AS al 
-              JOIN label AS la 
-              ON la.id = al.id_label """
-
-    cursor.execute(sql) 
+                FROM album AS al 
+                JOIN label AS la 
+                ON la.id = al.id_label """
+    cursor.execute(sql)
     results = cursor.fetchall()
-
-    print(results)
-
+    
     for item in results:
         albums.append({
             'id': item[0],
-            'title' : item[1],
+            'title': item[1],
             'label': item[2],
-            'song_count':item[3],
-            'duration': str(round(item[4]/3600)) + "hr " + str(round(item[4]%3600 / 60)) + "min"})
-        
-    context = {
-        'albums' : albums
+            'song_count': item[3],
+            'duration': f"{item[4]//3600}hr {item[4]%3600//60}min"
+        })
+
+    sql = """ SELECT id, nama FROM label """
+    cursor.execute(sql)
+    labels = cursor.fetchall()
+
+    response = {
+        'albums': albums,
+        'labels' : labels,
     }
 
-    return render(request, "album_list.html", context)
+    return JsonResponse(response)
 
-def song_list(request, album_id):
+def fetch_song(request):
+
+    album_id = request.GET.get('album_id')
 
     cursor = conn.cursor() 
 
-    # Fetch Album Info and its songs
-    sql = f""" SELECT al.id, al.judul, la.nama, al.jumlah_lagu, al.total_durasi, 
-                      k.id, k.judul, ge.genre, k.durasi, s.total_play, s.total_download,
-                      STRING_AGG(DISTINCT ak.nama, ',') AS artists,
-                      STRING_AGG(DISTINCT ak1.nama, ',') AS songwriters
-               FROM album AS al 
-               JOIN label AS la ON la.id = al.id_label
-               JOIN song AS s ON s.id_album = al.id
-               JOIN konten AS k ON s.id_konten = k.id
-               JOIN genre AS ge ON k.id = ge.id_konten
+    sql = f""" SELECT a.id, a.judul, l.nama, jumlah_lagu, a.total_durasi, 
+                    k.id, k.judul, g.genre, k.durasi, s.total_play, s.total_download,
+                    STRING_AGG(DISTINCT ak.nama, ',') AS artists,
+                    STRING_AGG(DISTINCT ak1.nama, ',') AS songwriters
+            FROM album AS a 
+            JOIN label AS l ON l.id = a.id_label
+            JOIN song AS s ON s.id_album = a.id
+            JOIN konten AS k ON s.id_konten = k.id
+            JOIN genre AS g ON k.id = g.id_konten
 
-               JOIN artist AS ar ON s.id_artist = ar.id
-               JOIN akun AS ak ON ar.email_akun = ak.email
+            JOIN artist AS ar ON s.id_artist = ar.id
+            JOIN akun AS ak ON ar.email_akun = ak.email
 
-               LEFT JOIN songwriter_write_song AS sws ON sws.id_song = k.id
-               LEFT JOIN songwriter AS sw ON sws.id_songwriter = sw.id
-               LEFT JOIN akun AS ak1 ON sw.email_akun = ak1.email
+            LEFT JOIN songwriter_write_song AS sws ON sws.id_song = k.id
+            LEFT JOIN songwriter AS sw ON sws.id_songwriter = sw.id
+            LEFT JOIN akun AS ak1 ON sw.email_akun = ak1.email
 
-               WHERE al.id = '{album_id}'
-               GROUP BY al.id, al.judul, la.nama, al.jumlah_lagu, al.total_durasi, k.id, k.judul, ge.genre, k.durasi, s.total_play, s.total_download 
-               ORDER BY k.tanggal_rilis ASC """
+            WHERE a.id = '{album_id}'
+            GROUP BY a.id, a.judul, l.nama, a.jumlah_lagu, a.total_durasi, k.id, k.judul, g.genre, k.durasi, s.total_play, s.total_download 
+            ORDER BY k.tanggal_rilis ASC """
 
     cursor.execute(sql) 
     results = cursor.fetchall()
@@ -96,12 +118,10 @@ def song_list(request, album_id):
             'downloads': row[10]
         })
 
-    context = {
+    return JsonResponse({
         'album': album,
         'songs': songs
-    }
-
-    return render(request, "song_list.html", context)
+    })
 
 def add_song(request):
     return None
@@ -113,10 +133,42 @@ def delete_song(request, song_id):
     return None
 
 def add_album(request):
-    return None
+
+    if request.method == 'POST':
+        form_data = json.loads(request.body)
+        judul = form_data.get('title')
+        id_label = form_data.get('label')
+
+        id = uuid.uuid4()
+        jumlah_lagu = 0
+        total_durasi = 0
+
+        cursor = conn.cursor() 
+        
+        sql = f""" 
+            INSERT INTO album (id, judul, jumlah_lagu, id_label, total_durasi) 
+            VALUES (%s, %s, %s, %s, %s)
+            """
+        
+        cursor.execute(sql, (id, judul, jumlah_lagu, id_label, total_durasi))
+        conn.commit()
+
+        return JsonResponse({'message': 'Album created successfully'})
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def edit_album(request, album_id):
     return None
 
 def delete_album(request, album_id):
-    return None
+    
+    if request.method == 'DELETE':
+
+        cursor = conn.cursor() 
+        sql = """ DELETE FROM album WHERE id = %s """
+        cursor.execute(sql, (album_id,))
+        conn.commit()
+
+        return JsonResponse({'message': 'Album deleted successfully'})
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)

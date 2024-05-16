@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<title>Albums and Songs</title>
+<title>Songs</title>
 <style>
     * {
     margin: 0;
@@ -32,6 +32,25 @@
     gap: 28px;
 }
 
+.modal-card {
+    display: inline-flex;
+    padding: 56px;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    border-radius: 40px;
+    background: #FFF;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+  }
+
+.modal-overlay {
+display: flex;
+position: fixed;
+width: 1440px;
+height: 1024px;
+z-index: -1;
+}
+
 .song-container {
     display: flex;
     flex-direction: column;
@@ -42,7 +61,7 @@
     flex-wrap: wrap;
 }
 
-.song-wrapper {
+#song-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -208,28 +227,39 @@
     align-self: stretch;
   }
 
+  .modal-container {
+    display: none;
+    position: fixed;
+    width: 1440px;
+    height: 1024px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    z-index: 1;
+  }
+
 </style>
 </head>
 
 <body>
-    
+
+    <div class="modal-container" id="add-album-modal">
+        <div id="modal-overlay" class="modal-overlay"></div>
+
+        <form id="add-song-form" onsubmit="add_song(event)" class="modal-card">
+            {% csrf_token %}
+            
+        </form> 
+    </div>
+
     <div class="song-container">
 
         <div class="title-container">
             <h1 class="title">Songs</h1>
         </div>
 
-        <div class="song-wrapper">
-            <div class="album-display">
-                <img src="{% static 'svg/cover-dummy.svg' %}">
-                <div class="album-detail">
-                    <p class="album-text">Album</p>
-                    <div class="album-info">
-                        <p class="album-name">{{album.title}}</p>
-                        <p class="album-label">{{album.label}} · <span style="font-weight: 500;">{{album.song_count}} Songs, {{album.duration}}</span></p>
-                    </div>
-                </div>
-            </div>
+        <div id="album-wrapper">
         </div>
 
         <div class="table">
@@ -246,62 +276,110 @@
             <hr style="height:1px; width:100% ;background-color:#1E1E1E;;" noshade />
         </div>
 
-        {% for song in songs %}
-
-        <div class="song-card">
-            <img src="{% static 'svg/song-cover.svg' %}">
-            <div class="song-info">
-                <div class="song-info-layout">
-                    <p style="color: #1E1E1E;
-                    font-family: Poppins;
-                    font-size: 24px;
-                    font-style: normal;
-                    font-weight: 700;
-                    line-height: normal;">{{song.title}}</p>
-
-                    <p style="color: #1E1E1E;
-                    font-family: Poppins;
-                    font-size: 16px;
-                    font-style: normal;
-                    font-weight: 600;
-                    line-height: normal;">{{song.artist}}</p>
-                </div>
-                <div class="song-info-layout-2">
-                    <div style="display: flex;
-                    width: 68px;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: flex-end;
-                    flex-shrink: 0;">
-                        <p class="header-title"> {{song.duration}}</p>
-                    </div>
-                    <div style="display: flex;
-                    width: 143px;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: flex-end;
-                    flex-shrink: 0;">
-                        <p class="header-title">{{song.plays}}</p>
-
-                    </div>
-                    <div style="display: flex;
-                    width: 120px;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: flex-end;
-                    flex-shrink: 0;">
-                        <p class="header-title">{{song.downloads}}</p>
-                    </div>
-                </div>
-            </div>
+        <div id="song-wrapper">
         </div>
 
-        {% endfor %}
-        <div class="add-song-container">
+        <div id="add-album" class="add-song-container">
             <img class="action-button" src="{% static 'svg/add-icon.svg' %}">
         </div>
 
     </div>
+
+    <script>
+
+        const album_id = '{{album_id}}';
+        fetch_song()
+
+        async function fetch_song () {
+
+            const response = await fetch(`/albums/fetch_song/?album_id=${album_id}`);
+            const data = await response.json();
+
+            console.log(data)
+
+            const albumWrapper = document.getElementById("album-wrapper");
+
+            const albumCard = document.createElement("div");
+            albumCard.innerHTML = `
+                <div class="album-display">
+                    <img src="{% static 'svg/cover-dummy.svg' %}">
+                    <div class="album-detail">
+                        <p class="album-text">Album</p>
+                        <div class="album-info">
+                            <p class="album-name">${data.album.title}</p>
+                            <p class="album-label">${data.album.label} · <span style="font-weight: 500;">${data.album.song_count} Songs, ${data.album.duration}</span></p>
+                        </div>
+                    </div>
+                </div>`
+
+            albumWrapper.appendChild(albumCard);
+
+
+            const songWrapper = document.getElementById("song-wrapper");
+
+            data.songs.forEach(song => {
+                const songCard = document.createElement("div");
+                songCard.innerHTML = `
+                    <div class="song-card">
+                        <img src="{% static 'svg/song-cover.svg' %}">
+                        <div class="song-info">
+                            <div class="song-info-layout">
+                                <p style="color: #1E1E1E;
+                                font-family: Poppins;
+                                font-size: 24px;
+                                font-style: normal;
+                                font-weight: 700;
+                                line-height: normal;">${song.title}</p>
+
+                                <p style="color: #1E1E1E;
+                                font-family: Poppins;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 600;
+                                line-height: normal;">${song.artist}</p>
+                            </div>
+                            <div class="song-info-layout-2">
+                                <div style="display: flex;
+                                width: 68px;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: flex-end;
+                                flex-shrink: 0;">
+                                    <p class="header-title"> ${song.duration}</p>
+                                </div>
+                                <div style="display: flex;
+                                width: 143px;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: flex-end;
+                                flex-shrink: 0;">
+                                    <p class="header-title">${song.plays}</p>
+
+                                </div>
+                                <div style="display: flex;
+                                width: 120px;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: flex-end;
+                                flex-shrink: 0;">
+                                    <p class="header-title">${song.downloads}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                songWrapper.appendChild(songCard);
+            });
+        };
+
+        document.getElementById("add-album").addEventListener("click", () => {
+            document.getElementById("add-album-modal").style.display = "flex";
+        });
+
+        document.getElementById("modal-overlay").addEventListener("click", () => {
+            document.getElementById("add-album-modal").style.display = "none";
+        });
+    </script>
        
 </body> 
 
