@@ -280,12 +280,12 @@
     {% endif %}
 
     <button class="back-button" onclick="history.back()">Shuffle Play</button>
-    <button class="back-button" onclick="history.back()">يرخع</button>
+    <button class="back-button" onclick="history.back()">يرجع</button>
 
     <div class="header">Daftar song</div>
 
     {% for song in songs %}
-    <div class="song-list">
+    <div class="song-list" data-song-id="{{ song.id }}">
         <div class="song-item">
             <div class="song-image"
                 style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');">
@@ -324,6 +324,15 @@
 </body>
 
 <script>
+    // Add event listener to each song entry to redirect to the song detail page
+    const songItems = document.querySelectorAll('.song-item');
+    songItems.forEach(songItem => {
+        songItem.addEventListener('click', () => {
+            const songId = songItem.parentElement.getAttribute('data-song-id');
+            window.location.href = `/play_song/${songId}`;
+        });
+    });
+
     // JavaScript function to open the pop-up
     function openPopup() {
         document.getElementById('overlay').style.display = 'flex';
