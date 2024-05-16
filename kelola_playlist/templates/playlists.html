@@ -143,11 +143,21 @@
             </div>
             <div class="playlist-actions">
                 <a href="/add/{{ playlist.id_playlist }}" class="gg-add action-icon"></a> <!-- Clickable add icon -->
-                <a href="/delete/{{ playlist.id_playlist }}" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+                <a href="delete_playlist/{{ playlist.id_playlist }}" class="gg-trash action-icon"></a>
+                <!-- Clickable delete icon -->
             </div>
         </div>
         {% endfor %}
-    </div>
+        <!-- membuat card bertanda plus untuk menambahkan playlist baru-->
+        <div class="playlist-entry" id="add-playlist" style="background-color: #8A4B3F80;">
+            <div class="playlist-details">
+                <p class="playlist-title">Add new playlist</p>
+            </div>
+            <div class="playlist-actions">
+                <a href="/create_playlist" class="gg-add action-icon"></a> <!-- Clickable add icon -->
+            </div>
+        </div>
+
 
 </body>
 
@@ -160,6 +170,12 @@
             const url = '/play_playlist/' + playlist_id;
             window.location.href = url;
         });
+    });
+
+    // listener for add-playlist
+    const addPlaylist = document.getElementById('add-playlist');
+    addPlaylist.addEventListener('click', () => {
+        window.location.href = 'create_playlist/';
     });
 </script>
 
