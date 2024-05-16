@@ -81,14 +81,14 @@
         Create playlist
     </div>
     <div class="container">
-        <form action="/submit-playlist" method="post" onsubmit="return validateForm()">
+        <form method="post" action="{% url 'kelola_playlist:create_playlist_post' %}" onsubmit="return validateForm()">
             <div class="form-group">
-                <label for="title">Judul:</label>
+                <label for="title">Title:</label>
                 <input type="text" id="title" name="title" required>
             </div>
             <div class="form-group">
-                <label for="deskripsi">Deskripsi:</label>
-                <input type="text" id="deskripsi" name="deskripsi" required>
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
             </div>
             <button type="submit">SUBMIT</button>
         </form>
@@ -97,8 +97,8 @@
     <script>
         function validateForm() {
             const title = document.getElementById('title').value.trim();
-            const deskripsi = document.getElementById('deskripsi').value.trim();
-            if (title === '' || deskripsi === '') {
+            const description = document.getElementById('description').value.trim();
+            if (title === '' || description === '') {
                 alert('Please fill in all fields.');
                 return false;
             }
