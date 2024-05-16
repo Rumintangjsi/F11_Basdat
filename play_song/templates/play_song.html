@@ -31,7 +31,7 @@
         .page-title {
             font-weight: 600;
             font-size: 24px;
-            color: #1E1E1E;
+            color: #FFFFFF;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
@@ -179,29 +179,35 @@
     <div class="song-header">
         <p class="page-title">Play Song</p>
     </div>
+    {% if song %}
     <div class="song-info">
         <div class="song-logo"></div>
         <div class="song-text">
-            <p class="song-title">Song 1</p>
+            <p class="song-title">{{ song.judul }}</p>
             <p class="song-genre">Genre(s):<br>
-                - Genre1<br>
-                - Genre2
+                {% for genre in genres %}
+                - {{ genre }}<br>
+                {% endfor %}
             </p>
-            <p class="song-singer">Artist: Artist1</p>
+            <p class="song-singer">Artist: {{ song.penyanyi }}</p>
             <p class="song-songwriter">Songwriter(s):<br>
-                - Songwriter1<br>
-                - Songwriter2
+                {% for songwriter in songwriters %}
+                - {{ songwriter }}<br>
+                {% endfor %}
             </p>
         </div>
     </div>
     <div class="song-details">
-        <p>Durasi: 3 menit</p>
-        <p>Tanggal Rilis: 18/03/24</p>
-        <p>Tahun: 2024</p>
-        <p>TotalPlay: 0</p>
-        <p>TotalDownloads: 0</p>
-        <p>Album: Album1</p>
+        <p>Durasi: {{ song.durasi }} menit</p>
+        <p>Tanggal Rilis: {{ song.tanggal_rilis }}</p>
+        <p>Tahun: {{ song.tahun }}</p>
+        <p>TotalPlay: {{ song.total_play }}</p>
+        <p>TotalDownloads: {{ song.total_download }}</p>
+        {% for album in albums %}
+        <p>Album: {{ album }}</p>
+        {% endfor %}
     </div>
+    {% endif %}
 
     <!-- Play progress bar -->
     <div class="play-progress">
@@ -352,7 +358,7 @@
         downloadButton.addEventListener('click', handleDownloadButtonClick);
 
         function handleGoToDownloadListButtonClick() {
-            window.location.href = '/download-list';
+            window.location.href = '/play_song/download/list';
         }
 
         const goToDownloadListButton = document.querySelector('.go-to-download-list');
