@@ -28,7 +28,7 @@ def play_playlist(request, playlist_id):
     playlist_id = playlist[5]
     with connection.cursor() as cursor:
         cursor.execute(f'''
-                        SELECT KONTEN.judul, KONTEN.tanggal_rilis, KONTEN.tahun, KONTEN.durasi, AKUN.nama AS penyanyi
+                        SELECT KONTEN.judul, KONTEN.tanggal_rilis, KONTEN.tahun, KONTEN.durasi, AKUN.nama AS penyanyi, KONTEN.id
                         FROM PLAYLIST_SONG
                         JOIN SONG ON PLAYLIST_SONG.id_song = SONG.id_konten
                         JOIN KONTEN ON SONG.id_konten = KONTEN.id
@@ -44,7 +44,8 @@ def play_playlist(request, playlist_id):
             'tanggal_rilis': song[1],
             'tahun': song[2],
             'durasi': song[3],
-            'penyanyi': song[4]
+            'penyanyi': song[4],
+            'id': song[5]
         }
         songs_data.append(data)
     
