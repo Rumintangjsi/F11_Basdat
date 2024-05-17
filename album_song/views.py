@@ -16,7 +16,7 @@ def album_list(request):
         'roles' : roles
     }
     
-    if ('artist' in roles) or ('songwriter' in roles):
+    if ('artist' in roles) or ('songwriter' in roles) or ('label' in roles):
         return render(request, "album_list.html", context)
     else:
         return render(request, "album_list.html", {'message': 'You cant access album dashboard'})

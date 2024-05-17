@@ -149,7 +149,25 @@ def login_api(request):
 
         if not check(email) :
             return JsonResponse({'error': 'Email is not valid'}, status=400)
+        
+        # Label login
+        sql = f"""
+            SELECT email, password FROM label WHERE email = %s """
+        
+        cursor = conn.cursor() 
+        cursor.execute(sql, (email, ))
+        results = cursor.fetchone()
 
+        if results :
+            db_pass = results[1]
+
+            if password != db_pass:
+                return JsonResponse({'error': 'Wrong password'}, status=405)
+            else:
+                request.session['role'] = ["label"]
+                return JsonResponse({'message': 'Label login Success'})
+        
+        # Pengguna login
         sql = f"""
             SELECT email, password FROM akun WHERE email = %s """
         
@@ -157,48 +175,47 @@ def login_api(request):
         cursor.execute(sql, (email, ))
         results = cursor.fetchone()
 
-        db_pass = results[1]
+        if results :
+            db_pass = results[1]
 
-        if (not results) :
-            return JsonResponse({'error': 'Email not found'}, status=405)
-    
-        if (password != db_pass) :
-            return JsonResponse({'error': 'Wrong password'}, status=405)
-
-        conn.commit()
-
-        role = []
-
-        # Check if email exists in the artist table
-        sql = "SELECT email_akun FROM artist WHERE email_akun = %s"
-        cursor.execute(sql, (email,))
-        artist = cursor.fetchone()
-        print(artist)
-        if artist:
-            role.append("artist")
-
-        # Check if email exists in the songwriter table
-        sql = "SELECT email_akun FROM songwriter WHERE email_akun = %s"
-        cursor.execute(sql, (email,))
-        songwriter = cursor.fetchone()
-        print(songwriter)
-        if songwriter:
-            role.append("songwriter")
-
-        # Check if email exists in the podcaster table
-        sql = "SELECT email FROM podcaster WHERE email = %s"
-        cursor.execute(sql, (email,))
-        podcaster = cursor.fetchone()
-        print(podcaster)
-        if podcaster:
-            role.append("podcaster")
-
-        request.session['email'] = email
-        request.session['role'] = role
-
+            if (not results) :
+                return JsonResponse({'error': 'Email not found'}, status=405)
         
-            
-        return JsonResponse({'message': 'Login Success'})
+            if (password != db_pass) :
+                return JsonResponse({'error': 'Wrong password'}, status=405)
+
+            conn.commit()
+
+            role = []
+
+            # Check if email exists in the artist table
+            sql = "SELECT email_akun FROM artist WHERE email_akun = %s"
+            cursor.execute(sql, (email,))
+            artist = cursor.fetchone()
+            print(artist)
+            if artist:
+                role.append("artist")
+
+            # Check if email exists in the songwriter table
+            sql = "SELECT email_akun FROM songwriter WHERE email_akun = %s"
+            cursor.execute(sql, (email,))
+            songwriter = cursor.fetchone()
+            print(songwriter)
+            if songwriter:
+                role.append("songwriter")
+
+            # Check if email exists in the podcaster table
+            sql = "SELECT email FROM podcaster WHERE email = %s"
+            cursor.execute(sql, (email,))
+            podcaster = cursor.fetchone()
+            print(podcaster)
+            if podcaster:
+                role.append("podcaster")
+
+            request.session['email'] = email
+            request.session['role'] = role
+
+            return JsonResponse({'message': 'Login Success'})
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
