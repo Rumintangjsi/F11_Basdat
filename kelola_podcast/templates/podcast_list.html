@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load podcast_filters %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>List Podcast</title>
@@ -28,6 +29,7 @@
     .podcast-list-title {
       font-size: 2em;
       margin: 0;
+      font-weight: 600;
     }
 
     .podcast-container {
@@ -120,34 +122,22 @@
 </div>
 
 <div class="podcast-container">
-    <!-- Dummy content for podcast 1 -->
-    <div class="podcast-entry">
-      <div class="podcast-image" style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');"></div>
-      <div class="podcast-details">
-        <p class="podcast-title">Title1</p>
-        <a href="{% url 'play_podcast:play_podcast' %}" class="podcast-episode">Episodes: 3</a> <!-- Clickable number of episodes -->
-        <p class="podcast-total-duration">Total Duration: 90 min</p>
-      </div>
-      <div class="podcast-actions">
-        <a href="/add/1" class="gg-add action-icon"></a> <!-- Clickable add icon -->
-        <a href="/delete/1" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
-      </div>
-    </div>
   
-    <!-- Dummy content for podcast 2 -->
+    {% for podcast in podcasts %}
     <div class="podcast-entry">
       <div class="podcast-image" style="background-image: url('https://i.pinimg.com/474x/8b/fd/30/8bfd305e9d53f8b84151538ff41f2e00.jpg');"></div>
       <div class="podcast-details">
-        <p class="podcast-title">Title2</p>
-        <a href="{% url 'play_podcast:play_podcast' %}" class="podcast-episode">Episodes: 5</a> <!-- Clickable number of episodes -->
-        <p class="podcast-total-duration">Total Duration: 120 min</p>
+        <p class="podcast-title">{{ podcast.contents.judul }}</p> 
+        <a href="/podcast_list/episode_list/{{ podcast.id_konten }}/" class="podcast-episode">Episodes: {{ podcast.episode_count}}</a>
+        <p class="podcast-total-duration">Total Duration: {{ podcast.total_duration|format_duration}}</p>
       </div>
       <div class="podcast-actions">
-        <a href="/add/2" class="gg-add action-icon"></a> <!-- Clickable add icon -->
-        <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
+        <a href="/podcast_list/{{ podcast.id_konten }}/create_episode/" class="gg-add action-icon"></a> 
+        <a href="/podcast_list/delete_podcast/{{ podcast.id_konten }}" class="gg-trash action-icon"></a>
       </div>
     </div>
-  </div>
+    {% endfor %}
+</div>
 
 </body>
 </html>
