@@ -19,18 +19,17 @@ from django.urls import path, include
 
 
 urlpatterns = [
+    path('', include('main.urls')),
+    path('authentication/', include('authentication.urls')),
+
     path('admin/', admin.site.urls),
-    path('main/', include('main.urls')),
     path('play_podcast/', include('play_podcast.urls')),
     path('chart/', include('chart.urls')),
     path('chart_detail/', include('chart.urls')),
-    path('', include('kelola_podcast.urls')),
     path('podcast_list/', include('kelola_podcast.urls')),
-    path('', include('kelola_podcast.urls')),
     path('episode_list/', include('kelola_podcast.urls')),
     path('albums/', include('album_song.urls')),
     path('royalti/', include('royalti.urls')),
-    path('authentication/', include('authentication.urls')),
     path('langganan_paket/', include('langganan_paket.urls')),
     path('search_bar/', include('search_bar.urls')),
     path('downloaded_songs/', include('downloaded_songs.urls')),

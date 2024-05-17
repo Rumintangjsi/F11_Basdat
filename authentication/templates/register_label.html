@@ -6,9 +6,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <title>Welcome to Marmut - F11</title>
 <style>
-    html {
-        background-color: #F8F8F8;
-    }
+  html {
+    background-color: #F8F8F8;
+}
     .login-container{
         font-family: 'Poppins', sans-serif;
         position: absolute;
@@ -16,14 +16,14 @@
         flex-direction: column;
         gap:50px;
         align-items: center;
-        justify-content: center;
+        justify-content:center;
         width: 100% !important;
-        height: 100%;
+        height: fit-content;
         margin-bottom:0px !important;
-
+        padding:20px;
     }
 
-    .login_btn {
+    .buttonRegister {
         display: inline-block;
         text-align: center;
         width: 436px;
@@ -32,6 +32,8 @@
         background-color: #E49C9C; 
         border: none; 
         cursor: pointer;
+        margin-right: 20px;
+        margin-top: 10px;
         color: #FFF;
         font-family: Poppins;
         font-size: 25.932px;
@@ -40,31 +42,29 @@
         line-height: normal;
         border-radius: 44.883px;
         background: #C48B5F;
-        margin: auto;
-        text-align: center;
+        margin-bottom: 30px;
     }
     
-    .login_btn:hover {
-        background-color: #7D4D28;
+    .buttonRegister:hover {
+        background-color: #BC5151; 
     }
 
+      .inputBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 572px;
+        height: fit-content;
+        background-color: white;
+        border-radius: 40px;
+        background: #FFF;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+        text-align: center; /* Menyelaraskan konten secara horizontal ke tengah */
+        vertical-align: middle;
 
-    .inputBar{
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      width: 745.801px;
-      height: 443px;
-      flex-shrink: 0;
-      background-color: white;
-      border-radius: 40px;
-      background: #FFF;
-      box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
-      text-align: center; /* Menyelaraskan konten secara horizontal ke tengah */
-      vertical-align: middle;
-      
-    }
+        
+      }
 
       .logo{
         justify-content: left;
@@ -90,6 +90,7 @@
     }
 
     .Podcaster {
+      /* setting the checkbox input HTML element accent color to `green` */
       accent-color: green;
     }
 
@@ -97,11 +98,14 @@
         margin-left: 20px;
     }
 
+    td {
+      margin-left: 30px;
+    }
 </style>
 <body>
     <div class = "login-container">
 
-        <form id="login-form" method="POST" onsubmit="login(event)">
+        <form id="register-form" method="POST" onsubmit="register(event)">
             {% csrf_token %}
             <table class="inputBar">
                 <tr>
@@ -109,33 +113,43 @@
                         <div id="responseMessage"></div>
                     </td>
                 </tr>
-                
                 <tr>
                     <td>
-                        <p> Email <p>
-                        <input type="text" name="email" placeholder="Email" class="form-control"></td>
+                    <p> Email <p>
+                    <input type="text" name="email" placeholder="Email" class="form-control"></td>
                 </tr>
                 
                 <tr>
                     <td>
-                        <p> Password <p>
-                        <input type="password" name="password" placeholder="Password" class="form-control"></td>
+                    <p> Password <p>
+                    <input type="password" name="password" placeholder="Password" class="form-control"></td>
                 </tr>
-        
+    
                 <tr>
-                    <td><input class="login_btn" type="submit" value="Login"></td>
+                <td>
+                    <p> Nama <p>
+                    <input type="text" name="nama" placeholder="Nama" class="form-control"></td>
+                </tr>
+    
+                <tr>
+                <td>
+                    <p> Kontak <p>
+                    <input type="text" name="kontak" placeholder="Kontak" class="form-control"></td>
+                </tr>
+    
+                <tr>
+                    <td><input class="buttonRegister" type="submit" value="Register"></td>
                 </tr>
             </table>
-        </form>    
-      </div>
+        </form>
     
     </div>
 
     <script>
-        async function login(event) {
+        async function register(event) {
             event.preventDefault()
 
-            const formData = new FormData(document.getElementById('login-form'));
+            const formData = new FormData(document.getElementById('register-form'));
             const jsonData = {};
             formData.forEach((value, key) => {
                 jsonData[key] = value;
@@ -143,24 +157,24 @@
 
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-            const response = await fetch(`login_api/`, {
+            const response = await fetch(`register_label/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRFToken": csrfToken
                 },
                 body: JSON.stringify(jsonData)
-            });
+            })
 
             const data = await response.json();
 
             if (response.ok) {
-                window.location.href = '/albums';
+                window.location.href = '/authentication/login';
             } else {
                 document.getElementById('responseMessage').innerText = data.error;
             }
-
         }
     </script>
 </body>
+
 </html>

@@ -2,28 +2,21 @@ import json
 import uuid
 from django.http import JsonResponse
 from django.shortcuts import render
-import psycopg2 
+import psycopg2
 
-# conn = psycopg2.connect( 
-#     database="railway", 
-#     user='postgres', 
-#     password='pCIIFIIJGgOGhPBgjASGQVjzXEOYPumt', 
-#     host='viaduct.proxy.rlwy.net', 
-#     port='59310'
-# )
-
-conn = psycopg2.connect(
-        database="postgres",
-        user='postgres',
-        password='A7c11i27',
-        host='localhost',  
-        port='5432'
-    )
-
-conn.autocommit = True
+from django.db import connection as conn
 
 def album_list(request):
-    return render(request, "album_list.html")
+
+    email = request.session['email']
+    role = request.session['role']
+
+    context = {
+        'email' : email,
+        'role' : role
+    }
+    
+    return render(request, "album_list.html", context)
 
 def song_list(request, album_id):
     context = {
@@ -92,6 +85,7 @@ def fetch_song(request):
 
     cursor.execute(sql) 
     results = cursor.fetchall()
+
 
     album_info = results[0][:5]
     album = {

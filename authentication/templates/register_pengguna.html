@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Welcome to Marmut - F11</title>
+<style>
+  html {
+    background-color: #F8F8F8;
+}
+    .login-container{
+        font-family: 'Poppins', sans-serif;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        gap:50px;
+        align-items: center;
+        justify-content:center;
+        width: 100% !important;
+        height: fit-content;
+        margin-bottom:0px !important;
+        padding:20px;
+    }
+
+    .buttonRegister {
+        display: inline-block;
+        text-align: center;
+        width: 436px;
+        height: 68px;
+        flex-shrink: 0;
+        background-color: #E49C9C; 
+        border: none; 
+        cursor: pointer;
+        margin-right: 20px;
+        margin-top: 10px;
+        color: #FFF;
+        font-family: Poppins;
+        font-size: 25.932px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        border-radius: 44.883px;
+        background: #C48B5F;
+        margin-bottom: 30px;
+    }
+    
+    .buttonRegister:hover {
+        background-color: #BC5151; 
+    }
+
+      .inputBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 572px;
+        height: fit-content;
+        background-color: white;
+        border-radius: 40px;
+        background: #FFF;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+        text-align: center; /* Menyelaraskan konten secara horizontal ke tengah */
+        vertical-align: middle;
+
+        
+      }
+
+      .logo{
+        justify-content: left;
+        left:0;
+        margin-right: 30px;
+
+      }
+      
+      .form-control {
+        width: 439px;
+        height: 54px;
+        flex-shrink: 0;
+        border-radius: 20px;
+        border: 1px solid #C48B5F;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05) inset;
+    }
+
+      
+
+    .fotokucing td{
+        padding:20px;
+    }
+
+    .Podcaster {
+      accent-color: green;
+    }
+
+    .logo {
+        margin-left: 20px;
+    }
+
+    td {
+      margin-left: 30px;
+    }
+</style>
+
+<body>
+    <div class = "login-container">
+        <form id="register-form" method="POST" onsubmit="register(event)">
+            {% csrf_token %}
+            <table class="inputBar">
+                <tr>
+                    <td>
+                        <div id="responseMessage"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p> Email <p>
+                        <input type="text" name="email" placeholder="Email" class="form-control">
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <p> Password <p>
+                        <input type="password" name="password" placeholder="Password" class="form-control">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p> Nama <p>
+                        <input type="text" name="nama" placeholder="Nama" class="form-control">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                    <p> Gender <p>
+                        <select name="gender" class="form-control">
+                            <option value="Laki-Laki">Laki-Laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p> Tempat Lahir <p>
+                        <input type="text" name="tempat_lahir" placeholder="Tempat Lahir" class="form-control">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p> Tanggal Lahir <p>
+                        <input type="date" name="tanggal_lahir" placeholder="Tanggal lahir" class="form-control">
+                    </td>
+                </tr>
+
+                <td>
+                    <p> Kota Asal <p>
+                    <input type="text" name="kota_asal" placeholder="Kota Asal" class="form-control"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p> Role <p>
+                        <input type="checkbox" name="podcaster" id="Podcaster">
+                        <label for="Podcaster">Podcaster</label>
+                        <input type="checkbox" name="artist" id="Artist">
+                        <label for="Artist">Artist</label>
+                        <input type="checkbox" name="songwriter" id="Songwriter">
+                        <label for="Songwriter">Songwriter</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><input class="buttonRegister" type="submit" value="Register"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+
+        async function register(event) {
+            event.preventDefault()
+
+            const formData = new FormData(document.getElementById('register-form'));
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const response = await fetch(`register_pengguna/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(jsonData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                window.location.href = '/authentication/login';
+            } else {
+                document.getElementById('responseMessage').innerText = data.error;
+            }
+
+        }
+    </script>
+</body>
+</html>
