@@ -106,3 +106,39 @@ def delete_playlist(request, id_playlist):
         e = cursor.execute(query_str)
         # print(e)
     return redirect('kelola_playlist:kelola_playlist')
+
+def edit_playlist_page(request, id_playlist):
+    print(id_playlist)
+    playlist = []
+    url = f'''SELECT judul, deskripsi
+                FROM USER_PLAYLIST
+                WHERE id_playlist = '{id_playlist}';
+                '''
+    print(url)
+    with connection.cursor() as cursor:
+        cursor.execute(url)
+        playlist = cursor.fetchall()
+    context = {
+        'id_playlist': id_playlist,
+        'judul': playlist[0][0],
+        'deskripsi': playlist[0][1]
+    }
+    print(playlist)
+    return render(request, "edit_playlist.html", context)
+
+def edit_playlist_post(request, id_playlist):
+    print(id_playlist)
+    judul = ''
+    deskripsi = ''
+    if request.method == 'POST':
+        judul = request.POST['title']
+        deskripsi = request.POST['description']
+        # print(f'Judul: {judul}')
+        # print(f'Deskripsi: {deskripsi}')
+    query_str = f"""UPDATE USER_PLAYLIST 
+                    SET judul = '{judul}', deskripsi = '{deskripsi}' 
+                    WHERE id_playlist = '{id_playlist}';"""
+    with connection.cursor() as cursor:
+        e = cursor.execute(query_str)
+        # print(e)
+    return redirect('kelola_playlist:kelola_playlist')
