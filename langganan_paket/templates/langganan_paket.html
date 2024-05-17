@@ -122,6 +122,7 @@
             background-color: #7D4D28;
         }
 
+
         
     </style>
 </head>
@@ -131,31 +132,15 @@
             <h1>Langganan Paket</h1>
         </div>
         <div class="package">
+            {% for i in paket %} 
             <div class="package-1">
-                <p class="header-package">1 Bulan</p>
-                <p class="harga-package">Rp54.900</p>
-                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
+                <p class="header-package"> {{i.jenis}}</p>
+                <p class="harga-package">Rp{{i.harga}}<p>
+                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket/{{i.jenis}}/{{i.harga}}'"> Berlangganan </button>
             </div>
-
-            <div class="package-1">
-                <p class="header-package">3 Bulan</p>
-                <p class="harga-package">Rp74.900</p>
-                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
-            </div>
-
-            <div class="package-1">
-                <p class="header-package">6 Bulan</p>
-                <p class="harga-package">Rp104.900</p>
-                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
-            </div>
-
-            <div class="package-1">
-                <p class="header-package">12 Bulan</p>
-                <p class="harga-package">Rp144.900</p>
-                <button class="berlangganan-button" onclick="location.href='/langganan_paket/pembayaran_paket'"> Berlangganan </button>
-            </div>
+            {% endfor %} 
         </div>
-        <button class="riwayat-transaksi-button" onclick="location.href='/langganan_paket/riwayat_transaksi'">Riwayat Transaksi</button>
+            <button class="riwayat-transaksi-button" onclick="location.href='/langganan_paket/riwayat_transaksi'">Riwayat Transaksi</button>
     </div>
 </body>
 </html>

@@ -73,45 +73,232 @@
             cursor: pointer;
             border-radius: 4px;
         }
+
+        .dropbtn {
+            background: transparent; 
+            border: none; 
+            padding: 0; 
+            margin: 0;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            flex-direction: column; 
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .dropdown-content button {
+            padding: 10px; 
+            width: 200px;
+
+            text-align: left; 
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        .dropdown-content button:hover {
+            background-color: #ddd;
+        }
+        .dropdown-content a:hover {background-color: #ddd;}
+    
+        .dropdown:hover .dropdown-content {display: block;}
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Hasil Pencarian "love"</h2>
+        <h2>Hasil Pencarian </h2>
         <div class="search-form">
-            <form action="search_results.html" method="get">
-                <label for="query">Query:</label>
-                <input type="text" id="query" name="query" class="search-input" value="love" readonly>
+            
+            <form onsubmit='search(event)'>
+
+                {% csrf_token %}
+                <input id="search-bar" type="text" placeholder="Cari lagu berdasarkan judul..." class="search-input">
                 <button type="submit" class="search-button">CARI</button>
+                <div class="dropdown">
+                    <button class="dropbtn"> <img src="https://raw.githubusercontent.com/astrit/css.gg/icons/svg/options.svg" class="filter-img"></button>
+                    <div class="dropdown-content">
+                        <button id="button-1" onclick="searchSongs()" >Find Song</button>
+                        <button id="button-2" onclick="searchPodcast()">Find Podcast</button>
+                        <button id="button-2" onclick="searchUserPlay()">Find User Playlist</button>
+                    </div>
+                    <input id="search-mode" style="visibility: hidden;"/>
+                </div>
             </form>
+            <table class="search-results">
+                <thead>
+                    <tr>
+                        <th>Tipe</th>
+                        <th>Judul</th>
+                        <th>Oleh</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                    <tbody id="results">
+                    </tbody>
+            </table>
+            
         </div>
-        <table class="search-results">
-            <tr>
-                <th>Tipe</th>
-                <th>Judul</th>
-                <th>Oleh</th>
-                <th>Actions</th>
-            </tr>
-            <tr>
-                <td>SONG</td>
-                <td>Love is in the air</td>
-                <td>Artist1</td>
-                <td><button class="action-button" onclick="location.href='/search_bar/song_details'">Lihat</button></td>
-                
-            </tr>
-            <tr>
-                <td>PODCAST</td>
-                <td>Love is Blind Pod</td>
-                <td>Podcaster1</td>
-                <td><a href="podcast_details.html" class="action-button">Lihat</a></td>
-            </tr>
-            <tr>
-                <td>USER PLAYLIST</td>
-                <td>90s Love Songs</td>
-                <td>User1</td>
-                <td><a href="playlist_details.html" class="action-button">Lihat</a></td>
-            </tr>
-        </table>
+        
+
+        
+        </div>
     </div>
 </body>
+
+<script>
+
+    async function search(event){
+
+        event.preventDefault()
+
+        if (document.getElementById("search-mode").value == "Song"){
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const song = document.getElementById('search-bar').value;
+            
+            jsonData = {
+                'song':song
+            }
+            const response = await fetch(`search_bar_songs/`, {
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(jsonData)
+
+            })
+
+            const songsData = await response.json();
+            const songResults = document.getElementById('results');
+
+            // Clear previous results (optional)
+            songResults.innerHTML = '';
+
+
+            // Loop through the songs data and create table rows dynamically
+            for (const song of songsData.songs) {
+                const tableRow = document.createElement('tr');
+                tableRow.innerHTML = `
+                <td>SONG</td>
+                <td>${song.judul}</td>
+                <td>${song.nama}</td>
+                <a href="/play_song/${song.id_song}">
+                    <button>actions</button>
+                  </a> 
+                `;
+                songResults.appendChild(tableRow);
+            }
+
+
+
+        } else if (document.getElementById("search-mode").value == "Podcast"){
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const podcast = document.getElementById('search-bar').value;
+            
+            jsonData = {
+                'podcast':podcast
+            }
+            const response = await fetch(`search_bar_podcast/`, {
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(jsonData)
+
+            })
+
+            const podcastData = await response.json();
+            const podcastResults = document.getElementById('results');
+
+            // Clear previous results (optional)
+            podcastResults.innerHTML = '';
+
+
+            // Loop through the songs data and create table rows dynamically
+            for (const podcast of podcastData.podcasts) {
+                const tableRow = document.createElement('tr');
+                tableRow.innerHTML = `
+                <td>PODCAST</td>
+                <td>${podcast.judul}</td>
+                <td>${podcast.nama}</td>
+                <a href="/play_podcast/${podcast.id_konten}">
+                    <button>actions</button>
+                  </a> 
+                `;
+                podcastResults.appendChild(tableRow);
+            }
+
+        } else if(document.getElementById("search-mode").value == "Playlist"){
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const user_playlist = document.getElementById('search-bar').value;
+            
+            jsonData = {
+                'user_playlist':user_playlist
+            }
+            const response = await fetch(`search_bar_user_playlist/`, {
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(jsonData)
+
+            })
+
+            const uplayData = await response.json();
+            const uplayResults = document.getElementById('results');
+
+            // Clear previous results (optional)
+            uplayResults.innerHTML = '';
+
+
+            // Loop through the songs data and create table rows dynamically
+            for (const uplay of uplayData.user_playlists) {
+                const tableRow = document.createElement('tr');
+                tableRow.innerHTML = `
+                <td>USER PLAYLIST</td>
+                <td>${uplay.judul}</td>
+                <td>${uplay.nama}</td>
+                <a href="/play_playlist/${uplay.id_playlist}">
+                    <button>actions</button>
+                  </a>
+                `;
+                uplayResults.appendChild(tableRow);
+            }
+
+        }
+    }
+
+
+    async function searchSongs(){
+        document.getElementById("search-mode").value = "Song"
+    }
+
+    async function searchPodcast(){
+        document.getElementById("search-mode").value = "Podcast"
+    }
+
+    async function searchUserPlay(){
+        document.getElementById("search-mode").value = "Playlist"
+    }
+</script>
 </html>
