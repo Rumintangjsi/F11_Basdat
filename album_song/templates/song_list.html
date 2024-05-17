@@ -51,6 +51,32 @@ height: 1024px;
 z-index: -1;
 }
 
+.input-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .input-label {
+    color: #1E1E1E;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  input {
+    border-radius: 20px;
+    border: 1px solid #C48B5F;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05) inset;
+    width: 439px;
+    height: 54px;
+    padding-left: 24px;
+  }
+
 .song-container {
     display: flex;
     flex-direction: column;
@@ -243,12 +269,43 @@ z-index: -1;
 </head>
 
 <body>
-
     <div class="modal-container" id="add-album-modal">
         <div id="modal-overlay" class="modal-overlay"></div>
 
         <form id="add-song-form" onsubmit="add_song(event)" class="modal-card">
             {% csrf_token %}
+            <div class="input-div">
+                <p class="input-label">Title: </p>
+                <input type="text" id="judul_lagu" name="judul_lagu"></input>
+            </div>
+            <div class="input-div">
+                <label for="label">Artist:</label>
+                {% if 'artist' in roles %}
+                    <p>{{ nama }}</p>
+                    <input type="text" name="artist" value="{{ id }}" style="display: none;"></input>
+                {% else %}
+                    <select id="artist-dropdown" name="artist"></select>
+                {% endif %}
+            </div>
+            <div class="input-div">
+                <label for="label">Songwriter:</label>
+                {% if 'songwriter' in roles %}
+                    <p>{{ nama }}</p>
+                    <input type="text" name="songwriter" value="{{ id }}" style="display: none;"></input>
+                {% else %}
+                    <select id="songwriter-dropdown" name="songwriter"></select>
+                {% endif %}
+            </div> 
+            <div class="input-div">
+                <label for="label">Genre:</label>
+                <select id="genre-dropdown" name="genre" multiple> </select>
+            </div>
+            <div class="input-div">
+                <p class="input-label">Durasi</p>
+                <input type="number" id="durasi" name="durasi"></input>
+            </div>
+
+            <button type="submit">Create Song</button>
             
         </form> 
     </div>
@@ -286,9 +343,9 @@ z-index: -1;
     </div>
 
     <script>
+        fetch_song()
 
         const album_id = '{{album_id}}';
-        fetch_song()
 
         async function fetch_song () {
 
@@ -317,7 +374,7 @@ z-index: -1;
 
             const songWrapper = document.getElementById("song-wrapper");
 
-            data.songs.forEach(song => {
+            data.songs.forEach((song) => {
                 const songCard = document.createElement("div");
                 songCard.innerHTML = `
                     <div class="song-card">
@@ -366,11 +423,85 @@ z-index: -1;
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="buttons-wrapper">
+                            <img class="action-button" src="{% static 'svg/delete-icon.svg' %}" onclick="delete_song(event, '${song.id}')">
+                            <img class="action-button edit-album" src="{% static 'svg/edit-icon.svg' %}">
+                        </div>
                     </div>
                 `;
                 songWrapper.appendChild(songCard);
             });
+
+            const genreDropdown = document.getElementById("genre-dropdown");
+
+            data.genres.forEach(genre => {
+                const option = document.createElement("option");
+                option.value = genre[0];
+                option.textContent = genre[0];
+                genreDropdown.appendChild(option);
+            });
+
+            const artistDropdown = document.getElementById("artist-dropdown");
+
+            if (artistDropdown != null){
+                data.artists.forEach(artist => {
+                    const option = document.createElement("option");
+                    option.value = artist[0];
+                    option.textContent = artist[1];
+                    artistDropdown.appendChild(option);
+                });
+            }
+
+            const songwriterDropdown = document.getElementById("songwriter-dropdown");
+
+            if (songwriterDropdown != null){
+                data.songwriters.forEach(songwriter => {
+                    const option = document.createElement("option");
+                    option.value = songwriter[0];
+                    option.textContent = songwriter[1];
+                    songwriterDropdown.appendChild(option);
+                });
+            }
         };
+
+        async function add_song(event) {
+            event.preventDefault()
+
+            const formData = new FormData(document.getElementById('add-song-form'));
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const response = await fetch(`/albums/add_song/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({...jsonData, 'album' : album_id})
+            }).then (
+                location.reload()
+            )
+        }
+
+        async function delete_song(event, konten_id) {
+            event.stopPropagation()
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const response = await fetch(`/albums/delete_song/${konten_id}`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+            }).then (
+                location.reload()
+            )
+        }
 
         document.getElementById("add-album").addEventListener("click", () => {
             document.getElementById("add-album-modal").style.display = "flex";

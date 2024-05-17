@@ -15,6 +15,6 @@ urlpatterns = [
 
     path('add_song/', add_song, name='add_song'),
     path('edit_song/<str:song_id>', edit_song, name='edit_song'),
-    path('delete_song/<str:song_id>', delete_song, name='delete_song'),
+    path('delete_song/<str:konten_id>', delete_song, name='delete_song'),
 
 ]
