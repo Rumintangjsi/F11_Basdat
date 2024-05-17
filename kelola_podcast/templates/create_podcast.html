@@ -66,36 +66,33 @@
 </style>
 </head>
 <body>
-    <div class="header">
-        Create Podcast
-      </div>
+  <div class="header">Create Podcast</div>
 <div class="container">
-  <form action="/submit-podcast" method="post" onsubmit="return validateForm()">
-    <div class="form-group">
-      <label for="title">Judul:</label>
-      <input type="text" id="title" name="title" required>
+<form action="{% url 'kelola_podcast:create_podcast' %}" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="judul">Judul:</label>
+    <input type="text" id="judul" name="judul" required>
+  </div>
+  <div class="form-group">
+    <label>Genre:</label>
+    <div class="checkbox-group">
+      <!-- Classical
+      Electronic
+      Country
+      Jazz
+      R&B
+      Hip Hop
+      Pop
+      Rock -->
+      <label><input type="checkbox" name="genre" value="comedy"> Education</label>
+      <label><input type="checkbox" name="genre" value="education"> Electronic</label>
+      <label><input type="checkbox" name="genre" value="history"> Country</label>
+      <label><input type="checkbox" name="genre" value="history"> History</label>
     </div>
-    <div class="form-group">
-      <label>Genre:</label>
-      <div class="checkbox-group">
-        <label>
-          <input type="checkbox" name="genre[]" value="comedy" required> Comedy
-        </label>
-        <label>
-          <input type="checkbox" name="genre[]" value="education"> Education
-        </label>
-        <label>
-          <input type="checkbox" name="genre[]" value="history"> History
-        </label>
-        <!-- Add more checkboxes as needed -->
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="duration">Durasi:</label>
-      <input type="text" id="duration" name="duration" required>
-    </div>
-    <button type="submit">SUBMIT</button>
-  </form>
+  </div>
+  <button type="submit">Submit</button>
+</form>
 </div>
 
 <script>

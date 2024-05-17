@@ -68,38 +68,26 @@
         Create Episode
       </div>
 <div class="container">
-  <form action="/submit-podcast" method="post" onsubmit="return validateForm()">
-    
+  <form action="{% url 'kelola_podcast:create_episode' id_konten=id_konten %}" method="POST" onsubmit="return validateForm()">
+    {% csrf_token %}
     <div class="podcast_name">
-        <label for="type">Podcast: Podcast1</label>
+        <label for="type">Podcast: {{ podcast_judul }}</label>
       </div>
     <div class="form-group">
-      <label for="title">Judul:</label>
-      <input type="text" id="title" name="title" required>
+      <label for="tijudul_episodetle">Judul:</label>
+      <input type="text" id="judul_episode" name="judul_episode" required>
     </div>
     <div class="form-group">
-        <label for="description">Deskripsi</label>
-        <input type="text" id="description" name="description" required>
+        <label for="deskripsi">Deskripsi</label>
+        <input type="text" id="deskripsi" name="deskripsi" required>
       </div>
     <div class="form-group">
-      <label for="duration">Durasi:</label>
-      <input type="text" id="duration" name="duration" required>
+      <label for="durasi">Durasi:</label>
+      <input type="text" id="durasi" name="durasi" required>
     </div>
     <button type="submit">SUBMIT</button>
   </form>
 </div>
-
-<!-- <script>
-    function validateForm() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-      const checkedOne = Array.prototype.slice.call(checkboxes).some(x => x.checked);
-      if (!checkedOne) {
-        alert('Please select at least one genre.');
-        return false;
-      }
-      return true;
-    }
-  </script> -->
 
 </body>
 </html>

@@ -5,5 +5,5 @@ app_name = 'chart'
 
 urlpatterns = [
     path('', chart, name='chart'),
-    path('chart/chart-detail/', chart_detail, name='chart_detail'),
+    path('chart-detail/<uuid:id_playlist>', chart_detail, name='chart_detail'),
 ]

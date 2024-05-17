@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load podcast_filters %}
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -87,17 +88,11 @@
     width: 200px; /* Adjust as per your image's aspect ratio */
     background-size: cover;
     margin-right: 20px;
+    margin-top: 30px;
   }
 
   .podcast-author {
     margin-top: 10px; /* Add space between title and author's name */
-  }
-
-  .episode-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #d3d3d3;
   }
 
   .episode-image {
@@ -105,11 +100,6 @@
     height: 100px; /* Adjust as needed */
     background-size: cover;
     margin-right: 20px;
-  }
-
-  .episode-content {
-    display: flex;
-    flex-direction: column;
   }
 
   .episode-title {
@@ -142,57 +132,68 @@
 
   .gg-trash {
     cursor: pointer;
-      display: inline-flex; /* Use inline-flex to keep the link inline */
-      align-items: right;
-      text-decoration: none; /* Remove underline from links */
-      color: #A5694F; /* Color of the icon */
+    display: inline-flex; /* Use inline-flex to keep the link inline */
+    align-items: right;
+    text-decoration: none; /* Remove underline from links */
+    color: #A5694F; /* Color of the icon */
   }
-  
+
+  .episode-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Add this line */
+    padding: 10px;
+    border-bottom: 1px solid #d3d3d3;
+    width: 100%; /* Ensure the container takes full width */
+  }
+
+  .episode-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* This will allow the content to take up any remaining space */
+  }
+
+  .podcast-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the actions if needed */
+    margin-right: 30px;
+    margin-left: 30px;
+  }
 </style>
 </head>
-<body></body>
-
-<div class="podcast-header">
-    <p class="podcast-title">Podcast Detail</p>
-  </div>
-  <div class="podcast-info">
-    <div class="podcast-logo"></div>
-    <div class="podcast-text">
-      <p class="podcast-title">Podcast1</p>
-      <p class="podcast-author">author 1</p>
+<body>
+    <div class="podcast-header">
+        <p class="podcast-title">{{ podcast_judul }} Details</p>
     </div>
-  </div>
-
-<button class="back-button" onclick="history.back()">Kembali</button>
-
-<div class="header">Daftar Episode</div>
-
-<div class="episode-list">
-    <div class="episode-item">
-        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');"></div>
-        <div class="episode-content">
-          <p class="episode-title">Episode Title Here</p>
-          <p class="episode-podcast-title">Podcast Title Here</p>
-          <p class="episode-synopsis">Brief synopsis here...</p>
-          <p class="episode-date-duration">Date • Duration</p>
+    <div class="podcast-info">
+        <div class="podcast-logo"></div>
+        <div class="podcast-text">
+            <p class="podcast-title">{{ podcast_judul }}</p>
+            <p class="podcast-author">{{ author_name }}</p>
         </div>
-        <div class="podcast-actions">
-          <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
-        </div>
-        </div>
-    <div class="episode-item">
-        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/20/ca/5b/20ca5bfc8b6cff6d632b56d4fb71a0cd.jpg');"></div>
-        <div class="episode-content">
-        <p class="episode-title">Episode Title Here</p>
-        <p class="episode-podcast-title">Podcast Title Here</p>
-        <p class="episode-synopsis">Brief synopsis here...</p>
-        <p class="episode-date-duration">Date • Duration</p>
-        </div>
-        <div class="podcast-actions">
-          <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
-        </div>
-      </div>
     </div>
-</div>
+
+    <button class="back-button" onclick="window.location.href='/podcast_list/'">Kembali</button>
+
+    <div class="header">Episode List</div>
+    <div class="episode-list">
+        {% for episode in episodes %}
+        <div class="episode-item">
+          <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/20/ca/5b/20ca5bfc8b6cff6d632b56d4fb71a0cd.jpg');"></div>
+            <div class="episode-content">
+                <p class="episode-title">{{ episode.judul }}</p>
+                <p class="episode-podcast-title">{{ podcast_judul }}</p>
+                <p class="episode-synopsis">{{ episode.deskripsi }}</p>
+                <p class="episode-date-duration">{{ episode.tanggal_rilis }} • {{ episode.durasi|format_duration}}</p>
+            </div>
+            <div class="podcast-actions">
+                <a href="/podcast_list/delete_episode/{{ episode.id_episode }}" class="gg-trash action-icon"></a>
+            </div>
+        </div>
+        {% empty %}
+        <p>No episodes found for this podcast.</p>
+        {% endfor %}
+    </div>
 </body>
 </html>
