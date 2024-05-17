@@ -121,10 +121,21 @@
     <div class="container">
         <h2>Hasil Pencarian </h2>
         <div class="search-form">
+            
             <form onsubmit='search(event)'>
+
                 {% csrf_token %}
                 <input id="search-bar" type="text" placeholder="Cari lagu berdasarkan judul..." class="search-input">
                 <button type="submit" class="search-button">CARI</button>
+                <div class="dropdown">
+                    <button class="dropbtn"> <img src="https://raw.githubusercontent.com/astrit/css.gg/icons/svg/options.svg" class="filter-img"></button>
+                    <div class="dropdown-content">
+                        <button id="button-1" onclick="searchSongs()" >Find Song</button>
+                        <button id="button-2" onclick="searchPodcast()">Find Podcast</button>
+                        <button id="button-2" onclick="searchUserPlay()">Find User Playlist</button>
+                    </div>
+                    <input id="search-mode" style="visibility: hidden;"/>
+                </div>
             </form>
             <table class="search-results">
                 <thead>
@@ -142,15 +153,7 @@
         </div>
         
 
-        <div class="dropdown">
-            <button class="dropbtn"> <img src="https://raw.githubusercontent.com/kayzaazr/cupcat-shop/main/gambar-website/Mask%20group-1.png" class="filter-img"></button>
-            <div class="dropdown-content">
-                <button id="button-1" onclick="searchSongs()" >Find Song</button>
-                <button id="button-2" onclick="searchPodcast()">Find Podcast</button>
-                <button id="button-2" onclick="searchUserPlay()">Find User Playlist</button>
-            </div>
-            <input id="search-mode" style="visibility: hidden;"/>
-        </div>
+        
         </div>
     </div>
 </body>
