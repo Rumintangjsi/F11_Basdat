@@ -9,24 +9,21 @@
   html {
     background-color: #F8F8F8;
 }
-    .login-container{
+    .container{
         font-family: 'Poppins', sans-serif;
         position: absolute;
         display: flex;
         flex-direction: column;
-        gap:50px;
         align-items: center;
-        justify-content:center;
-        width: 100% !important;
-        height: fit-content;
-        margin-bottom:0px !important;
-        padding:20px;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
     }
 
-    .buttonRegister {
+    button {
         display: inline-block;
         text-align: center;
-        width: 436px;
+        width: 320px;
         height: 68px;
         flex-shrink: 0;
         background-color: #E49C9C; 
@@ -36,7 +33,7 @@
         margin-top: 10px;
         color: #FFF;
         font-family: Poppins;
-        font-size: 25.932px;
+        font-size: 16px;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
@@ -45,11 +42,11 @@
         margin-bottom: 30px;
     }
     
-    .buttonRegister:hover {
+    button:hover {
         background-color: #BC5151; 
     }
 
-      .inputBar{
+    .wrapper{
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -62,18 +59,15 @@
         box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
         text-align: center; /* Menyelaraskan konten secara horizontal ke tengah */
         vertical-align: middle;
+    }
 
-        
-      }
-
-      .logo{
+    .logo{
         justify-content: left;
         left:0;
         margin-right: 30px;
-
-      }
-      
-      .form-control {
+    }
+    
+    .form-control {
         width: 439px;
         height: 54px;
         flex-shrink: 0;
@@ -83,98 +77,20 @@
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05) inset;
     }
 
-      
-
-    .fotokucing td{
-        padding:20px;
-    }
-
-    .Podcaster {
-      /* setting the checkbox input HTML element accent color to `green` */
-      accent-color: green;
-    }
-
-    .logo {
-        margin-left: 20px;
-    }
-
     td {
       margin-left: 30px;
     }
 </style>
-<div class = "login-container">
-
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table class="inputBar">
-        
-          <tr>
-              <td>
-                <p> Email <p>
-                <input type="text" name="Email" placeholder="Email" class="form-control"></td>
-          </tr>
-          
-          <tr>
-              <td>
-                <p> Password <p>
-                <input type="password" name="password" placeholder="Password" class="form-control"></td>
-          </tr>
-
-          <tr>
-            <td>
-              <p> Nama <p>
-              <input type="text" name="Nama" placeholder="Nama" class="form-control"></td>
-          </tr>
-
-          <tr>
-            <td>
-              <p> Gender <p>
-                <select name="username" class="form-control">
-                    <option value="Pria">Pria</option>
-                    <option value="Wanita">Wanita</option>
-                </select>
-            </td>
-         </tr>
-
-        <tr>
-          <td>
-            <p> Tempat Lahir <p>
-            <input type="text" name="Tempat Lahir" placeholder="Tempat Lahir" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>
-            <p> Tanggal Lahir <p>
-            <input type="date" name="Tanggal Lahir" placeholder="Tanggal lahir" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>
-            <p> Role <p>
-            <input type="checkbox" name="Podcaster" id="Podcaster">
-            <label for="Podcaster">Podcaster</label>
-            <input type="checkbox" name="Artist" id="Artist">
-            <label for="Artist">Artist</label>
-            <input type="checkbox" name="Songwriter" id="Songwriter">
-            <label for="Songwriter">Songwriter</label>
-          </td>
-        </tr>
-
-            <tr>
-                <td><input class="buttonRegister" type="submit" value="Register"></td>
-            </tr>
+<body>
+    <div class = "container">
+        <table class="wrapper">
+            <a href="pengguna">
+                <button class="buttonRegister">Pengguna</button>
+            </a>
+            <a href="label">
+                <button class="buttonRegister">Label</button>
+            </a>
         </table>
-    </form>
-
-
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}      
-  </div>
-
-</div>
+    </div>
+</body>
 </html>
