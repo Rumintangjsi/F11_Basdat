@@ -62,7 +62,7 @@
         }
 
         .header-package {
-            width: 82px; 
+            width: 90px; 
             color: #FFF;
             font-family: Poppins;
             font-size: 20.5px;
@@ -149,23 +149,40 @@
         <h1>PEMBAYARAN PAKET</h1>
         <h2>Informasi paket yang ingin dibeli:</h2>
         <div class="package">
-            <p class="header-package">1 Bulan</p>
-            <p class="harga-package">Rp54.900</p>
+            <p class="header-package">{{jenis}}</p>
+            <p class="harga-package">Rp{{harga}}</p>
         </div>
         <div class="isi">
-            <form method="post">
+            <form  method="post">
                 {% csrf_token %}
                 <div class="metode-pembayaran">
                     <h2>Metode Pembayaran:</h2>
                     <select name="metode_pembayaran" id="metode_pembayaran">
-                        <option value="transfer_bank">Transfer Bank</option>
-                        <option value="kartu_kredit">Kartu Kredit</option>
-                        <option value="e_wallet">E-Wallet</option>
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="Kartu Kredit">Kartu Kredit</option>
+                        <option value="E wallet">E-Wallet</option>
                     </select>
                 </div>
-                <button type="submit"> SUBMIT</button>
+                <button type="submit" onclick=`${pembayaran(event)}`> SUBMIT</button>
             </form>
         </div>
     </div>
+<script>
+    async function pembayaran(event){
+        event.preventDefault()
+        jenis = '{{jenis}}'
+        harga = '{{harga}}'
+        metode = document.getElementById('metode_pembayaran').value
+        const response = await fetch(`/langganan_paket/langganan_paket/bayar_paket/?data=${jenis},${harga},${metode}`)
+        if (response.ok) {
+            alert("Pembayaran berhasil!");
+            window.location.href = "/langganan_paket/langganan_paket";
+        } else {
+            alert("Pembayaran gagal. Silakan coba lagi.");
+        }
+        
+    }
+</script>
+
 </body>
 </html>

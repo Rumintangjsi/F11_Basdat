@@ -71,13 +71,18 @@
                 <th>Metode Pembayaran</th>
                 <th>Nominal</th>
             </tr>
+
+            {% for i in riwayat %} 
             <tr>
-                <td>1 Bulan</td>
-                <td>8 April 2024, 23:00</td>
-                <td>8 Mei 2024, 23:00</td>
-                <td>E-Wallet</td>
-                <td>Rp54.900</td>
+                
+                <td>{{ i.jenis_paket }}</td>
+                <td>{{i.timestamp_dimulai}}</td>
+                <td>{{i.timestamp_berakhir}}</td>
+                <td>{{i.metode_bayar}}</td>
+                <td>Rp{{i.nominal}}</td>
+                
             </tr>
+            {% endfor %}
             <!-- Tambahkan baris-baris transaksi lainnya di sini -->
         </table>
 
