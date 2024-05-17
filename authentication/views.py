@@ -169,32 +169,34 @@ def login_api(request):
 
         role = []
 
-        sql = f""" SELECT * FROM akun WHERE EXISTS (SELECT * FROM artist WHERE email = %s) """
-        
-        cursor.execute(sql, (email, ))
+        # Check if email exists in the artist table
+        sql = "SELECT email_akun FROM artist WHERE email_akun = %s"
+        cursor.execute(sql, (email,))
         artist = cursor.fetchone()
-
+        print(artist)
         if artist:
             role.append("artist")
 
-        sql = f""" SELECT * FROM akun WHERE EXISTS (SELECT * FROM songwriter WHERE email = %s) """
-        
-        cursor.execute(sql, (email, ))
+        # Check if email exists in the songwriter table
+        sql = "SELECT email_akun FROM songwriter WHERE email_akun = %s"
+        cursor.execute(sql, (email,))
         songwriter = cursor.fetchone()
-
+        print(songwriter)
         if songwriter:
             role.append("songwriter")
 
-        sql = f""" SELECT * FROM akun WHERE EXISTS (SELECT * FROM podcaster WHERE email = %s) """
-        
-        cursor.execute(sql, (email, ))
-        posdcaster = cursor.fetchone()
-
-        if songwriter:
+        # Check if email exists in the podcaster table
+        sql = "SELECT email FROM podcaster WHERE email = %s"
+        cursor.execute(sql, (email,))
+        podcaster = cursor.fetchone()
+        print(podcaster)
+        if podcaster:
             role.append("podcaster")
 
         request.session['email'] = email
         request.session['role'] = role
+
+        
             
         return JsonResponse({'message': 'Login Success'})
     else:

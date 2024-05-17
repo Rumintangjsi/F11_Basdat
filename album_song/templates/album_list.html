@@ -245,50 +245,57 @@
 </head>
 
 <body>
-    <div class="modal-container" id="add-album-modal">
-        <div class="modal-overlay"></div>
 
-        <form id="add-album-form" onsubmit="add_album(event)" class="modal-card">
-            {% csrf_token %}
-            <h1 class="modal-title">New Album</h1>
-            <div class="input-div">
-                <p class="input-label">Title</p>
-                <input type="text" id="title" name="title"></input>
-            </div>
-            <div class="input-div">
-                <label for="label">Choose label:</label>
-                <select id="label-dropdown" name="label"> </select>
-            </div>
-            <button type="submit">Create Album</button>
-        </form> 
-    </div>
+    {% if message %}
+        <div> {{message}}</div>
+    {% else %}
+        <div>
+            <div class="modal-container" id="add-album-modal">
+                <div class="modal-overlay"></div>
 
-    <div class="modal-container" id="edit-album-modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-card">
-            <h1 class="modal-title">Edit Album</h1>
-            <div class="input-div">
-                <p class="input-label">Title</p>
-                <input></input>
+                <form id="add-album-form" onsubmit="add_album(event)" class="modal-card">
+                    {% csrf_token %}
+                    <h1 class="modal-title">New Album</h1>
+                    <div class="input-div">
+                        <p class="input-label">Title</p>
+                        <input type="text" id="title" name="title"></input>
+                    </div>
+                    <div class="input-div">
+                        <label for="label">Choose label:</label>
+                        <select id="label-dropdown" name="label"> </select>
+                    </div>
+                    <button type="submit">Create Album</button>
+                </form> 
             </div>
-            <div class="input-div">
-                <p class="input-label">Label</p>
-                <input></input>
+
+            <div class="modal-container" id="edit-album-modal">
+                <div class="modal-overlay"></div>
+                <div class="modal-card">
+                    <h1 class="modal-title">Edit Album</h1>
+                    <div class="input-div">
+                        <p class="input-label">Title</p>
+                        <input></input>
+                    </div>
+                    <div class="input-div">
+                        <p class="input-label">Label</p>
+                        <input></input>
+                    </div>
+                    <button>Update Album</button>
+                </div> 
             </div>
-            <button>Update Album</button>
-        </div> 
-    </div>
 
+            <div class="album-container">
+                <div class="title-container">
+                    <h1 class="title">Albums</h1>
+                    <img class="action-button" id="add-album" src="{% static 'svg/add-icon.svg' %}">
+                </div>
 
-    <div class="album-container">
-        <div class="title-container">
-            <h1 class="title">Albums</h1>
-            <img class="action-button" id="add-album" src="{% static 'svg/add-icon.svg' %}">
+                <div id="album-wrapper">
+                </div>
+            </div>
         </div>
+    {% endif %}
 
-        <div id="album-wrapper">
-        </div>
-    </div>
     <script>
         fetch_album()
 

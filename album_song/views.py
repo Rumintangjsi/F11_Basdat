@@ -9,14 +9,17 @@ from django.db import connection as conn
 def album_list(request):
 
     email = request.session['email']
-    role = request.session['role']
+    roles = request.session['role']
 
     context = {
         'email' : email,
-        'role' : role
+        'roles' : roles
     }
     
-    return render(request, "album_list.html", context)
+    if ('artist' in roles) or ('songwriter' in roles):
+        return render(request, "album_list.html", context)
+    else:
+        return render(request, "album_list.html", {'message': 'You cant access album dashboard'})
 
 def song_list(request, album_id):
     context = {
@@ -117,15 +120,6 @@ def fetch_song(request):
         'songs': songs
     })
 
-def add_song(request):
-    return None
-
-def edit_song(request, song_id):
-    return None
-
-def delete_song(request, song_id):
-    return None
-
 def add_album(request):
 
     if request.method == 'POST':
@@ -166,3 +160,12 @@ def delete_album(request, album_id):
         return JsonResponse({'message': 'Album deleted successfully'})
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+def add_song(request):
+    return None
+
+def edit_song(request, song_id):
+    return None
+
+def delete_song(request, song_id):
+    return None
