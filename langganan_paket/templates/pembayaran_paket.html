@@ -177,8 +177,10 @@
         if (response.ok) {
             alert("Pembayaran berhasil!");
             window.location.href = "/langganan_paket/langganan_paket";
+        } else if (response.status === 400){
+            alert("Anda sudah berlangganan");
         } else {
-            alert("Pembayaran gagal. Silakan coba lagi.");
+            alert("Anda sudah berlangganan");
         }
         
     }

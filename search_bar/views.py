@@ -48,7 +48,6 @@ def search_bar_songs(request):
         
         print(songs)
         conn.commit() 
-        conn.close() 
         
         return JsonResponse({'songs' : songs})
 
@@ -80,8 +79,7 @@ def search_bar_podcasts(request):
                 'id_konten':item[2]
             })
             
-        conn.commit() 
-        conn.close() 
+        conn.commit()  
 
         return JsonResponse({'podcasts' : podcasts})
 
@@ -114,7 +112,7 @@ def search_bar_user_playlist(request):
             })
             
         conn.commit() 
-        conn.close() 
+        
 
         return JsonResponse({'user_playlists' : user_playlists})
 

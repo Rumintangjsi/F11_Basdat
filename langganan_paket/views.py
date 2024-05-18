@@ -16,7 +16,7 @@ conn = psycopg2.connect(
 conn.autocommit = True
 
 def langganan_paket(request):
-        
+    
     paket = []
 
     try:
@@ -34,8 +34,7 @@ def langganan_paket(request):
             })
             
             
-        conn.commit() 
-        conn.close() 
+        conn.commit()  
 
     except psycopg2.Error as e:
         print("Error connecting to database:", e)
@@ -50,7 +49,7 @@ def langganan_paket(request):
 def pembayaran_paket(request, jenis, harga):
     context = {
         'jenis':jenis,
-        'harga':harga
+        'harga':harga,
     }
     return render(request, "pembayaran_paket.html", context)
 
@@ -67,37 +66,72 @@ def bayar_paket(request):
     list_paket = jenis_paket.split(' ')
     bulan = int(list_paket[0])
     
-    email = "qsmith@example.org"
+    
+    email = request.session['email']
     timestamp_dimulai = timezone.now()
     timestamp_berakhir = timestamp_dimulai+ timedelta(days=bulan*30)
     
     try:
         cursor = conn.cursor() 
             
-        sql = """ 
+        sql = """
                 INSERT INTO transaction (id, jenis_paket, email, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)    
                 """
         cursor.execute(sql, (
             id, jenis_paket, email, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal
         ))
+        
+        
         conn.commit() 
-        conn.close() 
+        
     except psycopg2.Error as e:
-        print("Error connecting to database:", e)
-  
+        return JsonResponse({'error': e})
+
     return JsonResponse({})
 
+        
+
+# def get_premium(request):
+#     email = request.session['email']
+    
+#     try:
+#         cursor = conn.cursor()
+    
+#         sql = f"""
+#                 INSERT INTO premium (email)
+#                 VALUES (%s)
+#                 """
+#         cursor.execute(sql, (email,))
+#         results = cursor.fetchall()
+#         print("ini" + results)
+        
+        
+#         conn.commit()
+        
+#     except psycopg2.Error as e:
+#         print("Error connecting to database:", e)
+
+
+
 def riwayat_transaksi(request):
+    email = request.session['email']
     riwayat = []
 
     try:
         cursor = conn.cursor() 
 
-        sql = """ SELECT * from transaction """
+        sql = """
+                SELECT t.ID, t.jenis_paket, t.email, t.timestamp_dimulai, t.timestamp_berakhir, t.metode_bayar, t.nominal
+                FROM TRANSACTION as t
+                INNER JOIN AKUN as a ON t.email = a.email
+                WHERE a.email = %s
+            """
 
-        cursor.execute(sql) 
+        cursor.execute(sql, (email,)) 
         results = cursor.fetchall()
+        
+        print(results)
         
         for item in results:
             riwayat.append({
@@ -109,8 +143,7 @@ def riwayat_transaksi(request):
             })
             
             
-        conn.commit() 
-        conn.close() 
+        conn.commit()  
 
     except psycopg2.Error as e:
         print("Error connecting to database:", e)
