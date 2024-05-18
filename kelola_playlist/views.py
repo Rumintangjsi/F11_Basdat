@@ -19,16 +19,27 @@ def kelola_playlist(request):
     }
     playlists_data = []
     for playlist in playlists:
+        seconds = playlist[3]
+        print(f"[INFO] length: {seconds} in seconds")
+        hours, remainder = divmod(seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        if hours > 0 & minutes > 0:
+            formatted_duration = f"{hours} h {minutes} m {seconds} s"
+        elif minutes > 0:
+            formatted_duration = f"{minutes} m {seconds} s"
+        else:
+            formatted_duration = f"{seconds} s"
         data = {
             'judul'         : playlist[0], 
             'email_pembuat' : playlist[1], 
             'jumlah_lagu'   : playlist[2], 
-            'total_durasi'  : playlist[3],
+            'total_durasi'  : formatted_duration,
             'id_playlist'   : playlist[4]
         }
+        print(f"[INFO] length: {formatted_duration}")
         playlists_data.append(data)
     
-    # print(playlists_data)
+    print(f"[FOUND] {len(playlists_data)} playlists")
     
     context = {
         'playlists': playlists_data
@@ -78,26 +89,24 @@ def create_playlist_post(request):
     if request.method == 'POST':
         judul = request.POST['title']
         deskripsi = request.POST['description']
-        # print(f'Judul: {judul}')
-        # print(f'Deskripsi: {deskripsi}')
     akun = request.session.get('akun', None)
-    # print('nicole50@example.com')
     uuid1 = str(uuid.uuid4())
 
     query_str = f"""INSERT INTO playlist 
     VALUES ('{uuid1}')"""
     with connection.cursor() as cursor:
         e = cursor.execute(query_str)
-        # print(e)
+        print("==================================")
+        print(f"ERROR MESSAGE: {e}")
 
+    email = request.session.get('email', None)
     uuid2 = str(uuid.uuid4())
     tanggal = datetime.now().strftime("%Y-%m-%d")
 
     query_str = f"""INSERT INTO user_playlist 
-    VALUES ('nicole50@example.com', '{uuid2}', '{judul}', '{deskripsi}', '{int(0)}', '{tanggal}', '{uuid1}', '{int(0)}');"""
+    VALUES ('{email}', '{uuid2}', '{judul}', '{deskripsi}', '{int(0)}', '{tanggal}', '{uuid1}', '{int(0)}');"""
     with connection.cursor() as cursor:
         e = cursor.execute(query_str)
-        # print(e)
     return redirect('kelola_playlist:kelola_playlist')
 
 def delete_playlist(request, id_playlist):
@@ -114,7 +123,6 @@ def edit_playlist_page(request, id_playlist):
                 FROM USER_PLAYLIST
                 WHERE id_playlist = '{id_playlist}';
                 '''
-    print(url)
     with connection.cursor() as cursor:
         cursor.execute(url)
         playlist = cursor.fetchall()
@@ -123,7 +131,6 @@ def edit_playlist_page(request, id_playlist):
         'judul': playlist[0][0],
         'deskripsi': playlist[0][1]
     }
-    print(playlist)
     return render(request, "edit_playlist.html", context)
 
 def edit_playlist_post(request, id_playlist):
@@ -140,5 +147,8 @@ def edit_playlist_post(request, id_playlist):
                     WHERE id_playlist = '{id_playlist}';"""
     with connection.cursor() as cursor:
         e = cursor.execute(query_str)
-        # print(e)
+    if isinstance(e, int):
+        print('[SUCCESS] Playlist updated')
+    else:
+        print('[ERROR] Playlist not updated')
     return redirect('kelola_playlist:kelola_playlist')
