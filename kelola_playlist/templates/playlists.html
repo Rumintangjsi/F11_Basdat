@@ -156,7 +156,7 @@
                 <p class="playlist-item">id : {{ playlist.id_playlist }}</p>
                 <!-- Clickable number of songs -->
                 <p class="playlist-item">Songs: {{ playlist.jumlah_lagu }}</p>
-                <p class="playlist-item">Total Duration: {{ playlist.total_durasi }} minute(s)</p>
+                <p class="playlist-item">Total Duration: {{ playlist.total_durasi }}</p>
             </div>
             <div class="playlist-actions">
                 <a class="gg-enter action-icon detail-playlist-action"></a> <!-- Clickable add icon -->
@@ -192,7 +192,7 @@
         const detailButton = entry.querySelector('.detail-playlist-action');
         detailButton.addEventListener('click', () => {
             const playlist_id = entry.dataset.playlistId;
-            const url = '/play_playlist/' + playlist_id;
+            const url = '/play_playlist/play/' + playlist_id;
             window.location.href = url;
         });
         // add event listener for each button inside playlist-entry
