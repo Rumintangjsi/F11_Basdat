@@ -1,8 +1,16 @@
+from datetime import timedelta
 from django.db import connection
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+
+def format_duration(seconds, fmt="{:02}:{:02}:{:02}"):
+    td = timedelta(seconds=seconds)
+    total_seconds = int(td.total_seconds())
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return fmt.format(hours, minutes, seconds)
 
 def play_playlist(request, playlist_id):
     # print(playlist_id)
@@ -15,6 +23,16 @@ def play_playlist(request, playlist_id):
                     ''')
         playlists = cursor.fetchall()
     playlist = playlists[0]
+    td = timedelta(seconds=playlist[6])
+    total_seconds = int(td.total_seconds())
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    if hours > 0 & minutes > 0:
+        formatted_duration = f"{hours} h {minutes} m {seconds} s"
+    elif minutes > 0:
+        formatted_duration = f"{minutes} m {seconds} s"
+    else:
+        formatted_duration = f"{seconds} s"  # Format duration as "mm:ss"
     playlist_data = {
         'email_pembuat' : playlist[0], 
         'judul'         : playlist[1], 
@@ -22,7 +40,7 @@ def play_playlist(request, playlist_id):
         'jumlah_lagu'   : playlist[3], 
         'tanggal_dibuat': playlist[4], 
         'id_playlist'   : playlist[5], 
-        'total_durasi'  : playlist[6]
+        'total_durasi'  : formatted_duration
     }
 
     songs_on_playlist = []
@@ -41,11 +59,21 @@ def play_playlist(request, playlist_id):
     # print(songs_on_playlist)
     songs_on_playlist_data = []
     for song in songs_on_playlist:
+        td = timedelta(seconds=song[3])
+        total_seconds = int(td.total_seconds())
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        if hours > 0 & minutes > 0:
+            formatted_duration = f"{hours} h {minutes} m {seconds} s"
+        elif minutes > 0:
+            formatted_duration = f"{minutes} m {seconds} s"
+        else:
+            formatted_duration = f"{seconds} s" 
         data = {
             'judul': song[0],
             'tanggal_rilis': song[1],
             'tahun': song[2],
-            'durasi': song[3],
+            'durasi': formatted_duration,
             'penyanyi': song[4],
             'id': song[5]
         }

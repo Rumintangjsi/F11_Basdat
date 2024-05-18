@@ -112,39 +112,19 @@
 </div>
 
 <div class="chart-grid">
-  <!-- Dynamic content would be loaded here using a loop in Django template -->
-  <!-- Example static content: -->
+
+  {% for item in chart_items %}
   <div class="card">
-    <img class="card-image" src="https://i.pinimg.com/564x/42/7a/35/427a35a48404f15420cc23d15ee3d556.jpg" alt="Daily Mix 1" />
+    <img class="card-image" src="https://i.pinimg.com/564x/b7/af/b9/b7afb9bd3d0120b56122f364c93f03f2.jpg" alt="{{ item.tipe }}">
     <div class="card-content">
-      <p class="card-title">Daily Mix 1</p>
-      <p class="card-subtitle">Ardhito Pramono, HiVi!, Sal Priadi and more</p>
-      <!-- The URL needs to be dynamically generated using Django URL templating -->
-      <a href="{% url 'chart:chart_detail' %}" class="action-button">Lihat Daftar Lagu</a>
+      <p class="card-title">{{ item.tipe }}</p>
+      <a href="chart-detail/{{ item.id_playlist }}" class="action-button">View Playlist</a>
     </div>
   </div>
-  <!-- End Example static content -->
-  <div class="card">
-    <img class="card-image" src="https://i.pinimg.com/564x/b7/af/b9/b7afb9bd3d0120b56122f364c93f03f2.jpg" alt="Daily Mix 2" />
-    <div class="card-content">
-      <p class="card-title">Daily Mix 2</p>
-      <p class="card-subtitle">New Jeans, Blackpink, Twice and more</p>
-      <!-- The URL needs to be dynamically generated using Django URL templating -->
-      <a href="{% url 'chart:chart_detail' %}" class="action-button">Lihat Daftar Lagu</a>
-    </div>
-  </div>
+  {% empty %}
+  <p>No charts available.</p>
+  {% endfor %}
 </div>
 <button id="back-button" class="back-button" onclick="history.back()">Kembali</button>
 </body>
 </html>
-
-    <!-- {% for chart_item in chart_items %}
-    <div class="card">
-      <img class="card-image" src="{{ chart_item.image_url }}" alt="{{ chart_item.title }}" />
-      <div class="card-content">
-        <p class="card-title">{{ chart_item.title }}</p>
-        <p class="card-subtitle">{{ chart_item.subtitle }}</p>
-        <a href="{% url 'chart_detail' chart_item.id %}" class="action-button">Lihat Daftar Lagu</a>
-      </div>
-    </div>
-    {% endfor %} -->

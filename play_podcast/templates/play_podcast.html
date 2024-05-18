@@ -148,62 +148,47 @@
   
 </style>
 </head>
-<body></body>
+<body>
 
-<div class="podcast-header">
-    <p class="podcast-title">Podcast Detail</p>
+  <div class="podcast-header">
+      <p class="podcast-title">{{ podcast.judul | default:"Podcast Title" }}</p>
   </div>
+  
   <div class="podcast-info">
-    <div class="podcast-logo"></div>
-    <div class="podcast-text">
-      <p class="podcast-title">Podcast1</p>
-      <p class="podcast-author">author 1</p>
-    </div>
+      <div class="podcast-logo" style="background-image: url('https://i.pinimg.com/736x/2a/00/cc/2a00cc3276a3241324db4bd13744716c.jpg');"></div>
+      <div>
+        <p class="header">{{ podcast.podcaster_name | default:"Podcaster's Name" }}</p>
+        <p>Released: {{ podcast.tanggal_rilis | date:"d/m/Y" }}</p>
+        <p>Total Duration: {{ podcast.formatted_durasi }}</p>
+      </div>
   </div>
-<div class="podcast-details">
-  <table>
-    <tr>
-      <td><strong>Genre:</strong><br> - Genre1<br> - Genre2</td>
-    </tr>
-    <tr>
-      <td><strong>Total Durasi:</strong> 8 jam 20 menit</td>
-    </tr>
-    <tr>
-      <td><strong>Tanggal Rilis:</strong> 18/03/24</td>
-    </tr>
-    <tr>
-      <td><strong>Tahun:</strong> 2024</td>
-    </tr>
-  </table>
-</div>
-
-<button class="back-button" onclick="history.back()">Kembali</button>
-
-<div class="header">Daftar Episode</div>
-
-<div class="episode-list">
+  
+  <div class="podcast-details">
+    <h3 class="header">Podcast Details</h3>
+    <p>Genre: {{ podcast.genre }}</p>
+    <p>Total Duration: {{ podcast.formatted_durasi }}</p>
+    <p>Release Date: {{ podcast.tanggal_rilis | date:"d/m/Y" }}</p>
+    <p>Year: {{ podcast.tahun }}</p>
+  </div>
+  
+  <div class="header">Episodes</div>
+  <div class="episode-list">
+    {% for episode in episodes %}
     <div class="episode-item">
-        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');"></div>
-        <div class="episode-content">
-          <p class="episode-title">Episode Title Here</p>
-          <p class="episode-podcast-title">Podcast Title Here</p>
-          <p class="episode-synopsis">Brief synopsis here...</p>
-          <p class="episode-date-duration">Date • Duration</p>
-        </div>
-        <div class="podcast-actions">
-          <a href="/delete/2" class="gg-trash action-icon"></a> <!-- Clickable delete icon -->
-        </div>
-        </div>
-    <div class="episode-item">
-        <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/20/ca/5b/20ca5bfc8b6cff6d632b56d4fb71a0cd.jpg');"></div>
-        <div class="episode-content">
-        <p class="episode-title">Episode Title Here</p>
-        <p class="episode-podcast-title">Podcast Title Here</p>
-        <p class="episode-synopsis">Brief synopsis here...</p>
-        <p class="episode-date-duration">Date • Duration</p>
-        </div>
+      <div class="episode-image" style="background-image: url('https://i.pinimg.com/564x/68/f1/b5/68f1b5eb84f4e4b442a46438b83b0beb.jpg');"></div>
+      <div>
+        <p class="episode-title">{{ episode.judul }}</p>
+        <p class="episode-synopsis">{{ episode.deskripsi }}</p>
+        <p class="episode-date-duration">{{ episode.tanggal_rilis | date:"d/m/Y" }} • {{ episode.formatted_durasi }}</p>
+  
       </div>
     </div>
-</div>
-</body>
+    {% empty %}
+    <p>No episodes found.</p>
+    {% endfor %}
+  </div>
+  
+  <button onclick="history.back()" class="back-button">Back</button>
+  
+  </body>
 </html>
