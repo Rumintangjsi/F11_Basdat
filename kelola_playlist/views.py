@@ -8,10 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 def kelola_playlist(request):
     playlists = []
+    email_pembuat = request.session.get('email', None)
     with connection.cursor() as cursor:
-        cursor.execute('''
+        cursor.execute(f'''
                         SELECT judul, email_pembuat, jumlah_lagu, total_durasi, id_playlist
                         FROM USER_PLAYLIST
+                        WHERE email_pembuat = '{email_pembuat}';
                     ''')
         playlists = cursor.fetchall()
     context = {
