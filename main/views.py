@@ -7,3 +7,12 @@ def show_main(request):
     }
 
     return render(request, "main.html", context)
+
+
+def dashboard(request):
+    context = {
+        'name': 'Kelompok',
+        'class': 'Basdat F'
+    }
+
+    return render(request, "dashboard.html", context)

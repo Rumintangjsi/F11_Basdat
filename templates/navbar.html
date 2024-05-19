@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            background-color: #C48B5F;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            margin-top: 16px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: #000;
+        }
+        .navContent {
+            display: flex;
+            align-items: center;
+        }
+        .buttonnavContent {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #000;
+            border-radius: 10px;
+            background: none;
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        .btn:hover {
+            background-color: #000;
+            color: #fff;
+        }
+        .navbar-toggler {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .navbar-toggler span {
+            height: 2px;
+            width: 25px;
+            background: #000;
+            margin: 4px;
+            transition: 0.3s;
+        }
+        @media (max-width: 768px) {
+            .navbar-toggler {
+                display: flex;
+            }
+            .navContent {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            .navContent.active {
+                display: flex;
+            }
+            .buttonnavContent {
+                flex-direction: column;
+                gap: 0;
+            }
+            .btn {
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+                border-top: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navContent">
+        <div class="buttonnavContent">
+            {% if not request.session.role %}
+                <a class="btn" href="/authentication/login">Login</a>
+                <a class="btn" href="/authentication/login">Registrasi</a>
+            {% else %}
+                <a class="btn" href="/dashboard">Dashboard</a>
+                {% if 'label' not in request.session.role %}
+                    <a class="btn" href="/chart">Chart</a>
+                    <a class="btn" href="/kelola_playlist">Kelola Playlist</a>
+                    <a class="btn" href="/langganan_paket/langganan_paket">Langganan Paket</a>
+                {% endif %}
+                {% if 'premium' in request.session.role %}
+                    <a class="btn" href="/downloaded-songs">Downloaded Songs</a>
+                {% endif %}
+                {% if 'podcaster' in request.session.role %}
+                    <a class="btn" href="/kelola_podcast">Kelola Podcast</a>
+                {% endif %}
+                {% if 'artist' in request.session.role or 'songwriter' in request.session.role %}
+                    <a class="btn" href="/albums">Kelola Album & Songs</a>
+                {% endif %}
+                <!-- {% if 'label' in request.session.role %}
+                    <a class="btn" href="/albums">Kelola Album</a>
+                {% endif %} -->
+                {% if 'artist' in request.session.role or 'songwriter' in request.session.role %}
+                    <a class="btn" href="/royalti">Cek Royalti</a>
+                {% endif %}
+                <a class="btn" href="/search_bar/search_bar">Search</a>
+                <a class="btn" href="/authentication/logout">Logout</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<script>
+    function toggleMenu() {
+        const navContent = document.querySelector('.navContent');
+        navContent.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>
