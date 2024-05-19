@@ -202,6 +202,155 @@
         #playlist-form button:hover {
             background-color: #A5694F;
         }
+
+        /* PLAYLIST */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .overlay-error {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .popup {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .popup select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            background-color: #C48B5F;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .popup button:hover {
+            background-color: #A5694F;
+        }
+
+        .add-new-playlist-button {
+            font-weight: 600;
+            padding: 10px 20px;
+            background-color: #C48B5F;
+            color: #FFFFFF;
+            text-decoration: none;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .add-new-playlist-button:hover {
+            background-color: #A5694F;
+        }
+
+
+        /* DONWLOAD */
+        .failed-download-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .success-download-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .success-download-popup,
+        .failed-download-popup {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .success-download-popup h2,
+        .failed-download-popup h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .success-download-popup select,
+        .failed-download-popup select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .success-download-popup button,
+        .failed-download-popup button {
+            padding: 10px 20px;
+            background-color: #C48B5F;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .success-download-popup button:hover,
+        .failed-download-popup button:hover {
+            background-color: #A5694F;
+        }
     </style>
 </head>
 
@@ -275,9 +424,12 @@
     <br>
 
     <!-- Buttons -->
+    {% csrf_token %}
     <button class="play-button">Play</button>
-    <button class="add-to-playlist-button">Add to Playlist</button>
-    <button class="download-button">Download</button>
+    <button class="add-to-playlist-button" onclick="openPopup()">Add to Playlist</button>
+    {% if is_premium %}
+    <button class="download-button" onclick="download()">Download</button>
+    {% endif %}
     <button class="back-button" onclick="history.back()">Kembali</button>
 
     <!-- ================= ADD SONG TO USER PLAYLIST section ================= -->
@@ -302,20 +454,60 @@
         <button class="back-to-song-details">KEMBALI</button>
     </div>
 
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <h2>TAMBAH KE PLAYLIST</h2>
+            <form method="POST" id="add-playlist-form" action="{% url 'play_song:add_song_to_playlist' song_id %}">
+                <label for="playlist-dropdown">My Playlists:</label><br>
+                <select id="playlist-dropdown" class="playlist-dropdown" name="playlist-dropdown">
+                    <!-- Dropdown options will be dynamically populated here -->
+                    {% for playlist in my_playlists %}
+                    <option value="{{ playlist.id_playlist }}">{{ playlist.judul }}</option>
+                    {% endfor %}
+                    <!-- Add more options as needed -->
+                </select><br><br>
+                <button type="submit" onclick="closePopup()">SUBMIT</button>
+                <button onclick="closePopup()">KEMBALI</button>
+            </form>
+        </div>
+    </div>
+
     <!-- ================= DONWLOAD ================= -->
     <!-- Success message after downloading song -->
-    <div class="success-download-message" style="display: none;">
-        <p>Berhasil mengunduh Lagu dengan judul ‘Song1’!</p>
-        <button class="go-to-download-list">KE DAFTAR DOWNLOAD</button>
-        <button class="back-to-song-details">KEMBALI</button>
+    <div class="failed-download-overlay" id="failed-download-overlay">
+        <div class="failed-download-popup">
+            <div class="failed-download-message">
+                <p>{{ song.judul }} sudah pernah diunduh!</p>
+                <button class="go-to-download-list" onclick="goToDownloadList()">KE DAFTAR DOWNLOAD</button>
+                <button class="back-to-song-details" onclick="closeDownloadPopup()">KEMBALI</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-download-overlay" id="success-download-overlay">
+        <div class="success-download-popup">
+            <div class="success-download-message">
+                <p>Berhasil mengunduh {{ song.judul }}!</p>
+                <button class="go-to-download-list" onclick="goToDownloadList()">KE DAFTAR DOWNLOAD</button>
+                <button class="back-to-song-details" onclick="closeDownloadPopup()">KEMBALI</button>
+            </div>
+        </div>
     </div>
 
 
     <!-- Script -->
     <script>
+        const sliderInput = document.getElementById('progress');
+        const playButtonSong = document.querySelector('.play-button');
+        const downloadButton = document.querySelector('.download-button');
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        var sliderValue = 0;
+        var email_login = '{{ email_login }}';
+
         // Update the displayed progress value when the slider is moved
         document.getElementById('progress').addEventListener('input', function () {
             var progressValue = this.value;
+            sliderValue = progressValue;
             document.getElementById('progressValue').innerText = progressValue;
             this.style.setProperty('--progress', progressValue + '%');
         });
@@ -323,23 +515,99 @@
         function playSong() {
             var progress = document.getElementById('progress').value;
             if (progress > 70) {
-                addPlaySongEntry();
                 updateTotalPlay();
                 alert("Lagu dimainkan dan entri AKUN_PLAY_SONG ditambahkan.");
+                document.getElementById('progressValue').innerText = sliderValue;
+                console.log(sliderValue);
             } else {
                 alert("Progress kurang dari 70%, tidak ada aksi yang diambil.");
             }
         }
 
-        function addPlaySongEntry() {
-            console.log("Entry AKUN_PLAY_SONG ditambahkan.");
-        }
-
-        function updateTotalPlay() {
+        async function updateTotalPlay(id_song) {
             var totalPlayElement = document.querySelector('.total-play');
             var totalPlay = parseInt(totalPlayElement.innerText) + 1;
             totalPlayElement.innerText = totalPlay;
         }
+
+        playButtonSong.addEventListener('click', function () {
+            var sliderValue = sliderInput.value;
+            var threshold = 70;
+            var id = '{{ song.id }}';
+            console.log("Memutar lagu dengan id " + id + "...");
+            if (sliderValue > threshold) {
+                // console.log("Memutar lagu dengan id " + id + "...");
+                fetch("/play_song/song_played/", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken
+                    },
+                    body: JSON.stringify({
+                        id_song: id
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        //refresh
+                    } else {
+                        //tshow error message in web
+                        console.log("Gagal memutar lagu.");
+                    }
+                });
+            } else {
+                console.log("Slider harus diatur di atas 70% untuk memutar lagu.");
+            }
+            playSong();
+        });
+
+        var failedDownload = document.getElementById('failed-download-overlay');
+        var successDownload = document.getElementById('success-download-overlay');
+        function download() {
+            var id = '{{ song.id }}';
+            console.log("Mengunduh lagu dengan id " + id + "..." + csrfToken);
+            fetch("/play_song/download/song_downloaded/", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({
+                    id_song: id
+                })
+            }).then(response => {
+                if (response.ok) {
+                    //refresh
+                    document.getElementById('success-download-overlay').style.display = 'flex';
+                } else {
+                    //tshow error message in web
+                    document.getElementById('failed-download-overlay').style.display = 'flex';
+                }
+            });
+        }
+
+        // Close download popup
+        function closeDownloadPopup() {
+            document.getElementById("success-download-overlay").style.display = "none";
+            document.getElementById("failed-download-overlay").style.display = "none";
+        }
+
+        // Go to download list
+        function goToDownloadList() {
+            // route to download list
+            window.location.href = "/downloaded_songs/";
+        }
+
+        // JavaScript function to open the pop-up
+        function openPopup() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        // JavaScript function to close the pop-up
+        function closePopup() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        closePopup(); // Close the pop-up by default
     </script>
 
 </body>
