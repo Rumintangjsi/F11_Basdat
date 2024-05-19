@@ -20,6 +20,8 @@ def play_song(request, song_id):
     is_premium = True if (result != []) else False
     if is_premium:
         print(f"Email {request.session.get('email')} is premium")
+    else:
+        print(f"Email {request.session.get('email')} is not premium")
     with connection.cursor() as cursor:
         url = f'''
                 SELECT judul, AKUN.nama as penyanyi, durasi, tanggal_rilis, tahun, total_play, total_download, KONTEN.id
@@ -220,11 +222,12 @@ def handle_download(request):
 
     query_str = f"""INSERT INTO downloaded_song VALUES ( '{id}', '{email}')"""
     print("Adding song with id " + id + " to download history of user with email " + email + "...")
-    with connection.cursor() as cursor:
-        hasil = cursor.execute(query_str)
-    if isinstance(hasil, int):
-        print("[SUCCESS] Status keberhasilan download: " + isinstance(hasil, int))
+    try:
+        with connection.cursor() as cursor:
+            hasil = cursor.execute(query_str)
+        print("[SUCCESS] Status keberhasilan download: " + str(hasil == None))
         return HttpResponse('berhasil')
-    else:
-        print("[FAILED] Status keberhasilan download: " + isinstance(hasil, int))
+    except Exception as e:
+        print("[FAILED] download")
+        print("Adding song to download history failed")
         return HttpResponseServerError('gagal')
