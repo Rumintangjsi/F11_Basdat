@@ -121,6 +121,7 @@
 
 <div class="podcast-list-header">
   <p class="podcast-list-title">List Podcast</p>
+  <a href="/podcast_list/create_podcast/{{request.session.email}}" class="gg-add action-icon"></a> 
 </div>
 
 <div class="podcast-container">
@@ -130,11 +131,11 @@
       <div class="podcast-image" style="background-image: url('https://i.pinimg.com/474x/8b/fd/30/8bfd305e9d53f8b84151538ff41f2e00.jpg');"></div>
       <div class="podcast-details">
         <p class="podcast-title">{{ podcast.contents.judul }}</p> 
-        <a href="/podcast_list/episode_list/{{ podcast.id_konten }}/" class="podcast-episode">Episodes: {{ podcast.episode_count}}</a>
+        <a href="/podcast_list/podcast_list/episode_list/{{ podcast.id_konten }}/" class="podcast-episode">Episodes: {{ podcast.episode_count}}</a>
         <p class="podcast-total-duration">Total Duration: {{ podcast.total_duration|format_duration}}</p>
       </div>
       <div class="podcast-actions">
-        <a href="/podcast_list/{{ podcast.id_konten }}/create_episode/" class="gg-add action-icon"></a> 
+        <a href="/podcast_list/podcast_list/{{ podcast.id_konten }}/create_episode/" class="gg-add action-icon"></a> 
         <a href="/podcast_list/delete_podcast/{{ podcast.id_konten }}" class="gg-trash action-icon"></a>
       </div>
     </div>
