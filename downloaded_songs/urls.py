@@ -1,8 +1,9 @@
 from django.urls import path
-from downloaded_songs.views import downloaded_songs
+from downloaded_songs.views import downloaded_songs, delete_song
 
-app_name = 'downloadeed_songs'
+app_name = 'downloaded_songs'
 
 urlpatterns = [
-    path('downloaded_songs/<str:id', downloaded_songs, name='downloaded_songs'),
+    path('', downloaded_songs, name='downloaded_song'),
+    path('delete_song/<str:id_song>/', delete_song, name='delete_song')
 ]
