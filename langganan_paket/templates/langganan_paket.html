@@ -122,6 +122,28 @@
             background-color: #7D4D28;
         }
 
+        .back-button{
+            width: 260px;
+            height: 52.367px;
+            flex-shrink: 0;
+            border-radius: 19.49px;
+            background: #C48B5F;
+            color: #FFF;
+            font-family: Poppins;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            border:none;
+            margin-left: 80px;
+            margin-left: auto;
+            margin-top: 60px;
+        }
+
+        .back-button:hover{
+            background-color: #7D4D28;
+        }
+
 
         
     </style>
@@ -143,6 +165,11 @@
             {% endfor %} 
         </div>
             <button class="riwayat-transaksi-button" onclick="location.href='/langganan_paket/riwayat_transaksi'">Riwayat Transaksi</button>
+            <div>
+                <a href="/dashboard">
+                    <button class="back-button">Kembali</button>
+                </a>
+            </div>
     </div>
 </body>
 </html>
