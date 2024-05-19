@@ -11,6 +11,8 @@ def album_list(request):
     email = request.session['email']
     roles = request.session['role']
 
+    print(roles)
+
     if 'artist' in roles:
         sql = f""" SELECT nama, id FROM akun JOIN artist ON akun.email = artist.email_akun WHERE akun.email = %s"""
         cursor = conn.cursor() 
@@ -22,6 +24,15 @@ def album_list(request):
 
     if 'songwriter' in roles:
         sql = f""" SELECT nama, id FROM akun JOIN songwriter ON akun.email = songwriter.email_akun WHERE akun.email = %s"""
+        cursor = conn.cursor() 
+
+        cursor.execute(sql, (email, ))
+        results = cursor.fetchone()
+        nama = results[0]
+        id = results[1]
+    
+    if 'label' in roles:
+        sql = f""" SELECT nama, id FROM label WHERE email = %s"""
         cursor = conn.cursor() 
 
         cursor.execute(sql, (email, ))
@@ -80,23 +91,71 @@ def song_list(request, album_id):
 def fetch_album(request):
     albums = []
 
-    cursor = conn.cursor() 
-   
-    sql = """ SELECT al.id, al.judul, la.nama, al.jumlah_lagu, al.total_durasi 
-                FROM album AS al 
-                JOIN label AS la 
-                ON la.id = al.id_label """
-    cursor.execute(sql)
-    results = cursor.fetchall()
+    email = request.session['email']
+    roles = request.session['role']
+
+    if ('artist' in roles):
+        cursor = conn.cursor() 
     
-    for item in results:
-        albums.append({
-            'id': item[0],
-            'title': item[1],
-            'label': item[2],
-            'song_count': item[3],
-            'duration': f"{item[4]//3600}hr {item[4]%3600//60}min"
-        })
+        sql = """ SELECT DISTINCT
+                    AL.id AS album_id,
+                    AL.judul AS album_title,
+                    LA.nama AS label_name,
+                    AL.jumlah_lagu AS song_count,
+                    AL.total_durasi AS total_duration
+                FROM 
+                    ALBUM AL
+                    JOIN LABEL LA ON AL.id_label = LA.id
+                    JOIN SONG S ON AL.id = S.id_album
+                    JOIN ARTIST AR ON S.id_artist = AR.id
+                    JOIN AKUN A ON AR.email_akun = A.email
+                WHERE 
+                    A.email = %s
+                """
+        
+        cursor.execute(sql, (email, ))
+        results = cursor.fetchall()
+    
+        for item in results:
+            albums.append({
+                'id': item[0],
+                'title': item[1],
+                'label': item[2],
+                'song_count': item[3],
+                'duration': f"{item[4]//3600}hr {item[4]%3600//60}min"
+            })
+    
+    if ('songwriter' in roles):
+        cursor = conn.cursor() 
+    
+        sql = """ SELECT DISTINCT
+                    AL.id AS album_id,
+                    AL.judul AS album_title,
+                    LA.nama AS label_name,
+                    AL.jumlah_lagu AS song_count,
+                    AL.total_durasi AS total_duration
+                FROM 
+                    ALBUM AL
+                    JOIN LABEL LA ON AL.id_label = LA.id
+                    JOIN SONG S ON AL.id = S.id_album
+                    JOIN SONGWRITER_WRITE_SONG SWS ON S.id_konten = SWS.id_song
+                    JOIN SONGWRITER SW ON SWS.id_songwriter = SW.id
+                    JOIN AKUN A ON SW.email_akun = A.email
+                WHERE 
+                    A.email = %s
+                """
+        
+        cursor.execute(sql, (email, ))
+        results = cursor.fetchall()
+    
+        for item in results:
+            albums.append({
+                'id': item[0],
+                'title': item[1],
+                'label': item[2],
+                'song_count': item[3],
+                'duration': f"{item[4]//3600}hr {item[4]%3600//60}min"
+            })
 
     sql = """ SELECT id, nama FROM label """
     cursor.execute(sql)
@@ -127,35 +186,28 @@ def fetch_album(request):
 def fetch_song(request):
 
     album_id = request.GET.get('album_id')
+    email = request.session['email']
 
     cursor = conn.cursor() 
 
-    sql = f""" SELECT a.id, a.judul, l.nama, jumlah_lagu, a.total_durasi, 
-                    k.id, k.judul, g.genre, k.durasi, s.total_play, s.total_download,
-                    STRING_AGG(DISTINCT ak.nama, ',') AS artists,
-                    STRING_AGG(DISTINCT ak1.nama, ',') AS songwriters
-            FROM album AS a 
-            JOIN label AS l ON l.id = a.id_label
-            JOIN song AS s ON s.id_album = a.id
-            JOIN konten AS k ON s.id_konten = k.id
-            JOIN genre AS g ON k.id = g.id_konten
+    sql = """ SELECT 
+                AL.id AS album_id,
+                AL.judul AS album_title,
+                LA.nama AS label_name,
+                COALESCE(AL.jumlah_lagu, 0) AS song_count,
+                COALESCE(AL.total_durasi, 0) AS total_duration
+            FROM 
+                ALBUM AL
+                JOIN LABEL LA ON AL.id_label = LA.id
+                LEFT JOIN SONG S ON AL.id = S.id_album
+                LEFT JOIN ARTIST AR ON S.id_artist = AR.id
+            WHERE 
+                AL.id = %s; """
 
-            JOIN artist AS ar ON s.id_artist = ar.id
-            JOIN akun AS ak ON ar.email_akun = ak.email
-
-            LEFT JOIN songwriter_write_song AS sws ON sws.id_song = k.id
-            LEFT JOIN songwriter AS sw ON sws.id_songwriter = sw.id
-            LEFT JOIN akun AS ak1 ON sw.email_akun = ak1.email
-
-            WHERE a.id = '{album_id}'
-            GROUP BY a.id, a.judul, l.nama, a.jumlah_lagu, a.total_durasi, k.id, k.judul, g.genre, k.durasi, s.total_play, s.total_download 
-            ORDER BY k.tanggal_rilis ASC """
-
-    cursor.execute(sql) 
+    cursor.execute(sql, (album_id, )) 
     results = cursor.fetchall()
 
-
-    album_info = results[0][:5]
+    album_info = results[0]
     album = {
         'id': album_info[0],
         'title': album_info[1],
@@ -164,20 +216,59 @@ def fetch_song(request):
         'duration': f"{round(album_info[4]/3600)}hr {round((album_info[4]%3600)/60)}min"
     }
 
+    sql = f""" SELECT 
+                    k.id AS song_id,
+                    k.judul AS song_title,
+                    COALESCE(STRING_AGG(DISTINCT g.genre, ','), '') AS genres,
+                    k.durasi AS song_duration,
+                    s.total_play AS total_plays,
+                    s.total_download AS total_downloads,
+                    ak.nama AS artist_name,
+                    ak.email AS artist_email,
+                    COALESCE(STRING_AGG(DISTINCT ak1.nama, ','), '') AS songwriter_names,
+                    COALESCE(STRING_AGG(DISTINCT ak1.email, ','), '') AS songwriter_emails
+                FROM 
+                    song AS s
+                JOIN 
+                    konten AS k ON s.id_konten = k.id
+                JOIN 
+                    artist AS ar ON s.id_artist = ar.id
+                JOIN 
+                    akun AS ak ON ar.email_akun = ak.email
+                LEFT JOIN 
+                    genre AS g ON k.id = g.id_konten
+                LEFT JOIN 
+                    songwriter_write_song AS sws ON sws.id_song = k.id
+                LEFT JOIN 
+                    songwriter AS sw ON sws.id_songwriter = sw.id
+                LEFT JOIN 
+                    akun AS ak1 ON sw.email_akun = ak1.email
+                WHERE 
+                    s.id_album = %s
+                GROUP BY 
+                    k.id, k.judul, k.durasi, 
+                    s.total_play, s.total_download, 
+                    ak.nama, ak.email;
+
+
+            """
+
+    cursor.execute(sql, (album_id, )) 
+    results = cursor.fetchall()
+
     songs = []
     for row in results:
-        artists = row[11].split(',') if row[11] else []
-        songwriters = row[12].split(',') if row[12] else []
-
         songs.append({
-            'id': row[5],
-            'title': row[6],
-            'artist': artists[0],
-            'songwriters': songwriters,
-            'genre': row[7],
-            'duration': f"{round(row[8]/60)}:{round(row[8]%60)}",
-            'plays': row[9],
-            'downloads': row[10]
+            'id': row[0],
+            'title': row[1],
+            'genre': row[2],
+            'duration': f"{round(row[3]/60)}:{round(row[3]%60)}",
+            'plays': row[4],
+            'downloads': row[5],
+            'artist': row[6],
+            'artist_email': row[7],
+            'songwriter': row[8],
+            'songwriter_email': row[9]
         })
     
     sql = """ SELECT DISTINCT genre FROM genre """
@@ -193,6 +284,7 @@ def fetch_song(request):
     songwriters = cursor.fetchall()
 
     return JsonResponse({
+        'user_email': email,
         'album': album,
         'songs': songs,
         'genres': genres,
@@ -216,8 +308,6 @@ def add_album(request):
         album_id = uuid.uuid4()
         jumlah_lagu = 0
         total_durasi = 0
-
-        print(form_data)
         
         cursor = conn.cursor() 
         
@@ -246,7 +336,7 @@ def add_album(request):
             VALUES (%s, %s, %s, %s, %s)
         """
 
-        cursor.execute(sql, (konten_id, artist, album_id, 666, 666))
+        cursor.execute(sql, (konten_id, artist, album_id, 0, 0))
         conn.commit()
 
         # TODO multiple genre
@@ -273,9 +363,6 @@ def add_album(request):
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-def edit_album(request, album_id):
-    return None
-
 def delete_album(request, album_id):
     
     if request.method == 'DELETE':
@@ -293,6 +380,7 @@ def add_song(request):
     if request.method == 'POST':
 
         form_data = json.loads(request.body)
+        roles = request.session['role']
 
         judul_lagu = form_data.get('judul_lagu')
         artist = form_data.get('artist')
@@ -300,8 +388,6 @@ def add_song(request):
         genre = form_data.get('genre')
         durasi = form_data.get('durasi')
         album = form_data.get('album')
-
-        print(form_data)
                 
         cursor = conn.cursor() 
 
@@ -322,10 +408,8 @@ def add_song(request):
             VALUES (%s, %s, %s, %s, %s)
         """
 
-        cursor.execute(sql, (konten_id, artist, album, 666, 666))
+        cursor.execute(sql, (konten_id, artist, album, 0, 0))
         conn.commit()
-
-        # TODO multiple genre
 
         sql = f"""
             INSERT INTO genre (id_konten, genre) 
@@ -334,8 +418,6 @@ def add_song(request):
 
         cursor.execute(sql, (konten_id, genre))
         conn.commit()
-
-        # TODO multiple songwriter
 
         sql = f"""
             INSERT INTO songwriter_write_song (id_songwriter, id_song) 
@@ -349,12 +431,14 @@ def add_song(request):
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-def edit_song(request, song_id):
-    return None
-
 def delete_song(request, konten_id):
 
     if request.method == 'DELETE':
+
+        cursor = conn.cursor() 
+        sql = f""" DELETE FROM song WHERE id_konten = %s """
+        cursor.execute(sql, (konten_id,))
+        conn.commit()
 
         cursor = conn.cursor() 
         sql = f""" DELETE FROM konten WHERE id = %s """

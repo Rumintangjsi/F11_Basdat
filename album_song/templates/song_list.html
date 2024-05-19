@@ -270,7 +270,7 @@ z-index: -1;
 
 <body>
     <div class="modal-container" id="add-album-modal">
-        <div id="modal-overlay" class="modal-overlay"></div>
+        <div id="modal-overlay-add-album" class="modal-overlay"></div>
 
         <form id="add-song-form" onsubmit="add_song(event)" class="modal-card">
             {% csrf_token %}
@@ -310,6 +310,23 @@ z-index: -1;
         </form> 
     </div>
 
+    <div class="modal-container" id="album-details-modal">
+        <div id="modal-overlay-album-details" class="modal-overlay"></div>
+    
+        <div class="modal-card" style="align-items: start;">
+            <p id="song-id"></p>
+            <p id="song-title"></p>
+            <p id="album-title"></p>
+            <p id="genres"></p>
+            <p id="song-duration"></p>
+            <p id="total-plays"></p>
+            <p id="total-downloads"></p>
+            <p id="artist-name"></p>
+            <p id="songwriter-names"></p>
+        </div>
+    </div>
+    
+
     <div class="song-container">
 
         <div class="title-container">
@@ -345,14 +362,13 @@ z-index: -1;
     <script>
         fetch_song()
 
-        const album_id = '{{album_id}}';
-
         async function fetch_song () {
+            const album_id = '{{album_id}}';
+            const roles = '{{roles}}';
+            const email = '{{email}}';
 
             const response = await fetch(`/albums/fetch_song/?album_id=${album_id}`);
             const data = await response.json();
-
-            console.log(data)
 
             const albumWrapper = document.getElementById("album-wrapper");
 
@@ -371,67 +387,85 @@ z-index: -1;
 
             albumWrapper.appendChild(albumCard);
 
-
             const songWrapper = document.getElementById("song-wrapper");
 
             data.songs.forEach((song) => {
                 const songCard = document.createElement("div");
+                songCard.classList.add("song-card");
+                const canDelete = (roles.includes('artist') && email === song.artist_email) ||
+                                (roles.includes('songwriter') && song.songwriter_email.includes(email));
+
+                songCard.onclick = function() {
+                    
+                    const song_detail = {
+                        'song_id': song.id,
+                        'album': data.album.title,
+                        'song_title': song.title,
+                        'song_duration': song.duration,
+                        'total_plays': song.plays,
+                        'total_downloads': song.downloads,
+                        'artist_name': song.artist,
+                        'songwriter_names': song.songwriter
+                    };
+
+                    console.log(song_detail)
+                    openAlbumDetailsModal(song_detail);
+                };
+
                 songCard.innerHTML = `
-                    <div class="song-card">
-                        <img src="{% static 'svg/song-cover.svg' %}">
-                        <div class="song-info">
-                            <div class="song-info-layout">
-                                <p style="color: #1E1E1E;
-                                font-family: Poppins;
-                                font-size: 24px;
-                                font-style: normal;
-                                font-weight: 700;
-                                line-height: normal;">${song.title}</p>
+                    <img src="{% static 'svg/song-cover.svg' %}">
+                    <div class="song-info">
+                        <div class="song-info-layout">
+                            <p style="color: #1E1E1E;
+                            font-family: Poppins;
+                            font-size: 24px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: normal;">${song.title}</p>
 
-                                <p style="color: #1E1E1E;
-                                font-family: Poppins;
-                                font-size: 16px;
-                                font-style: normal;
-                                font-weight: 600;
-                                line-height: normal;">${song.artist}</p>
-                            </div>
-                            <div class="song-info-layout-2">
-                                <div style="display: flex;
-                                width: 68px;
-                                flex-direction: column;
-                                justify-content: center;
-                                align-items: flex-end;
-                                flex-shrink: 0;">
-                                    <p class="header-title"> ${song.duration}</p>
-                                </div>
-                                <div style="display: flex;
-                                width: 143px;
-                                flex-direction: column;
-                                justify-content: center;
-                                align-items: flex-end;
-                                flex-shrink: 0;">
-                                    <p class="header-title">${song.plays}</p>
-
-                                </div>
-                                <div style="display: flex;
-                                width: 120px;
-                                flex-direction: column;
-                                justify-content: center;
-                                align-items: flex-end;
-                                flex-shrink: 0;">
-                                    <p class="header-title">${song.downloads}</p>
-                                </div>
-                            </div>
+                            <p style="color: #1E1E1E;
+                            font-family: Poppins;
+                            font-size: 16px;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: normal;">${song.artist}</p>
                         </div>
-                        
-                        <div class="buttons-wrapper">
-                            <img class="action-button" src="{% static 'svg/delete-icon.svg' %}" onclick="delete_song(event, '${song.id}')">
-                            <img class="action-button edit-album" src="{% static 'svg/edit-icon.svg' %}">
+                        <div class="song-info-layout-2">
+                            <div style="display: flex;
+                            width: 68px;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: flex-end;
+                            flex-shrink: 0;">
+                                <p class="header-title">${song.duration}</p>
+                            </div>
+                            <div style="display: flex;
+                            width: 143px;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: flex-end;
+                            flex-shrink: 0;">
+                                <p class="header-title">${song.plays}</p>
+                            </div>
+                            <div style="display: flex;
+                            width: 120px;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: flex-end;
+                            flex-shrink: 0;">
+                                <p class="header-title">${song.downloads}</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="buttons-wrapper">
+                        ${canDelete ? `<img class="action-button" src="{% static 'svg/delete-icon.svg' %}" onclick="delete_song(event, '${song.id}')">` : ''}
+                    </div>
                 `;
+
+                // Append the song card to the song wrapper
                 songWrapper.appendChild(songCard);
             });
+
 
             const genreDropdown = document.getElementById("genre-dropdown");
 
@@ -468,6 +502,8 @@ z-index: -1;
         async function add_song(event) {
             event.preventDefault()
 
+            const album_id = '{{album_id}}';
+
             const formData = new FormData(document.getElementById('add-song-form'));
             const jsonData = {};
             formData.forEach((value, key) => {
@@ -503,14 +539,33 @@ z-index: -1;
             )
         }
 
+        function openAlbumDetailsModal(songDetails) {
+            const modal = document.getElementById('album-details-modal');
+            modal.style.display = 'flex';
+
+            document.getElementById('song-id').textContent = `Song ID: ${songDetails.song_id}`;
+            document.getElementById('song-title').textContent = `Song Title: ${songDetails.song_title}`;
+            document.getElementById('album-title').textContent = `Song Title: ${songDetails.album}`;
+            document.getElementById('genres').textContent = `Genres: ${songDetails.genres}`;
+            document.getElementById('song-duration').textContent = `Duration: ${songDetails.song_duration}`;
+            document.getElementById('total-plays').textContent = `Total Plays: ${songDetails.total_plays}`;
+            document.getElementById('total-downloads').textContent = `Total Downloads: ${songDetails.total_downloads}`;
+            document.getElementById('artist-name').textContent = `Artist Name: ${songDetails.artist_name}`;
+            document.getElementById('songwriter-names').textContent = `Songwriters: ${songDetails.songwriter_names}`;
+        }
+
         document.getElementById("add-album").addEventListener("click", () => {
             document.getElementById("add-album-modal").style.display = "flex";
         });
 
-        document.getElementById("modal-overlay").addEventListener("click", () => {
+        document.getElementById("modal-overlay-add-album").addEventListener("click", () => {
             document.getElementById("add-album-modal").style.display = "none";
         });
-    </script>
+        
+        document.getElementById("modal-overlay-album-details").addEventListener("click", () => {
+            document.getElementById("album-details-modal").style.display = "none";
+        });
+        </script>
        
 </body> 
 

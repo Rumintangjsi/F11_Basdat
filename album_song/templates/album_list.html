@@ -162,6 +162,7 @@
   .modal-container {
     display: none;
     position: fixed;
+    overflow: scroll;
     width: 1440px;
     height: 1024px;
     flex-direction: column;
@@ -184,7 +185,7 @@
     padding: 56px;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 8px;
     border-radius: 40px;
     background: #FFF;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
@@ -250,7 +251,7 @@
         <div> {{message}}</div>
     {% else %}
         <div style="font-family: 'Poppins', sans-serif; background-color: #f8f8f8; display: flex; flex-direction: column; align-items: center; gap: 28px;">
-            <div class="modal-container" id="add-album-modal" style="overflow: scroll;">
+            <div class="modal-container" id="add-album-modal">
                 <div class="modal-overlay"></div>
 
                 <form id="add-album-form" onsubmit="add_album(event)" class="modal-card">
@@ -317,7 +318,7 @@
 
             <div class="album-container">
                 <div class="title-container">
-                    <h1 class="title">Albums</h1>
+                    <h1 class="title">Your Albums</h1>
                     <img class="action-button" id="add-album" src="{% static 'svg/add-icon.svg' %}">
                 </div>
 
@@ -347,7 +348,6 @@
                         <div class="buttons-container">
                             <div class="buttons-wrapper">
                                 <img class="action-button" src="{% static 'svg/delete-icon.svg' %}" onclick="delete_album(event, '${album.id}')">
-                                <img class="action-button edit-album" src="{% static 'svg/edit-icon.svg' %}">
                             </div>
                         </div>
                     </div>
