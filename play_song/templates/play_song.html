@@ -467,6 +467,7 @@
                     <!-- Add more options as needed -->
                 </select><br><br>
                 <button type="submit" onclick="closePopup()">SUBMIT</button>
+                <button onclick="closePopup()">KEMBALI</button>
             </form>
         </div>
     </div>
@@ -476,7 +477,7 @@
     <div class="failed-download-overlay" id="failed-download-overlay">
         <div class="failed-download-popup">
             <div class="failed-download-message">
-                <p>‘Song1’ sudah pernah diunduh!</p>
+                <p>{{ song.judul }} sudah pernah diunduh!</p>
                 <button class="go-to-download-list" onclick="goToDownloadList()">KE DAFTAR DOWNLOAD</button>
                 <button class="back-to-song-details" onclick="closeDownloadPopup()">KEMBALI</button>
             </div>
@@ -486,7 +487,7 @@
     <div class="success-download-overlay" id="success-download-overlay">
         <div class="success-download-popup">
             <div class="success-download-message">
-                <p>Berhasil mengunduh Lagu dengan judul ‘Song1’!</p>
+                <p>Berhasil mengunduh {{ song.judul }}!</p>
                 <button class="go-to-download-list" onclick="goToDownloadList()">KE DAFTAR DOWNLOAD</button>
                 <button class="back-to-song-details" onclick="closeDownloadPopup()">KEMBALI</button>
             </div>
