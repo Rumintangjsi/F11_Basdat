@@ -122,7 +122,7 @@ def fetch_album(request):
                 'title': item[1],
                 'label': item[2],
                 'song_count': item[3],
-                'duration': f"{item[4]//3600}hr {item[4]%3600//60}min"
+                'duration': f"{round(item[4]/3600)}hr {round((item[4]%3600)/60)}min"
             })
     
     if ('songwriter' in roles):
@@ -154,7 +154,7 @@ def fetch_album(request):
                 'title': item[1],
                 'label': item[2],
                 'song_count': item[3],
-                'duration': f"{item[4]//3600}hr {item[4]%3600//60}min"
+                'duration': f"{round(item[4]/3600)}hr {round((item[4]%3600)/60)}min"
             })
 
     sql = """ SELECT id, nama FROM label """
@@ -380,7 +380,6 @@ def add_song(request):
     if request.method == 'POST':
 
         form_data = json.loads(request.body)
-        roles = request.session['role']
 
         judul_lagu = form_data.get('judul_lagu')
         artist = form_data.get('artist')
@@ -438,7 +437,6 @@ def delete_song(request, konten_id):
         cursor = conn.cursor() 
         sql = f""" DELETE FROM song WHERE id_konten = %s """
         cursor.execute(sql, (konten_id,))
-        conn.commit()
 
         cursor = conn.cursor() 
         sql = f""" DELETE FROM konten WHERE id = %s """

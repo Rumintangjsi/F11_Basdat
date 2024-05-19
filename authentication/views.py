@@ -3,9 +3,10 @@ import uuid
 import re
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.db import connection as conn
-from psycopg2.extras import DateRange
+from django.contrib.auth import logout as auth_logout
+
 
 def login(request):
     return render(request, "login.html")
@@ -219,6 +220,10 @@ def login_api(request):
             return JsonResponse({'message': 'Login Success'})
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+def logout(request):
+    auth_logout(request)
+    return redirect('/authentication/login') 
 
 def check(email):
     
