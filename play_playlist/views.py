@@ -165,20 +165,6 @@ def delete_song_playlist(request, playlist_id, song_id):
                         WHERE id_playlist = '{playlist_id}' AND id_song = '{song_id}';
                     ''')
         cursor.execute(f'''
-                        UPDATE USER_PLAYLIST
-                        SET jumlah_lagu = (
-                                SELECT COUNT(*) 
-                                FROM PLAYLIST_SONG 
-                                WHERE id_playlist = '{playlist_id}'),
-                            total_durasi = (
-                                SELECT SUM(KONTEN.durasi)
-                                FROM PLAYLIST_SONG
-                                JOIN SONG ON SONG.id_konten = PLAYLIST_SONG.id_song
-                                JOIN KONTEN ON KONTEN.id = SONG.id_konten
-                                WHERE PLAYLIST_SONG.id_playlist = '{playlist_id}')
-                        WHERE id_playlist = '{playlist_id}';
-                    ''')
-        cursor.execute(f'''
                         SELECT * FROM PLAYLIST_SONG;
                     ''')
         result = cursor.fetchall()
