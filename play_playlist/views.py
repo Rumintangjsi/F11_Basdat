@@ -142,7 +142,8 @@ def add_song_playlist(request, playlist_id):
                             INSERT INTO PLAYLIST_SONG (id_playlist, id_song)
                             VALUES ('{playlist_id}', '{song_id}');
                         ''')
-        if e == 1:
+        print(e)
+        if e == None:
             print(f"[SUCCESS] Inserted song {song_id} to playlist {playlist_id}")
         else:
             print(f"[ERROR] Failed to insert song {song_id} to playlist {playlist_id}")
