@@ -7,7 +7,7 @@ from .query import get_konten
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 
-def create_podcast(request):
+def create_podcast(request, email_podcaster):
     cursor = connection.cursor()
 
     if request.method == 'POST':
@@ -32,7 +32,7 @@ def create_podcast(request):
 
         cursor.execute(f"""
             INSERT INTO PODCAST  VALUES 
-            ('{new_uuid}', 'alexpage@example.org');
+            ('{new_uuid}', '{email_podcaster}');
         """)
 
         cursor.execute(f"""
@@ -57,9 +57,8 @@ def parse(cursor):
     columns = [col[0] for col in cursor.description]
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
-def podcast_list(request):
+def podcast_list(request, email_podcaster):
     context = {}
-    email_podcaster = 'alexpage@example.org'
 
     with connection.cursor() as cursor:
         query = """
@@ -125,30 +124,6 @@ def create_episode(request, id_konten):
         return redirect('kelola_podcast:podcast_list')
     else:
         return render(request, "create_episode.html", context)
-
-# def episode_list(request, podcast_id):
-    context = {}
-    # Fetch podcast details
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT judul FROM konten WHERE id = %s", [podcast_id])
-        podcast = cursor.fetchone()  # Fetches the first row of the query results
-        
-        # Check if the podcast exists
-        if podcast:
-            context['podcast_judul'] = podcast[0]  # Store the title in the context
-        else:
-            # Handle the case where no podcast is found
-            context['podcast_judul'] = "No podcast found"
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM podcast WHERE id_konten = %s", [podcast_id])
-        context['podcast'] = parse(cursor)[0] # Assuming you fetch only one podcast
-
-    # Fetch episodes for the podcast
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM episode WHERE id_konten_podcast = %s ORDER BY tanggal_rilis DESC", [podcast_id])
-        context['episodes'] = parse(cursor)
-
-    return render(request, "episode_list.html", context)
 
 def episode_list(request, podcast_id):
     context = {}
