@@ -155,7 +155,7 @@
             const data = await response.json();
 
             if (response.ok) {
-                window.location.href = '/albums';
+                window.location.href = '/dashboard';
             } else {
                 document.getElementById('responseMessage').innerText = data.error;
             }

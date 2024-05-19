@@ -97,13 +97,6 @@ DATABASES = {
         'PASSWORD': 'pCIIFIIJGgOGhPBgjASGQVjzXEOYPumt',
         'HOST': 'viaduct.proxy.rlwy.net',
         'PORT': '59310',
-
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'postgres',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'A7c11i27',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
     }
 }
 

@@ -13,7 +13,7 @@
             background-color: #C48B5F;
             padding: 0.5rem 1rem;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             border-radius: 10px;
             margin-top: 16px;
@@ -70,7 +70,9 @@
                 display: flex;
             }
             .buttonnavContent {
-                flex-direction: column;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
                 gap: 0;
             }
             .btn {
@@ -90,13 +92,13 @@
         <div class="buttonnavContent">
             {% if not request.session.role %}
                 <a class="btn" href="/authentication/login">Login</a>
-                <a class="btn" href="/authentication/login">Registrasi</a>
+                <a class="btn" href="/authentication/register">Registrasi</a>
             {% else %}
                 <a class="btn" href="/dashboard">Dashboard</a>
                 {% if 'label' not in request.session.role %}
                     <a class="btn" href="/chart">Chart</a>
                     <a class="btn" href="/kelola_playlist">Kelola Playlist</a>
-                    <a class="btn" href="/langganan_paket/langganan_paket">Langganan Paket</a>
+                    <a class="btn" href="/langganan_paket">Langganan Paket</a>
                 {% endif %}
                 {% if 'premium' in request.session.role %}
                     <a class="btn" href="/downloaded-songs">Downloaded Songs</a>
