@@ -66,6 +66,8 @@
 </style>
 </head>
 <body>
+    {% include 'navbar.html' %}
+
   <div class="header">Create Podcast</div>
 <div class="container">
 <form action="{% url 'kelola_podcast:create_podcast' %}" method="POST">
