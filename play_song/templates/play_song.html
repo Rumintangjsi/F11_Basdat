@@ -460,6 +460,7 @@
         <div class="popup">
             <h2>TAMBAH KE PLAYLIST</h2>
             <form method="POST" id="add-playlist-form" action="{% url 'play_song:add_song_to_playlist' song_id %}">
+                {% csrf_token %}
                 <label for="playlist-dropdown">My Playlists:</label><br>
                 <select id="playlist-dropdown" class="playlist-dropdown" name="playlist-dropdown">
                     <!-- Dropdown options will be dynamically populated here -->
