@@ -162,6 +162,7 @@
   .modal-container {
     display: none;
     position: fixed;
+    overflow: scroll;
     width: 1440px;
     height: 1024px;
     flex-direction: column;
@@ -184,7 +185,7 @@
     padding: 56px;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 8px;
     border-radius: 40px;
     background: #FFF;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
@@ -249,7 +250,7 @@
     {% if message %}
         <div> {{message}}</div>
     {% else %}
-        <div>
+        <div style="font-family: 'Poppins', sans-serif; background-color: #f8f8f8; display: flex; flex-direction: column; align-items: center; gap: 28px;">
             <div class="modal-container" id="add-album-modal">
                 <div class="modal-overlay"></div>
 
@@ -264,6 +265,37 @@
                         <label for="label">Choose label:</label>
                         <select id="label-dropdown" name="label"> </select>
                     </div>
+                    <div class="input-div">
+                        <p class="input-label">First Song Title</p>
+                        <input type="text" id="judul_lagu" name="judul_lagu"></input>
+                    </div>
+                    <div class="input-div">
+                        <label for="label">Artist:</label>
+                        {% if 'artist' in roles %}
+                            <p>{{ nama }}</p>
+                            <input type="text" name="artist" value="{{ id }}" style="display: none;"></input>
+                        {% else %}
+                            <select id="artist-dropdown" name="artist"></select>
+                        {% endif %}
+                    </div>
+                    <div class="input-div">
+                        <label for="label">Songwriter:</label>
+                        {% if 'songwriter' in roles %}
+                            <p>{{ nama }}</p>
+                            <input type="text" name="songwriter" value="{{ id }}" style="display: none;"></input>
+                        {% else %}
+                            <select id="songwriter-dropdown" name="songwriter"></select>
+                        {% endif %}
+                    </div>                    
+                    <div class="input-div">
+                        <label for="label">Genre:</label>
+                        <select id="genre-dropdown" name="genre" multiple> </select>
+                    </div>
+                    <div class="input-div">
+                        <p class="input-label">Durasi</p>
+                        <input type="number" id="durasi" name="durasi"></input>
+                    </div>
+
                     <button type="submit">Create Album</button>
                 </form> 
             </div>
@@ -286,7 +318,7 @@
 
             <div class="album-container">
                 <div class="title-container">
-                    <h1 class="title">Albums</h1>
+                    <h1 class="title">Your Albums</h1>
                     <img class="action-button" id="add-album" src="{% static 'svg/add-icon.svg' %}">
                 </div>
 
@@ -316,7 +348,6 @@
                         <div class="buttons-container">
                             <div class="buttons-wrapper">
                                 <img class="action-button" src="{% static 'svg/delete-icon.svg' %}" onclick="delete_album(event, '${album.id}')">
-                                <img class="action-button edit-album" src="{% static 'svg/edit-icon.svg' %}">
                             </div>
                         </div>
                     </div>
@@ -341,6 +372,37 @@
                 option.textContent = label[1];
                 labelDropdown.appendChild(option);
             });
+
+            const genreDropdown = document.getElementById("genre-dropdown");
+
+            data.genres.forEach(genre => {
+                const option = document.createElement("option");
+                option.value = genre[0];
+                option.textContent = genre[0];
+                genreDropdown.appendChild(option);
+            });
+
+            const artistDropdown = document.getElementById("artist-dropdown");
+
+            if (artistDropdown != null){
+                data.artists.forEach(artist => {
+                    const option = document.createElement("option");
+                    option.value = artist[0];
+                    option.textContent = artist[1];
+                    artistDropdown.appendChild(option);
+                });
+            }
+
+            const songwriterDropdown = document.getElementById("songwriter-dropdown");
+
+            if (songwriterDropdown != null){
+                data.songwriters.forEach(songwriter => {
+                    const option = document.createElement("option");
+                    option.value = songwriter[0];
+                    option.textContent = songwriter[1];
+                    songwriterDropdown.appendChild(option);
+                });
+            }
             
         };
 

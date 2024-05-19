@@ -164,6 +164,7 @@ def login_api(request):
             if password != db_pass:
                 return JsonResponse({'error': 'Wrong password'}, status=405)
             else:
+                request.session['email'] = email
                 request.session['role'] = ["label"]
                 return JsonResponse({'message': 'Label login Success'})
         
