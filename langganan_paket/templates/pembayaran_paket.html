@@ -175,10 +175,10 @@
         jenis = '{{jenis}}'
         harga = '{{harga}}'
         metode = document.getElementById('metode_pembayaran').value
-        const response = await fetch(`/langganan_paket/langganan_paket/bayar_paket/?data=${jenis},${harga},${metode}`)
+        const response = await fetch(`/langganan_paket/bayar_paket/?data=${jenis},${harga},${metode}`)
         if (response.ok) {
             alert("Pembayaran berhasil!");
-            window.location.href = "/langganan_paket/langganan_paket";
+            window.location.href = "/langganan_paket";
         } else if (response.status === 400){
             alert("Anda sudah berlangganan");
         } else {

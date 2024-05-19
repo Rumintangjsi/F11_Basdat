@@ -10,7 +10,8 @@
     font-family: 'Poppins', sans-serif;
     background-color: #fff; /* Adjust the color to match your design */
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     height: 100vh;
     margin: 0;
@@ -91,17 +92,19 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-<div class="container">
-  <div class="main-title">
-    <div class="marmut-logo"></div>
-     <div clas="all-title">
-      <div class="title">Welcome to</div>
-      <div class="title-2">Marmut - F11</div>
-     </div>
-    
-  </div>
-  <button type="button" onclick="location.href='/authentication/login'">Login</button>
-  <button type="button" onclick="location.href='/authentication/register'">Register</button>
-</div>
+    <div style="height: 920px; display: flex; align-items: center; justify-content: center;">
+        <div class="container">
+        <div class="main-title">
+            <div class="marmut-logo"></div>
+            <div clas="all-title">
+            <div class="title">Welcome to</div>
+            <div class="title-2">Marmut - F11</div>
+            </div>
+            
+        </div>
+        <!-- <button type="button" onclick="location.href='/authentication/login'">Login</button>
+        <button type="button" onclick="location.href='/authentication/register'">Register</button> -->
+        </div>
+    </div>
 </body>
 </html>

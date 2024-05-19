@@ -194,7 +194,7 @@ def login_api(request):
             sql = "SELECT email_akun FROM artist WHERE email_akun = %s"
             cursor.execute(sql, (email,))
             artist = cursor.fetchone()
-            print(artist)
+            
             if artist:
                 role.append("artist")
 
@@ -202,7 +202,7 @@ def login_api(request):
             sql = "SELECT email_akun FROM songwriter WHERE email_akun = %s"
             cursor.execute(sql, (email,))
             songwriter = cursor.fetchone()
-            print(songwriter)
+            
             if songwriter:
                 role.append("songwriter")
 
@@ -210,20 +210,27 @@ def login_api(request):
             sql = "SELECT email FROM podcaster WHERE email = %s"
             cursor.execute(sql, (email,))
             podcaster = cursor.fetchone()
-            print(podcaster)
+           
             if podcaster:
                 role.append("podcaster")
+
+            if ( not artist and not songwriter and not  podcaster):
+                role.append("unregistered")
 
             request.session['email'] = email
             request.session['role'] = role
 
+            print(role)
+            
             return JsonResponse({'message': 'Login Success'})
+        else: 
+            return JsonResponse({'error': 'User Not Found'}, status = 403)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def logout(request):
     auth_logout(request)
-    return redirect('') 
+    return redirect('/') 
 
 def check(email):
     
