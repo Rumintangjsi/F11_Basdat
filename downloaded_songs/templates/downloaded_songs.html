@@ -84,6 +84,10 @@
         justify-content: center;
     }
 
+    .success-message {
+        display: none;
+    }
+
     
   </style>
 </head>
@@ -110,13 +114,14 @@
                   </a> 
                   <form>
                     {% csrf_token %}
-                    <button class="action-button delete-button" data-title="{{ item.judul }}" onclick="delete_song(event, '{{item.id}}')">Hapus</button>
+                    <button class="action-button delete-button" data-title="{{ item.judul }}" onclick="delete_song(event, '{{item.id}}', '{{item.judul}}')">Hapus</button>
                 </form>
               </div></td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
+      
       
     {% elif message %}
       <p class="message-response">{{message}}</p>
@@ -125,7 +130,7 @@
     <script>
         var deleteButtons = document.querySelectorAll('.delete-button');
 
-        async function delete_song(event, id_song) {
+        async function delete_song(event, id_song, judul) {
             event.preventDefault()
             console.log("delete song")
 
@@ -137,7 +142,7 @@
                     "X-CSRFToken": csrfToken
                 },
             }).then(
-                alert("Berhasil Hapus"),
+                alert(`"Berhasil menghapus Lagu dengan judul ${judul} dari daftar unduhan!"`),
                 location.reload()
             )
         }

@@ -115,6 +115,29 @@
         .dropdown-content a:hover {background-color: #ddd;}
     
         .dropdown:hover .dropdown-content {display: block;}
+
+        .back-button{
+            width: 260px;
+            height: 52.367px;
+            flex-shrink: 0;
+            border-radius: 19.49px;
+            background: #C48B5F;
+            color: #FFF;
+            font-family: Poppins;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            border:none;
+            margin-left: 80px;
+            margin-left: auto;
+            margin-top: 60px;
+        }
+        
+        .filter-img{
+            width: 30px;
+            height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -128,7 +151,7 @@
                 <input id="search-bar" type="text" placeholder="Cari lagu berdasarkan judul..." class="search-input">
                 <button type="submit" class="search-button">CARI</button>
                 <div class="dropdown">
-                    <button class="dropbtn"> <img src="https://raw.githubusercontent.com/astrit/css.gg/icons/svg/options.svg" class="filter-img"></button>
+                    <button class="dropbtn"> <img src="https://raw.githubusercontent.com/kayzaazr/my-first-repo/main/filter-6535.svg" class="filter-img"></button>
                     <div class="dropdown-content">
                         <button id="button-1" onclick="searchSongs()" >Find Song</button>
                         <button id="button-2" onclick="searchPodcast()">Find Podcast</button>
@@ -151,9 +174,10 @@
             </table>
             
         </div>
-        
-
-        
+        <div>
+            <a href="/dashboard">
+                <button class="back-button">Kembali</button>
+            </a>
         </div>
     </div>
 </body>
@@ -197,8 +221,8 @@
                 <td>SONG</td>
                 <td>${song.judul}</td>
                 <td>${song.nama}</td>
-                <a href="/play/play_song/${song.id_song}">
-                    <button>actions</button>
+                <a href="/play_song/play/${song.id_song}">
+                    <button>Lihat</button>
                   </a> 
                 `;
                 songResults.appendChild(tableRow);
@@ -239,7 +263,7 @@
                 <td>${podcast.judul}</td>
                 <td>${podcast.nama}</td>
                 <a href="/play_podcast/${podcast.id_konten}">
-                    <button>actions</button>
+                    <button>Lihat</button>
                   </a> 
                 `;
                 podcastResults.appendChild(tableRow);
@@ -278,8 +302,8 @@
                 <td>USER PLAYLIST</td>
                 <td>${uplay.judul}</td>
                 <td>${uplay.nama}</td>
-                <a href="/play_playlist/${uplay.id_playlist}">
-                    <button>actions</button>
+                <a href="/play_playlist/play/${uplay.id_playlist}">
+                    <button>Lihat</button>
                   </a>
                 `;
                 uplayResults.appendChild(tableRow);
