@@ -141,7 +141,6 @@ def add_song_to_playlist(request, song_id):
                 result2 = cursor.fetchall()
             song_name = result2[0][0]
             playlist_name = result2[0][1]
-            messages.error(request, f"{song_name} is already in {playlist_name}")
             print(f"[ERROR] Song {song_id} is already in playlist {playlist_id}")
             return redirect('play_playlist:play_playlist', playlist_id=playlist_id)
         else:
