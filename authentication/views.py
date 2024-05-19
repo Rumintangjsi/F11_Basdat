@@ -223,7 +223,7 @@ def login_api(request):
 
 def logout(request):
     auth_logout(request)
-    return redirect('/authentication/login') 
+    return redirect('') 
 
 def check(email):
     

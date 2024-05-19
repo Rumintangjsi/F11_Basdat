@@ -35,15 +35,15 @@
             padding: 0.5rem 1rem;
             border: 1px solid #000;
             border-radius: 10px;
-            background: none;
+            background: #000;
             text-decoration: none;
-            color: #000;
+            color: #fff;
             cursor: pointer;
             transition: background 0.3s, color 0.3s;
         }
         .btn:hover {
             background-color: #000;
-            color: #fff;
+            color: #dabda7;
         }
         .navbar-toggler {
             display: none;
@@ -113,8 +113,8 @@
                 {% if 'artist' in request.session.role or 'songwriter' in request.session.role %}
                     <a class="btn" href="/royalti">Cek Royalti</a>
                 {% endif %}
-                <a class="btn" href="/search_bar/search_bar">Search</a>
-                <a class="btn" href="/authentication/logout">Logout</a>
+                <a class="btn" href="/search_bar/search_bar_songs">Search</a>
+                <a class="btn" style="background: #962323;" href="/authentication/logout">Logout</a>
             {% endif %}
         </div>
     </div>
